@@ -1,0 +1,415 @@
+---
+import { siteConfig } from '../config/site';
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer" id="footer" aria-labelledby="footer-heading">
+  <div class="container">
+    <h2 id="footer-heading" class="sr-only">Corporate Information & Disclosures</h2>
+
+    <div class="grid-12 footer-main-grid">
+      <!-- Col 1: Identity & Legal Entity -->
+      <div class="footer-col footer-col--brand">
+        <div class="footer-brand-title">
+          <span class="footer-logo-badge" aria-hidden="true">LED</span>
+          <span class="footer-brand-name">{siteConfig.brand.name}</span>
+        </div>
+        <p class="footer-legal-desc">
+          {siteConfig.brand.legalName}. Turnkey supply, structural engineering, and installation of commercial and residential estate LED display screens across South Africa.
+        </p>
+        <p class="footer-hq-note">
+          <strong>Headquarters:</strong> {siteConfig.brand.headquarters}
+        </p>
+      </div>
+
+      <!-- Col 2: Service Coverage -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">Service Areas</h3>
+        <ul class="footer-link-list">
+          {siteConfig.coverage.keyRegions.map((region) => (
+            <li><span class="footer-region-item">{region}</span></li>
+          ))}
+        </ul>
+        <p class="footer-coverage-note">
+          Direct on-site physical surveys conducted across the Western Cape; national installation teams deployed for qualifying commercial developments.
+        </p>
+      </div>
+
+      <!-- Col 3: Quick Navigation -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">Quick Navigation</h3>
+        <ul class="footer-link-list">
+          <li><a href="#use-cases" class="footer-nav-link">Property Use Cases</a></li>
+          <li><a href="#featured-project" class="footer-nav-link">George Flagship Project</a></li>
+          <li><a href="#solutions" class="footer-nav-link">Indoor & Outdoor Specs</a></li>
+          <li><a href="#process" class="footer-nav-link">4-Stage Process Timeline</a></li>
+          <li><a href="#faq" class="footer-nav-link">Frequently Asked Questions</a></li>
+          <li><a href="#quote-form" class="footer-nav-link">Request Site Assessment</a></li>
+          <li><a href="#advertise" class="footer-nav-link">Screen Media Enquiries</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Contact & Compliance -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">Direct Inquiries</h3>
+        <ul class="footer-contact-list">
+          <li>
+            <span class="contact-lbl">Telephone:</span>
+            <a href={`tel:${siteConfig.contact.phoneDial}`} class="footer-contact-link">{siteConfig.contact.phoneDisplay}</a>
+          </li>
+          <li>
+            <span class="contact-lbl">WhatsApp:</span>
+            <a href={`https://wa.me/${siteConfig.contact.whatsappNumber}`} target="_blank" rel="noopener noreferrer" class="footer-contact-link">{siteConfig.contact.whatsappDisplay}</a>
+          </li>
+          <li>
+            <span class="contact-lbl">Property Quotes:</span>
+            <a href={`mailto:${siteConfig.contact.emailQuote}`} class="footer-contact-link">{siteConfig.contact.emailQuote}</a>
+          </li>
+          <li>
+            <span class="contact-lbl">Advertising:</span>
+            <a href={`mailto:${siteConfig.contact.emailAdvertise}`} class="footer-contact-link">{siteConfig.contact.emailAdvertise}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Statutory Compliance & POPIA Modal Trigger -->
+    <div class="footer-bottom-bar">
+      <div class="footer-copyright">
+        © {currentYear} {siteConfig.brand.legalName}. All rights reserved. SANS 10160, SANS 10142-1, STSMA PMR 29 Compliant.
+      </div>
+      <div class="footer-statutory-links">
+        <button type="button" id="open-popia-modal-btn" class="footer-dialog-trigger">
+          POPIA & PAIA Privacy Policy
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accessible Native <dialog> for POPIA / PAIA Disclosure -->
+  <dialog id="popia-dialog" class="popia-dialog" aria-labelledby="popia-dialog-title">
+    <div class="popia-dialog-content">
+      <div class="dialog-header">
+        <h3 id="popia-dialog-title">POPIA & PAIA Statutory Notice</h3>
+        <button type="button" id="close-popia-modal-btn" class="btn-close-dialog" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="dialog-body">
+        <p>
+          In accordance with the <strong>Protection of Personal Information Act 4 of 2013 (POPIA)</strong> and the <strong>Promotion of Access to Information Act 2 of 2000 (PAIA)</strong>:
+        </p>
+        <h4>1. Purpose of Data Processing</h4>
+        <p>
+          Personal information collected via this website (including your name, role, property name, phone number, and email address) is processed strictly to evaluate your property requirements, arrange preliminary feasibility assessments, and issue written quotations upon your request.
+        </p>
+        <h4>2. Third-Party Sharing</h4>
+        <p>
+          We do not sell, rent, or distribute personal data to third parties. Information is accessed exclusively by our technical engineering and project estimation personnel.
+        </p>
+        <h4>3. Information Officer & Complaints</h4>
+        <p>
+          For access requests or data removal, contact our Information Officer at <a href={`mailto:${siteConfig.contact.emailQuote}`}>{siteConfig.contact.emailQuote}</a>. You have the right to lodge a complaint with the South African Information Regulator (inforeg.org.za).
+        </p>
+      </div>
+      <div class="dialog-footer">
+        <button type="button" id="confirm-popia-modal-btn" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </dialog>
+</footer>
+
+<script>
+  const popiaDialog = document.getElementById('popia-dialog') as HTMLDialogElement | null;
+  const openPopiaBtn = document.getElementById('open-popia-modal-btn');
+  const closePopiaBtn = document.getElementById('close-popia-modal-btn');
+  const confirmPopiaBtn = document.getElementById('confirm-popia-modal-btn');
+
+  if (popiaDialog && openPopiaBtn) {
+    openPopiaBtn.addEventListener('click', () => {
+      popiaDialog.showModal();
+    });
+
+    closePopiaBtn?.addEventListener('click', () => {
+      popiaDialog.close();
+    });
+
+    confirmPopiaBtn?.addEventListener('click', () => {
+      popiaDialog.close();
+    });
+
+    // Close when clicking outside modal
+    popiaDialog.addEventListener('click', (e) => {
+      const rect = popiaDialog.getBoundingClientRect();
+      if (
+        e.clientX < rect.left ||
+        e.clientX > rect.right ||
+        e.clientY < rect.top ||
+        e.clientY > rect.bottom
+      ) {
+        popiaDialog.close();
+      }
+    });
+  }
+</script>
+
+<style>
+  .site-footer {
+    background-color: var(--color-bg-inverse);
+    color: #F8FAFC;
+    padding-top: clamp(3.5rem, 6vw, 5rem);
+    padding-bottom: 2.5rem;
+    border-top: 1px solid #334155;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .footer-main-grid {
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-col {
+    grid-column: span 12;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .footer-col {
+      grid-column: span 6;
+    }
+    .footer-col--brand {
+      grid-column: span 12;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-col {
+      grid-column: span 3;
+    }
+  }
+
+  .footer-brand-title {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-logo-badge {
+    background-color: #2463B8;
+    color: #FFFFFF;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .footer-brand-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  .footer-legal-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #CBD5E1;
+    margin-bottom: 1rem;
+  }
+
+  .footer-hq-note {
+    font-size: 0.8125rem;
+    color: #94A3B8;
+  }
+
+  .footer-hq-note strong {
+    color: #F8FAFC;
+  }
+
+  .footer-col-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-link-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-region-item {
+    font-size: 0.875rem;
+    color: #CBD5E1;
+  }
+
+  .footer-coverage-note {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: #94A3B8;
+    margin-top: 1rem;
+  }
+
+  .footer-nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    font-size: 0.875rem;
+    color: #CBD5E1;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .footer-nav-link:hover {
+    color: var(--color-text-accent-inverse); /* #93C5FD (7.85:1 contrast AAA on #202A36) */
+    text-decoration: underline;
+  }
+
+  .footer-contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-lbl {
+    display: block;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    color: #94A3B8;
+  }
+
+  .footer-contact-link {
+    font-size: 0.875rem;
+    color: var(--color-text-accent-inverse); /* #93C5FD */
+    text-decoration: none;
+    display: inline-block;
+    min-height: 32px;
+  }
+
+  .footer-contact-link:hover {
+    text-decoration: underline;
+  }
+
+  .footer-bottom-bar {
+    padding-top: 2rem;
+    border-top: 1px solid #334155;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 0.8125rem;
+    color: #94A3B8;
+  }
+
+  @media (min-width: 768px) {
+    .footer-bottom-bar {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .footer-dialog-trigger {
+    background: none;
+    border: none;
+    color: var(--color-text-accent-inverse);
+    text-decoration: underline;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  /* Accessible Native Dialog */
+  .popia-dialog {
+    margin: auto;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: transparent;
+    padding: 1rem;
+    max-width: 600px;
+    width: 90%;
+  }
+
+  .popia-dialog::backdrop {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+  }
+
+  .popia-dialog-content {
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-subtle);
+    padding: 1.75rem;
+    box-shadow: var(--shadow-floating);
+    color: var(--color-text-primary);
+  }
+
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding-bottom: 0.75rem;
+  }
+
+  .dialog-header h3 {
+    font-size: 1.25rem;
+    color: var(--color-text-primary);
+  }
+
+  .btn-close-dialog {
+    background: none;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    width: 36px;
+    height: 36px;
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dialog-body {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dialog-body strong {
+    color: var(--color-text-primary);
+  }
+
+  .dialog-body h4 {
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+    margin-top: 0.5rem;
+  }
+
+  .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>

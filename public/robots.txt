@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leddisplays.co.za/sitemap.xml

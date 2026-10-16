@@ -1,0 +1,225 @@
+---
+---
+
+<section class="section section--subtle" id="solutions" aria-labelledby="solutions-heading">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Hardware Engineering & Comparison</span>
+      <h2 id="solutions-heading" class="section-title">
+        Indoor & Outdoor LED Display Solutions Matched to the Property
+      </h2>
+      <p class="section-desc">
+        Outdoor displays must overpower direct coastal sunlight and withstand weather, while indoor displays require silent operation and ultra-fine pixel resolution. We engineer the exact specification suited to your sightlines.
+      </p>
+    </div>
+
+    <!-- Comparison Table / Matrix -->
+    <div class="comparison-matrix-wrapper">
+      <div class="grid-12 comparison-grid">
+        <!-- Column 1: Outdoor Display Tier -->
+        <div class="card matrix-card matrix-card--outdoor">
+          <div class="matrix-card__header">
+            <span class="badge">Outdoor Fixed Series</span>
+            <h3 class="matrix-card__title">Outdoor Weatherproof LED Displays</h3>
+            <p class="matrix-card__desc">
+              Engineered for residential estate security gates, perimeter monuments, parking pylons, and roadside communication.
+            </p>
+          </div>
+
+          <div class="spec-list">
+            <div class="spec-row">
+              <span class="spec-label">Peak Luminance</span>
+              <span class="spec-value"><strong>5,500 – 10,000 nits</strong> (Direct midday sunlight legible)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Weather Rating</span>
+              <span class="spec-value"><strong>IP65 / IP67</strong> (Front & rear weather-sealed against coastal rain & salt-air)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Light Regulation</span>
+              <span class="spec-value"><strong>Auto Lux-Sensor Dimming</strong> (Complies with municipal curfews & STSMA dark-sky rules)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Typical Pixel Pitch</span>
+              <span class="spec-value"><span class="tabular-num">P2.5 – P6.0 mm</span> (Optimised for vehicular & pedestrian sightlines 3m–25m)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Thermal Management</span>
+              <span class="spec-value">Extruded / die-cast aluminium heat-dissipating cabinets; silent fanless airflow</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Structural Engineering</span>
+              <span class="spec-value">Engineered to <strong>SANS 10160</strong> coastal wind loads & corrosive coastal air</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Indoor Display Tier -->
+        <div class="card matrix-card matrix-card--indoor">
+          <div class="matrix-card__header">
+            <span class="badge">Indoor Commercial Series</span>
+            <h3 class="matrix-card__title">Indoor Fine-Pitch Commercial Displays</h3>
+            <p class="matrix-card__desc">
+              Engineered for shopping mall central courts, retail storefronts, estate clubhouse foyers, and corporate boardrooms.
+            </p>
+          </div>
+
+          <div class="spec-list">
+            <div class="spec-row">
+              <span class="spec-label">Peak Luminance</span>
+              <span class="spec-value"><strong>600 – 800 nits</strong> (Balanced for indoor atriums without visual fatigue)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Visual Surface</span>
+              <span class="spec-value"><strong>Seamless Bezel-Free Matrix</strong> (Eliminates unsightly black LCD video wall gridlines)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Refresh Rate</span>
+              <span class="spec-value"><strong>3,840 Hz – 7,680 Hz</strong> (Camera-safe, flicker-free on smartphone photos/videos)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Typical Pixel Pitch</span>
+              <span class="spec-value"><span class="tabular-num">P0.9 – P2.5 mm</span> (Razor-sharp text and graphics from 1m–8m viewing distances)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Acoustics</span>
+              <span class="spec-value"><strong>100% Silent Fanless Operation</strong> (Zero background fan hum in quiet reception halls)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Safety & Power</span>
+              <span class="spec-value">Dedicated 220–240V circuit protection; front-magnetic service access</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Educational Sizing Guidance Callout -->
+    <div class="sizing-guidance-callout">
+      <div class="callout-header">
+        <span class="callout-badge" aria-hidden="true">💡 Sizing Rule of Thumb</span>
+        <h4 class="callout-title">How Viewing Distance Determines Pixel Pitch</h4>
+      </div>
+      <p class="callout-body">
+        A common buyer misconception is assuming that smaller pixel pitch is always better. In practice, pixel pitch (e.g., P2.5 vs. P4) corresponds directly to optimal viewing distance: <strong>every 1mm of pitch requires roughly 1 metre of viewing distance for the human eye to perceive a continuous image</strong>. Buying a P1.5 screen for an estate boom where cars view from 5 metres away increases cost without any visual benefit. During your site assessment, we calculate the exact pitch required for your specific sightlines.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .comparison-grid {
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .matrix-card {
+    grid-column: span 12;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 960px) {
+    .matrix-card {
+      grid-column: span 6;
+    }
+  }
+
+  .matrix-card__header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .matrix-card__header .badge {
+    margin-bottom: 0.75rem;
+  }
+
+  .matrix-card__title {
+    font-size: 1.25rem;
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-primary);
+  }
+
+  .matrix-card__desc {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .spec-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-grow: 1;
+  }
+
+  .spec-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+  }
+
+  .spec-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .spec-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .spec-value {
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+    line-height: 1.45;
+  }
+
+  .spec-value strong {
+    color: var(--color-text-primary);
+  }
+
+  .sizing-guidance-callout {
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border-subtle);
+    border-left: 4px solid var(--color-brand-primary);
+    border-radius: var(--radius-md);
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .callout-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .callout-badge {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-brand-primary);
+  }
+
+  .callout-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .callout-body {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+</style>

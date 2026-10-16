@@ -1,0 +1,105 @@
+---
+import { siteConfig } from '../config/site';
+import '../styles/tokens.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title = "LED Screen Installation South Africa | SA LED Displays",
+  description = "Turnkey indoor and outdoor LED display screens for South African residential estates, shopping centres and commercial properties. Request a site assessment.",
+  canonicalUrl = "https://leddisplays.co.za/",
+} = Astro.props;
+
+// JSON-LD Structured Data
+const jsonLdOrg = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": siteConfig.brand.name,
+  "legalName": siteConfig.brand.legalName,
+  "url": canonicalUrl,
+  "logo": "https://leddisplays.co.za/favicon.svg",
+  "telephone": siteConfig.contact.phoneDial,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "George",
+    "addressRegion": "Western Cape",
+    "addressCountry": "ZA"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "South Africa"
+  }
+};
+
+const jsonLdService = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Commercial & Residential LED Screen Supply and Turnkey Installation",
+  "serviceType": "LED Display Supply and Installation",
+  "provider": {
+    "@type": "Organization",
+    "name": siteConfig.brand.name
+  },
+  "areaServed": "South Africa",
+  "description": description
+};
+
+const jsonLdVideo = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": siteConfig.featuredProject.title,
+  "description": siteConfig.featuredProject.brief,
+  "thumbnailUrl": ["https://leddisplays.co.za/assets/george-estate-poster.svg"],
+  "uploadDate": "2026-10-16T12:00:00+02:00",
+  "contentUrl": "https://leddisplays.co.za/assets/george-estate-installation.mp4"
+};
+---
+
+<!doctype html>
+<html lang="en-ZA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="index, follow" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#202A36" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- OpenGraph Metadata -->
+    <meta property="og:site_name" content={siteConfig.brand.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="en_ZA" />
+    <meta property="og:image" content="https://leddisplays.co.za/assets/hero-display.svg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://leddisplays.co.za/assets/hero-display.svg" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Structured Data Scripts -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdOrg)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdService)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdVideo)} />
+  </head>
+  <body>
+    <!-- WCAG 2.2 Accessible Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <slot />
+  </body>
+</html>

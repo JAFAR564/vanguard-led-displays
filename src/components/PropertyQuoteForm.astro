@@ -1,0 +1,716 @@
+---
+import { siteConfig } from '../config/site';
+---
+
+<section class="section section--subtle" id="quote-form" aria-labelledby="quote-heading">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Consultative Proposal</span>
+      <h2 id="quote-heading" class="section-title">
+        Request an LED Display Quotation & Site Assessment
+      </h2>
+      <p class="section-desc">
+        A structured, no-obligation engineering assessment. We evaluate sightlines, structural mounting, and power infrastructure to deliver a defensible, board-ready written proposal.
+      </p>
+    </div>
+
+    <div class="grid-12 form-layout-grid">
+      <!-- Left Column: Context, Trust & Direct Contact -->
+      <div class="form-context-column">
+        <div class="card context-card">
+          <h3 class="context-card__title">What the Site Assessment Covers</h3>
+          <ul class="assessment-checklist" role="list">
+            <li>
+              <span class="check-icon" aria-hidden="true">✓</span>
+              <div>
+                <strong>Sightline & Optimal Pitch Calculation</strong>
+                <span>Precise measurement of driver and pedestrian viewing distances to ensure optimal resolution without overspending.</span>
+              </div>
+            </li>
+            <li>
+              <span class="check-icon" aria-hidden="true">✓</span>
+              <div>
+                <strong>Structural & Wind-Load Feasibility</strong>
+                <span>Evaluation of gatehouse walls, monument pylons, or atrium surfaces against SANS 10160 coastal wind standards.</span>
+              </div>
+            </li>
+            <li>
+              <span class="check-icon" aria-hidden="true">✓</span>
+              <div>
+                <strong>Electrical & Circuit Verification</strong>
+                <span>Inspection of available 220–240V supply, breaker sizing, and SANS 10142-1 CoC requirements.</span>
+              </div>
+            </li>
+            <li>
+              <span class="check-icon" aria-hidden="true">✓</span>
+              <div>
+                <strong>Itemised Board-Ready Proposal</strong>
+                <span>Element-by-element costings suitable for tabling directly before HOA Trustees, Body Corporate PMR 29, or Landlords.</span>
+              </div>
+            </li>
+          </ul>
+
+          <div class="context-direct-contact">
+            <h4>Prefer Immediate Human Contact?</h4>
+            <div class="contact-links-stack">
+              <a href={`tel:${siteConfig.contact.phoneDial}`} class="contact-action-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <span>Call {siteConfig.contact.phoneDisplay}</span>
+              </a>
+              <a href={`https://wa.me/${siteConfig.contact.whatsappNumber}?text=Hello%2C%20I%20would%20like%20to%20request%20an%20LED%20display%20site%20assessment.`} target="_blank" rel="noopener noreferrer" class="contact-action-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                </svg>
+                <span>WhatsApp {siteConfig.contact.whatsappDisplay}</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Micro-router to secondary advertising module -->
+          <div class="ad-micro-router">
+            <span>Enquiring about advertising space on an existing screen?</span>
+            <a href="#advertise" class="ad-router-link">Jump to Media & Advertising Enquiries ↓</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Primary Form -->
+      <div class="form-container-column">
+        <div class="card form-card">
+          <!-- Live Form -->
+          <form id="installation-quote-form" method="POST" action="/api/enquiry" novalidate>
+            <!-- Honeypot anti-spam (hidden from real users) -->
+            <div style="display:none !important;" aria-hidden="true">
+              <label for="company_website_url">Do not fill this field</label>
+              <input type="text" id="company_website_url" name="company_website_url" tabindex="-1" autocomplete="off" />
+              <input type="hidden" name="formType" value="installation_quote" />
+              <input type="hidden" id="formRenderTimestamp" name="formRenderTimestamp" value="" />
+            </div>
+
+            <!-- 1. Full Name -->
+            <div class="field-group">
+              <label for="fullName">Full Name <span class="required-star">*</span></label>
+              <input 
+                type="text" 
+                id="fullName" 
+                name="fullName" 
+                autocomplete="name" 
+                placeholder="e.g. Johan van der Merwe" 
+                required 
+              />
+              <span class="field-error" id="fullNameError" aria-live="polite"></span>
+            </div>
+
+            <!-- 2. Role / Capacity -->
+            <div class="field-group">
+              <label for="buyerRole">Your Role / Governance Capacity <span class="required-star">*</span></label>
+              <select id="buyerRole" name="buyerRole" required>
+                <option value="">Select your role...</option>
+                {siteConfig.formOptions.buyerRoles.map((role) => (
+                  <option value={role}>{role}</option>
+                ))}
+              </select>
+              <span class="field-error" id="buyerRoleError" aria-live="polite"></span>
+            </div>
+
+            <!-- 3. Property Name -->
+            <div class="field-group">
+              <label for="propertyName">Property, Estate, or Centre Name <span class="required-star">*</span></label>
+              <input 
+                type="text" 
+                id="propertyName" 
+                name="propertyName" 
+                autocomplete="organization" 
+                placeholder="e.g. Kingswood Golf Estate / Garden Route Mall" 
+                required 
+              />
+              <span class="field-error" id="propertyNameError" aria-live="polite"></span>
+            </div>
+
+            <!-- 4. Property Type (4-Pill Radio Selector) -->
+            <fieldset class="field-group pill-fieldset">
+              <legend>Property Category <span class="required-star">*</span></legend>
+              <div class="pill-group" role="radiogroup">
+                {siteConfig.formOptions.propertyTypes.map((type, idx) => (
+                  <label class="pill-label">
+                    <input 
+                      type="radio" 
+                      name="propertyType" 
+                      value={type} 
+                      checked={idx === 0} 
+                    />
+                    <span class="pill-text">{type}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <!-- 5. Town or City -->
+            <div class="field-group">
+              <label for="townCity">Town or City <span class="required-star">*</span></label>
+              <input 
+                type="text" 
+                id="townCity" 
+                name="townCity" 
+                autocomplete="address-level2" 
+                placeholder="e.g. George, Mossel Bay, Knysna, Cape Town" 
+                required 
+              />
+              <span class="field-error" id="townCityError" aria-live="polite"></span>
+            </div>
+
+            <!-- 6. Display Environment (4-Pill Radio Selector) -->
+            <fieldset class="field-group pill-fieldset">
+              <legend>Display Environment <span class="required-star">*</span></legend>
+              <div class="pill-group" role="radiogroup">
+                {siteConfig.formOptions.displayEnvironments.map((env, idx) => (
+                  <label class="pill-label">
+                    <input 
+                      type="radio" 
+                      name="environment" 
+                      value={env} 
+                      checked={idx === 0} 
+                    />
+                    <span class="pill-text">{env}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <!-- 7. Phone Number -->
+            <div class="field-group">
+              <label for="phone">Phone / WhatsApp Number <span class="required-star">*</span></label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                inputmode="tel" 
+                autocomplete="tel" 
+                placeholder="e.g. 082 782 4346 or 044 801 9000" 
+                required 
+              />
+              <span class="field-error" id="phoneError" aria-live="polite"></span>
+            </div>
+
+            <!-- 8. Email Address -->
+            <div class="field-group">
+              <label for="email">Work Email Address <span class="required-star">*</span></label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                inputmode="email" 
+                autocomplete="email" 
+                placeholder="e.g. manager@estate.co.za" 
+                required 
+              />
+              <span class="field-error" id="emailError" aria-live="polite"></span>
+            </div>
+
+            <!-- 9. Optional Notes / Size -->
+            <div class="field-group">
+              <label for="projectNotes">Proposed Location, Approximate Size, or Specific Questions (Optional)</label>
+              <textarea 
+                id="projectNotes" 
+                name="projectNotes" 
+                rows="3" 
+                placeholder="e.g. Main security entrance boom, rough viewing distance 8m, or questions regarding power connection."
+              ></textarea>
+            </div>
+
+            <!-- POPIA Disclosure -->
+            <div class="popia-notice">
+              <p>
+                <strong>POPIA Privacy Notice:</strong> Your information is gathered solely to respond to your inquiry and prepare your requested quotation. We will never sell or share your contact details.
+              </p>
+            </div>
+
+            <!-- Error Banner (Graceful Failure) -->
+            <div id="form-error-banner" class="form-error-banner" hidden role="alert">
+              <p id="form-error-message">Unable to submit online. You can still reach us directly:</p>
+              <div class="fallback-cta-row">
+                <a id="whatsapp-fallback-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                  Send via WhatsApp
+                </a>
+                <a id="email-fallback-btn" href="#" class="btn btn-secondary btn-sm">
+                  Send via Email
+                </a>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submit-quote-btn" class="btn btn-primary btn-full">
+              <span>Request Quote & Site Assessment</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </form>
+
+          <!-- In-Place Success Confirmation Panel -->
+          <div id="quote-success-panel" class="success-panel" hidden aria-live="polite">
+            <div class="success-badge" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <h3 class="success-title">Thank You. Your Request Has Been Received.</h3>
+            <p class="success-desc">
+              Our engineering team has received your details for <strong id="success-prop-name">your property</strong>. Here is what happens next:
+            </p>
+            <ol class="success-steps" role="list">
+              <li>
+                <strong>1. Initial Technical Review (Within 1 Business Day):</strong>
+                <span>We inspect your property location and sightline geometry via satellite mapping.</span>
+              </li>
+              <li>
+                <strong>2. 10-Minute Discovery Call:</strong>
+                <span>We reach out to confirm your viewing requirements and schedule an on-site walkthrough.</span>
+              </li>
+              <li>
+                <strong>3. Board-Ready Itemised Quotation:</strong>
+                <span>You receive a structured engineering proposal suitable for trustee or committee sign-off.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Set render timestamp for anti-bot speed trap
+  const timestampField = document.getElementById('formRenderTimestamp') as HTMLInputElement | null;
+  if (timestampField) {
+    timestampField.value = String(Date.now());
+  }
+
+  const quoteForm = document.getElementById('installation-quote-form') as HTMLFormElement | null;
+  const errorBanner = document.getElementById('form-error-banner');
+  const errorMessage = document.getElementById('form-error-message');
+  const whatsappFallbackBtn = document.getElementById('whatsapp-fallback-btn') as HTMLAnchorElement | null;
+  const emailFallbackBtn = document.getElementById('email-fallback-btn') as HTMLAnchorElement | null;
+  const successPanel = document.getElementById('quote-success-panel');
+  const successPropName = document.getElementById('success-prop-name');
+  const submitBtn = document.getElementById('submit-quote-btn') as HTMLButtonElement | null;
+
+  if (quoteForm) {
+    quoteForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Clear previous error states
+      quoteForm.querySelectorAll('.field-error').forEach(el => (el.textContent = ''));
+      quoteForm.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+      if (errorBanner) errorBanner.hidden = true;
+
+      const formData = new FormData(quoteForm);
+      const fullName = (formData.get('fullName') as string || '').trim();
+      const buyerRole = (formData.get('buyerRole') as string || '').trim();
+      const propertyName = (formData.get('propertyName') as string || '').trim();
+      const propertyType = (formData.get('propertyType') as string || '').trim();
+      const townCity = (formData.get('townCity') as string || '').trim();
+      const environment = (formData.get('environment') as string || '').trim();
+      const phone = (formData.get('phone') as string || '').trim();
+      const email = (formData.get('email') as string || '').trim();
+      const projectNotes = (formData.get('projectNotes') as string || '').trim();
+
+      // Client validation
+      let hasError = false;
+
+      if (!fullName) {
+        setFieldError('fullName', 'Please enter your full name.');
+        hasError = true;
+      }
+      if (!buyerRole) {
+        setFieldError('buyerRole', 'Please select your role or governance capacity.');
+        hasError = true;
+      }
+      if (!propertyName) {
+        setFieldError('propertyName', 'Please enter the property or estate name.');
+        hasError = true;
+      }
+      if (!townCity) {
+        setFieldError('townCity', 'Please enter the town or city.');
+        hasError = true;
+      }
+
+      // South African phone regex validation
+      let cleanedPhone = phone.replace(/[\s\-\(\)\.]/g, '');
+      if (cleanedPhone.startsWith('0027')) cleanedPhone = '+27' + cleanedPhone.slice(4);
+      if (cleanedPhone.startsWith('+270')) cleanedPhone = '+27' + cleanedPhone.slice(4);
+      else if (cleanedPhone.startsWith('270')) cleanedPhone = '+27' + cleanedPhone.slice(3);
+
+      const saPhoneRegex = /^(?:\+27|27|0)[1-8][0-9]{8}$/;
+      if (!cleanedPhone || !saPhoneRegex.test(cleanedPhone)) {
+        setFieldError('phone', 'Please enter a valid South African phone number (e.g. 082 782 4346 or +27 44 801 9000).');
+        hasError = true;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
+        setFieldError('email', 'Please enter a valid work email address.');
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Submit via fetch
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting Request...';
+      }
+
+      try {
+        const response = await fetch('/api/enquiry', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          quoteForm.hidden = true;
+          if (successPanel) {
+            successPanel.hidden = false;
+            if (successPropName) successPropName.textContent = propertyName || 'your property';
+            successPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        } else {
+          throw new Error(result.error || 'Server processing error');
+        }
+      } catch (err: any) {
+        if (errorBanner) {
+          errorBanner.hidden = false;
+          if (errorMessage) errorMessage.textContent = 'Submission encountered a network issue. Please use our direct instant channels:';
+          
+          // Pre-populate 1-click fallback buttons
+          const summaryText = encodeURIComponent(`Hi, I would like to request an LED display quote for ${propertyName} (${propertyType}, ${environment}) in ${townCity}. My name is ${fullName} (${buyerRole}), phone: ${phone}, email: ${email}. Notes: ${projectNotes}`);
+          if (whatsappFallbackBtn) {
+            whatsappFallbackBtn.href = `https://wa.me/27827824346?text=${summaryText}`;
+          }
+          if (emailFallbackBtn) {
+            emailFallbackBtn.href = `mailto:quotes@leddisplays.co.za?subject=LED%20Quote%20Request%20-%20${encodeURIComponent(propertyName)}&body=${summaryText}`;
+          }
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Request Quote & Site Assessment</span>';
+        }
+      }
+    });
+  }
+
+  function setFieldError(fieldId: string, message: string) {
+    const field = document.getElementById(fieldId);
+    const errorEl = document.getElementById(`${fieldId}Error`);
+    if (field) {
+      field.setAttribute('aria-invalid', 'true');
+      field.focus();
+    }
+    if (errorEl) {
+      errorEl.textContent = message;
+    }
+  }
+</script>
+
+<style>
+  .form-layout-grid {
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .form-context-column {
+    grid-column: span 12;
+  }
+
+  @media (min-width: 1024px) {
+    .form-context-column {
+      grid-column: span 5;
+    }
+  }
+
+  .form-container-column {
+    grid-column: span 12;
+  }
+
+  @media (min-width: 1024px) {
+    .form-container-column {
+      grid-column: span 7;
+    }
+  }
+
+  .context-card {
+    background-color: var(--color-bg-primary);
+  }
+
+  .context-card__title {
+    font-size: 1.25rem;
+    color: var(--color-text-primary);
+    margin-bottom: 1.25rem;
+  }
+
+  .assessment-checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .assessment-checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+  }
+
+  .check-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-bg-tint);
+    color: var(--color-brand-primary);
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .assessment-checklist strong {
+    display: block;
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .assessment-checklist span {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  .context-direct-contact {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border-subtle);
+    margin-bottom: 1.5rem;
+  }
+
+  .context-direct-contact h4 {
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-links-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contact-action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-brand-primary);
+    text-decoration: none;
+  }
+
+  .contact-action-link:hover {
+    text-decoration: underline;
+  }
+
+  .ad-micro-router {
+    padding: 1rem;
+    background-color: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .ad-router-link {
+    font-weight: 600;
+    color: var(--color-brand-primary);
+    text-decoration: none;
+  }
+
+  .ad-router-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Form Styles */
+  .required-star {
+    color: var(--color-error);
+  }
+
+  .pill-fieldset {
+    border: none;
+    padding: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  .pill-fieldset legend {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .pill-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 480px) {
+    .pill-group {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pill-label {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .pill-label input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .pill-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-input);
+    border-radius: var(--radius-md);
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .pill-label input[type="radio"]:checked + .pill-text {
+    background-color: var(--color-bg-tint);
+    border-color: var(--color-brand-primary);
+    color: var(--color-brand-primary);
+    box-shadow: 0 0 0 1px var(--color-brand-primary);
+  }
+
+  .pill-label input[type="radio"]:focus-visible + .pill-text {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .popia-notice {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-subtle);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.5rem;
+  }
+
+  .popia-notice strong {
+    color: var(--color-text-primary);
+  }
+
+  .form-error-banner {
+    padding: 1rem;
+    background-color: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
+    border-radius: var(--radius-md);
+    color: var(--color-error);
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .fallback-cta-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .btn-sm {
+    min-height: 38px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .btn-full {
+    width: 100%;
+  }
+
+  /* Success Panel */
+  .success-panel {
+    text-align: center;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .success-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background-color: var(--color-success-bg);
+    border: 2px solid var(--color-success-border);
+    border-radius: var(--radius-full);
+    margin-bottom: 1.25rem;
+  }
+
+  .success-title {
+    font-size: 1.375rem;
+    color: var(--color-text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .success-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.75rem;
+  }
+
+  .success-steps {
+    list-style: none;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--color-bg-subtle);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .success-steps li strong {
+    display: block;
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .success-steps li span {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+</style>

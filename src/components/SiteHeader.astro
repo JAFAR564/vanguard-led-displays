@@ -1,0 +1,248 @@
+---
+import { siteConfig } from '../config/site';
+---
+
+<header class="site-header" id="top">
+  <div class="container site-header__inner">
+    <!-- Brand Wordmark -->
+    <a href="#top" class="brand-link" aria-label={`${siteConfig.brand.name} - Home`}>
+      <span class="brand-badge" aria-hidden="true">LED</span>
+      <span class="brand-title">{siteConfig.brand.name}</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="site-nav" aria-label="Main Navigation">
+      <ul class="nav-list">
+        <li><a href="#use-cases" class="nav-link">Use Cases</a></li>
+        <li><a href="#featured-project" class="nav-link">George Project</a></li>
+        <li><a href="#solutions" class="nav-link">Solutions</a></li>
+        <li><a href="#process" class="nav-link">Process</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+        <li><a href="#advertise" class="nav-link nav-link--advertise">Advertise</a></li>
+      </ul>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <a href="#quote-form" class="btn btn-primary header-cta">
+        Request a Site Assessment
+      </a>
+      <button 
+        type="button" 
+        class="mobile-menu-toggle" 
+        aria-expanded="false" 
+        aria-controls="mobile-nav" 
+        aria-label="Toggle navigation menu"
+      >
+        <svg class="icon-menu" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Nav -->
+  <div id="mobile-nav" class="mobile-nav" hidden>
+    <div class="container">
+      <ul class="mobile-nav-list">
+        <li><a href="#use-cases" class="mobile-nav-link">Use Cases</a></li>
+        <li><a href="#featured-project" class="mobile-nav-link">George Flagship Project</a></li>
+        <li><a href="#solutions" class="mobile-nav-link">Display Solutions</a></li>
+        <li><a href="#process" class="mobile-nav-link">Installation Process</a></li>
+        <li><a href="#faq" class="mobile-nav-link">Frequently Asked Questions</a></li>
+        <li><a href="#advertise" class="mobile-nav-link">Screen Advertising Enquiries</a></li>
+        <li class="mobile-cta-item">
+          <a href="#quote-form" class="btn btn-primary btn-full">Request a Site Assessment</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggleBtn = document.querySelector('.mobile-menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  if (toggleBtn && mobileNav) {
+    toggleBtn.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+      mobileNav.hidden = isExpanded;
+    });
+
+    // Close when clicking an anchor link inside mobile menu
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        mobileNav.hidden = true;
+      });
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border-subtle);
+    height: 72px;
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    text-decoration: none;
+    color: var(--color-text-primary);
+  }
+
+  .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-brand-primary);
+    color: #FFFFFF;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.05em;
+  }
+
+  .brand-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+  }
+
+  .site-nav {
+    display: none;
+  }
+
+  @media (min-width: 960px) {
+    .site-nav {
+      display: block;
+    }
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-brand-primary);
+  }
+
+  .nav-link--advertise {
+    color: var(--color-text-primary);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .header-cta {
+      display: inline-flex;
+    }
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem;
+    background: none;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    cursor: pointer;
+  }
+
+  @media (min-width: 960px) {
+    .mobile-menu-toggle {
+      display: none;
+    }
+  }
+
+  .mobile-nav {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border-subtle);
+    box-shadow: var(--shadow-card);
+    padding-block: 1rem 1.5rem;
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+  }
+
+  .mobile-nav-link:hover {
+    background-color: var(--color-bg-subtle);
+    color: var(--color-brand-primary);
+  }
+
+  .mobile-cta-item {
+    margin-top: 0.75rem;
+  }
+
+  .btn-full {
+    width: 100%;
+  }
+</style>

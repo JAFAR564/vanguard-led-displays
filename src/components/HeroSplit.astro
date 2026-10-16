@@ -1,0 +1,241 @@
+---
+---
+
+<section class="hero-section" id="hero" aria-labelledby="hero-heading">
+  <div class="container hero-container">
+    <div class="grid-12 hero-grid">
+      <!-- Left Column: Value Proposition & CTAs -->
+      <div class="hero-content">
+        <div class="hero-eyebrow-wrapper">
+          <span class="badge hero-badge">Indoor & Outdoor LED Supply & Installation</span>
+          <span class="hero-location-tag">Western Cape & National Projects</span>
+        </div>
+
+        <h1 id="hero-heading" class="hero-title">
+          Installed LED Display Screens for Residential Estates and Commercial Properties
+        </h1>
+
+        <p class="hero-desc">
+          From on-site feasibility and structural planning to turnkey installation and simple content control—complete LED display solutions tailored to your property’s viewing distance, ambient lighting, and architectural requirements.
+        </p>
+
+        <!-- CTA Cluster -->
+        <div class="hero-cta-group">
+          <a href="#quote-form" class="btn btn-primary hero-btn-primary">
+            <span>Request a Quote & Site Visit</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="#featured-project" class="btn btn-secondary hero-btn-secondary">
+            <span>View George Estate Installation</span>
+          </a>
+        </div>
+
+        <!-- 3 Factual Trust Indicators -->
+        <div class="hero-proof-pills" role="list">
+          <div class="proof-pill" role="listitem">
+            <span class="proof-pill__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2463B8" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <div>
+              <strong>Verified Regional Proof</strong>
+              <span>Live estate gateway in George</span>
+            </div>
+          </div>
+
+          <div class="proof-pill" role="listitem">
+            <span class="proof-pill__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2463B8" stroke-width="2.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </span>
+            <div>
+              <strong>STSMA PMR 29 Ready</strong>
+              <span>Board-ready itemised proposals</span>
+            </div>
+          </div>
+
+          <div class="proof-pill" role="listitem">
+            <span class="proof-pill__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2463B8" stroke-width="2.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </span>
+            <div>
+              <strong>SANS Compliant</strong>
+              <span>Wind-load & Electrical CoC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Visual Presentation -->
+      <div class="hero-visual">
+        <div class="hero-visual__frame">
+          <img 
+            src="/assets/hero-display.svg" 
+            alt="Commercial and residential LED display screen system engineered for South African conditions"
+            width="1000"
+            height="800"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            class="hero-image"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .hero-grid {
+    align-items: center;
+  }
+
+  .hero-content {
+    grid-column: span 12;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-content {
+      grid-column: span 7;
+    }
+  }
+
+  .hero-visual {
+    grid-column: span 12;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-visual {
+      grid-column: span 5;
+      margin-top: 0;
+    }
+  }
+
+  .hero-eyebrow-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-location-tag {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .hero-title {
+    font-size: var(--font-size-display);
+    line-height: var(--line-height-display);
+    color: var(--color-text-primary);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.025em;
+  }
+
+  .hero-desc {
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    max-width: 60ch;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-btn-primary {
+    font-size: 1.0625rem;
+    padding: 0.875rem 1.75rem;
+  }
+
+  .hero-btn-secondary {
+    font-size: 1.0625rem;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .hero-proof-pills {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  @media (min-width: 640px) {
+    .hero-proof-pills {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .proof-pill {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+  }
+
+  .proof-pill__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background-color: var(--color-bg-tint);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .proof-pill strong {
+    display: block;
+    color: var(--color-text-primary);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .proof-pill span {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    line-height: 1.3;
+  }
+
+  .hero-visual__frame {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border-subtle);
+    background-color: var(--color-bg-primary);
+  }
+
+  .hero-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 1000 / 800;
+    object-fit: cover;
+  }
+</style>

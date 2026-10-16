@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import HeroSplit from '../components/HeroSplit.astro';
+import UseCaseCards from '../components/UseCaseCards.astro';
+import VideoProofPlayer from '../components/VideoProofPlayer.astro';
+import SolutionMatrix from '../components/SolutionMatrix.astro';
+import ProcessTimeline from '../components/ProcessTimeline.astro';
+import TrustSupportGrid from '../components/TrustSupportGrid.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import PropertyQuoteForm from '../components/PropertyQuoteForm.astro';
+import AdvertisingEnquiryForm from '../components/AdvertisingEnquiryForm.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import MobileStickyCta from '../components/MobileStickyCta.astro';
+---
+
+<BaseLayout>
+  <!-- 01. Global Header & Navigation -->
+  <SiteHeader />
+
+  <!-- Main Content Container with Landmark for Accessibility -->
+  <main id="main-content">
+    <!-- 02. Hero: Installed LED Display Solutions -->
+    <HeroSplit />
+
+    <!-- 03. Built for Residential Estates, Shopping Centres & Commercial Precincts -->
+    <UseCaseCards />
+
+    <!-- 04. Proven in the Field: Residential Estate Installation in George, Western Cape -->
+    <VideoProofPlayer />
+
+    <!-- 05. Indoor & Outdoor LED Display Solutions Matched to the Property -->
+    <SolutionMatrix />
+
+    <!-- 06. How the Project Works: From Site Assessment to Handover -->
+    <ProcessTimeline />
+
+    <!-- 07. Practical Content Control, System Architecture & Service Coverage -->
+    <TrustSupportGrid />
+
+    <!-- 08. Frequently Asked Questions Before Booking a Site Visit -->
+    <FaqAccordion />
+
+    <!-- 09. Request an LED Display Quotation & Site Assessment (Primary Funnel) -->
+    <PropertyQuoteForm />
+
+    <!-- 10. Secondary Module: Advertise on Our LED Display Network -->
+    <AdvertisingEnquiryForm />
+  </main>
+
+  <!-- 11. Corporate Footer & Statutory Disclosures -->
+  <SiteFooter />
+
+  <!-- Mobile Ergonomics: Fixed Bottom Action Bar (< 768px) with Auto-Hide -->
+  <MobileStickyCta />
+</BaseLayout>

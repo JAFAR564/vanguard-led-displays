@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { siteConfig } from '../../config/site';
+import { persistLead } from '../../lib/lead-storage';
 
 export const prerender = false;
 
@@ -124,7 +125,7 @@ export const POST: APIRoute = async ({ request }) => {
       const leadPayload = {
         leadId: `LEAD-EST-${Date.now()}`,
         submittedAt: new Date().toISOString(),
-        formType: 'installation_quote',
+        formType: 'installation_quote' as const,
         fullName,
         buyerRole,
         propertyName,
@@ -138,8 +139,9 @@ export const POST: APIRoute = async ({ request }) => {
       };
 
       // Dual-Channel Lead Persistence:
-      // Channel A (Primary Email Log) & Channel B (Fail-safe Backup Store)
+      // Channel A (Primary Email Log) & Channel B (Fail-safe Backup Store on Disk)
       console.log(`[LEAD PERSISTENCE] [INSTALLATION QUOTE]`, JSON.stringify(leadPayload, null, 2));
+      await persistLead(leadPayload);
 
       return new Response(
         JSON.stringify({
@@ -191,7 +193,7 @@ export const POST: APIRoute = async ({ request }) => {
       const advPayload = {
         leadId: `LEAD-ADV-${Date.now()}`,
         submittedAt: new Date().toISOString(),
-        formType: 'advertising_enquiry',
+        formType: 'advertising_enquiry' as const,
         advName,
         advCompany,
         phone: normalisedPhone,
@@ -201,6 +203,7 @@ export const POST: APIRoute = async ({ request }) => {
       };
 
       console.log(`[LEAD PERSISTENCE] [ADVERTISING ENQUIRY]`, JSON.stringify(advPayload, null, 2));
+      await persistLead(advPayload);
 
       return new Response(
         JSON.stringify({

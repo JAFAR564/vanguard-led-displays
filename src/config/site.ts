@@ -96,7 +96,7 @@ export const siteConfig: SiteConfig = {
     title: "Flagship Residential Estate Gateway Installation",
     location: "George, Western Cape",
     anonymizedEstateLabel: "Secure Residential Estate · George",
-    videoPoster: "/assets/george-estate-poster.webp",
+    videoPoster: "/assets/george-estate-poster.jpg",
     videoSrc: "/assets/george-estate-installation.mp4",
     brief: "The estate board required an elegant, high-impact digital replacement for cluttered temporary vinyl banners and static noticeboards at the main security entrance. The display needed to communicate resident notices, access rules, municipal water and load-shedding alerts clearly without causing nighttime light disturbance to perimeter homes.",
     sightlineExecution: "Custom-engineered for outdoor daylight visibility under direct coastal sun, paired with automatic ambient lux-sensor dimming to comply with municipal dark-sky regulations and STSMA PMR 29 nuisance standards. Housed in a salt-air corrosion-resistant IP65 aluminum cabinet.",

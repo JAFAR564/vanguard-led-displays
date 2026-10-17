@@ -15,3 +15,6 @@ Thumbs.db
 
 # Captured Leads Ledger (POPIA Compliance)
 data/*.jsonl
+
+# Large video binaries (>100MB GitHub limit)
+*.mp4

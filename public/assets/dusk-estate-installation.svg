@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none">
+  <defs>
+    <!-- Dusk sky gradient -->
+    <linearGradient id="duskSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#070A0F"/>
+      <stop offset="45%" stop-color="#0F172A"/>
+      <stop offset="75%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+
+    <!-- Mountain horizon twilight glow -->
+    <linearGradient id="horizonGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#475569" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#64748B" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- LED Screen twilight luminescence -->
+    <linearGradient id="screenDisplay" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="100%" stop-color="#0B0F17"/>
+    </linearGradient>
+
+    <!-- Warm architectural accent light -->
+    <linearGradient id="warmLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#FDE047" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Twilight Sky -->
+  <rect width="1600" height="900" fill="url(#duskSky)"/>
+
+  <!-- Mountain Silhouette (Outeniqua / Cape Ranges at Dusk) -->
+  <path d="M0 520 L180 430 L380 470 L640 370 L890 440 L1150 340 L1380 410 L1600 370 L1600 620 L0 620 Z" fill="#0B0F17" opacity="0.8"/>
+  <path d="M0 560 L240 480 L520 530 L800 450 L1080 500 L1360 440 L1600 470 L1600 640 L0 640 Z" fill="#141A23"/>
+
+  <!-- Paved Road & Gatehouse Approach -->
+  <rect y="620" width="1600" height="280" fill="#0D1117"/>
+  <polygon points="260,900 520,620 700,620 620,900" fill="#171D26"/>
+  <polygon points="620,900 700,620 900,620 1020,900" fill="#1A222D"/>
+  <line x1="620" y1="640" x2="820" y2="900" stroke="#475569" stroke-width="4" stroke-dasharray="28 20" opacity="0.4"/>
+
+  <!-- Architectural Gatehouse Structure (Contemporary Cape Vernacular) -->
+  <rect x="940" y="420" width="480" height="240" fill="#1E2530" stroke="#334155" stroke-width="2"/>
+  <!-- Pitched Charcoal Slate Roof -->
+  <polygon points="900,420 1180,260 1460,420" fill="#0B0F17" stroke="#2D3748" stroke-width="2"/>
+
+  <!-- Warm Architectural Downlighting -->
+  <polygon points="1000,420 960,560 1060,560" fill="url(#warmLight)"/>
+  <polygon points="1320,420 1280,560 1380,560" fill="url(#warmLight)"/>
+  <circle cx="1010" cy="425" r="4" fill="#FEF08A"/>
+  <circle cx="1330" cy="425" r="4" fill="#FEF08A"/>
+
+  <!-- Security Office Windows with Warm Interior Glow -->
+  <rect x="1060" y="460" width="220" height="110" rx="3" fill="#0F172A" stroke="#475569" stroke-width="2"/>
+  <rect x="1070" y="470" width="200" height="90" rx="2" fill="#EAB308" opacity="0.12"/>
+  <line x1="1170" y1="460" x2="1170" y2="570" stroke="#475569" stroke-width="2"/>
+
+  <!-- Automated Security Boom Barrier -->
+  <rect x="860" y="580" width="28" height="60" fill="#334155" stroke="#475569" stroke-width="2"/>
+  <line x1="560" y1="592" x2="865" y2="592" stroke="#EF4444" stroke-width="6"/>
+  <line x1="590" y1="592" x2="615" y2="592" stroke="#FFFFFF" stroke-width="6"/>
+  <line x1="660" y1="592" x2="685" y2="592" stroke="#FFFFFF" stroke-width="6"/>
+  <line x1="730" y1="592" x2="755" y2="592" stroke="#FFFFFF" stroke-width="6"/>
+  <line x1="800" y1="592" x2="825" y2="592" stroke="#FFFFFF" stroke-width="6"/>
+
+  <!-- ========================================================================= -->
+  <!-- BESPOKE OUTDOOR LED SCREEN MONUMENT INSTALLATION                          -->
+  <!-- ========================================================================= -->
+
+  <!-- Monolithic Architectural Concrete Plinth -->
+  <rect x="220" y="520" width="340" height="160" rx="4" fill="#141A23" stroke="#2D3748" stroke-width="2"/>
+  <text x="390" y="650" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle" letter-spacing="3">MAIN ENTRANCE GATEWAY</text>
+
+  <!-- IP65 Powder-Coated Aluminium Cabinet Housing (16:9 Architectural Format) -->
+  <rect x="180" y="220" width="420" height="310" rx="6" fill="#0B0F17" stroke="#334155" stroke-width="3"/>
+  <rect x="194" y="234" width="392" height="282" rx="3" fill="url(#screenDisplay)"/>
+
+  <!-- Active High-Luminance LED Screen Content (Auto-Dimmed for Dusk) -->
+  <rect x="194" y="234" width="392" height="42" fill="#0F172A"/>
+  <circle cx="216" cy="255" r="4" fill="#38BDF8"/>
+  <text x="230" y="260" fill="#F8FAFC" font-family="'Inter', sans-serif" font-size="13" font-weight="600">ESTATE OPERATIONS</text>
+  <text x="560" y="259" fill="#94A3B8" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="end">18:42 SAST</text>
+
+  <!-- Advisory Card on Screen -->
+  <rect x="214" y="292" width="352" height="96" rx="4" fill="#1E2533" stroke="#2D3748" stroke-width="1"/>
+  <text x="232" y="320" fill="#FFFFFF" font-family="'Inter', sans-serif" font-size="15" font-weight="600">SCHEDULED WATER MAINTENANCE</text>
+  <text x="232" y="344" fill="#94A3B8" font-family="'Inter', sans-serif" font-size="12">Municipal pipeline upgrade completed.</text>
+  <text x="232" y="364" fill="#38BDF8" font-family="'Inter', sans-serif" font-size="11">Normal pressure fully restored to all phases.</text>
+
+  <!-- Speed & AGM Notice Badges -->
+  <rect x="214" y="404" width="168" height="56" rx="4" fill="#141A23" stroke="#2D3748" stroke-width="1"/>
+  <text x="298" y="430" fill="#EF4444" font-family="'JetBrains Mono', monospace" font-size="17" font-weight="700" text-anchor="middle">30 KM/H</text>
+  <text x="298" y="448" fill="#64748B" font-family="'Inter', sans-serif" font-size="10" text-anchor="middle">GATEHOUSE SPEED LIMIT</text>
+
+  <rect x="398" y="404" width="168" height="56" rx="4" fill="#141A23" stroke="#2D3748" stroke-width="1"/>
+  <text x="482" y="429" fill="#10B981" font-family="'Inter', sans-serif" font-size="13" font-weight="700" text-anchor="middle">HOA AGM · 28 OCT</text>
+  <text x="482" y="447" fill="#64748B" font-family="'Inter', sans-serif" font-size="10" text-anchor="middle">Clubhouse 18:30</text>
+
+  <!-- Ambient Light Sensor Status Strip -->
+  <rect x="194" y="476" width="392" height="40" fill="#0B0F17"/>
+  <circle cx="216" cy="496" r="3" fill="#22C55E"/>
+  <text x="228" y="500" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="10">LUX SENSOR: 800 NITS (DUSK DIMMING) · SANS 10160</text>
+
+  <!-- Discreet Technical Stamp in Bottom Corner -->
+  <text x="1560" y="870" fill="#475569" font-family="'JetBrains Mono', monospace" font-size="12" text-anchor="end">WESTERN CAPE INSTALLATION PROOF · 4K ARCHITECTURAL DISPLAY</text>
+</svg>

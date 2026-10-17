@@ -9,46 +9,42 @@ import ProcessTimeline from '../components/ProcessTimeline.astro';
 import TrustSupportGrid from '../components/TrustSupportGrid.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import PropertyQuoteForm from '../components/PropertyQuoteForm.astro';
-import AdvertisingEnquiryForm from '../components/AdvertisingEnquiryForm.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import MobileStickyCta from '../components/MobileStickyCta.astro';
 ---
 
 <BaseLayout>
-  <!-- 01. Global Header & Navigation -->
+  <!-- 01. Global Minimal Header -->
   <SiteHeader />
 
   <!-- Main Content Container with Landmark for Accessibility -->
   <main id="main-content">
-    <!-- 02. Hero: Installed LED Display Solutions -->
+    <!-- 02. Architectural Hero -->
     <HeroSplit />
 
-    <!-- 03. Built for Residential Estates, Shopping Centres & Commercial Precincts -->
+    <!-- 03. Editorial Applications Split -->
     <UseCaseCards />
 
-    <!-- 04. Proven in the Field: Residential Estate Installation in George, Western Cape -->
+    <!-- 04. Case Study Showcase -->
     <VideoProofPlayer />
 
-    <!-- 05. Indoor & Outdoor LED Display Solutions Matched to the Property -->
+    <!-- 05. Borderless Comparison Table -->
     <SolutionMatrix />
 
-    <!-- 06. How the Project Works: From Site Assessment to Handover -->
+    <!-- 06. 4-Stage Delivery Methodology -->
     <ProcessTimeline />
 
-    <!-- 07. Practical Content Control, System Architecture & Service Coverage -->
+    <!-- 07. Hardware Chassis System Architecture -->
     <TrustSupportGrid />
 
-    <!-- 08. Frequently Asked Questions Before Booking a Site Visit -->
+    <!-- 08. Governance & Pre-Assessment FAQ -->
     <FaqAccordion />
 
-    <!-- 09. Request an LED Display Quotation & Site Assessment (Primary Funnel) -->
+    <!-- 09. Unified Segmented Consultation & Media Inquiries -->
     <PropertyQuoteForm />
-
-    <!-- 10. Secondary Module: Advertise on Our LED Display Network -->
-    <AdvertisingEnquiryForm />
   </main>
 
-  <!-- 11. Corporate Footer & Statutory Disclosures -->
+  <!-- 10. Corporate Footer & Disclosures -->
   <SiteFooter />
 
   <!-- Mobile Ergonomics: Fixed Bottom Action Bar (< 768px) with Auto-Hide -->

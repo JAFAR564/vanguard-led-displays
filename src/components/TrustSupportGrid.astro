@@ -1,243 +1,111 @@
 ---
+const layers = [
+  {
+    layer: "Layer 01",
+    title: "Centralised Cloud CMS",
+    desc: "A secure web portal enabling property managers to schedule dayparted playlists, instant emergency alerts, and tenant notices in under 90 seconds from any desktop or mobile browser."
+  },
+  {
+    layer: "Layer 02",
+    title: "Edge Player & Lux Sensor",
+    desc: "Hardened industrial micro-controller with 4G LTE telemetry, onboard solid-state caching for 100% offline failover, and automated real-time ambient lux-sensor dimming."
+  },
+  {
+    layer: "Layer 03",
+    title: "Modular Aluminium Chassis",
+    desc: "Marine-grade IP65 weather-sealed aluminium cabinet assemblies engineered for Cape coastal salt-fog, passive heat dissipation, and load-shedding electrical surge suppression."
+  }
+];
 ---
 
-<section class="section section--subtle" id="trust-support" aria-labelledby="trust-heading">
+<section class="section section--obsidian" id="architecture" aria-labelledby="architecture-heading">
   <div class="container">
-    <div class="section-header">
-      <span class="section-eyebrow">Reliability & Operations</span>
-      <h2 id="trust-heading" class="section-title">
-        Practical Content Control, System Architecture & Service Coverage
+    <div class="architecture-header">
+      <span class="section-index">06 / HARDWARE & SYSTEM ARCHITECTURE</span>
+      <h2 id="architecture-heading" class="section-title">
+        The 3-Layer Hardware & Control Architecture
       </h2>
-      <p class="section-desc">
-        A permanent LED display must be as easy to operate on day 500 as it was on day one. Our three-layer architecture ensures seamless remote updates, offline resilience, and direct regional accountability.
-      </p>
     </div>
 
-    <!-- 3-Layer Architecture Stack -->
-    <div class="architecture-stack-wrapper">
-      <div class="stack-intro">
-        <h3 class="stack-heading">The 3-Layer Display Architecture</h3>
-        <p class="stack-sub">How our hardware, edge player, and cloud software integrate to provide bulletproof uptime.</p>
-      </div>
-
-      <div class="grid-12 stack-grid">
-        <div class="card stack-card">
-          <div class="stack-card__badge">Layer 01 · Cloud</div>
-          <h4 class="stack-card__title">Centralised Cloud CMS</h4>
-          <p class="stack-card__desc">
-            A secure web portal accessible from any phone, laptop, or tablet. Schedule gate notices, HOA announcements, or tenant advertisements in under 90 seconds with dayparted playlists and emergency override triggers.
-          </p>
-          <ul class="stack-card__list">
-            <li>Multi-user role permissions</li>
-            <li>Emergency instant broadcast override</li>
-            <li>Proof-of-play analytics for advertisers</li>
-          </ul>
+    <!-- 3-Column Obsidian Hardware Chassis Grid -->
+    <div class="chassis-grid">
+      {layers.map((layer, idx) => (
+        <div class={`chassis-col ${idx > 0 ? 'chassis-col--bordered' : ''}`}>
+          <div class="layer-tag-row">
+            <span class="layer-dot" aria-hidden="true"></span>
+            <span class="layer-tag tabular-num">{layer.layer}</span>
+          </div>
+          <h3 class="chassis-title">{layer.title}</h3>
+          <p class="chassis-desc">{layer.desc}</p>
         </div>
-
-        <div class="card stack-card">
-          <div class="stack-card__badge">Layer 02 · Edge</div>
-          <h4 class="stack-card__title">Industrial Edge Player & Lux Sensor</h4>
-          <p class="stack-card__desc">
-            Hardware controller equipped with 4G LTE telemetry and onboard solid-state memory. Playlists are cached locally so screens continue operating without interruption even during cellular or fibre outages.
-          </p>
-          <ul class="stack-card__list">
-            <li>100% offline failover playback</li>
-            <li>Real-time automated lux-sensor dimming</li>
-            <li>Remote diagnostics and power cycling</li>
-          </ul>
-        </div>
-
-        <div class="card stack-card">
-          <div class="stack-card__badge">Layer 03 · Hardware</div>
-          <h4 class="stack-card__title">Modular Outdoor/Indoor Cabinets</h4>
-          <p class="stack-card__desc">
-            Commercial-grade modular aluminium cabinet assemblies featuring front or rear magnetic service access, common-cathode power efficiency, and surge protection against electrical transients.
-          </p>
-          <ul class="stack-card__list">
-            <li>IP65 / IP67 weather-sealed protection</li>
-            <li>SANS 10142-1 certified circuit wiring</li>
-            <li>Marine-grade coastal salt-air resilience</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3 Core Operational Reassurances -->
-    <div class="grid-12 reassurance-grid">
-      <div class="reassurance-item">
-        <div class="reassurance-icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2463B8" stroke-width="2">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-        </div>
-        <div>
-          <h4>Simple Content Updates (Zero IT Degree)</h4>
-          <p>
-            Your estate office or mall receptionist does not need graphic design software. We provide branded templates for power notices, water maintenance, speed alerts, and AGM dates that can be published with a few taps.
-          </p>
-        </div>
-      </div>
-
-      <div class="reassurance-item">
-        <div class="reassurance-icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2463B8" stroke-width="2">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-        </div>
-        <div>
-          <h4>Engineered for SA Power & Coastal Weather</h4>
-          <p>
-            Between load-shedding grid surges and coastal humidity along the Garden Route, standard consumer electronics quickly fail. Our screens feature dedicated surge arrestors and sealed conformal PCB coatings.
-          </p>
-        </div>
-      </div>
-
-      <div class="reassurance-item">
-        <div class="reassurance-icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2463B8" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          </svg>
-        </div>
-        <div>
-          <h4>George Base & National Deployment</h4>
-          <p>
-            Headquartered in George, we provide fast direct on-site surveys and hands-on support across the Western Cape (George, Mossel Bay, Knysna, Plett, Cape Town) and coordinate national turnkey installations for major projects.
-          </p>
-        </div>
-      </div>
+      ))}
     </div>
   </div>
 </section>
 
 <style>
-  .architecture-stack-wrapper {
-    margin-bottom: 3.5rem;
+  .architecture-header {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
   }
 
-  .stack-intro {
-    margin-bottom: 1.5rem;
+  .chassis-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 
-  .stack-heading {
-    font-size: 1.25rem;
-    color: var(--color-text-primary);
-    margin-bottom: 0.25rem;
+  @media (min-width: 960px) {
+    .chassis-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+
+    .chassis-col--bordered {
+      border-left: 1px solid var(--color-border-dark);
+      padding-left: 3rem;
+    }
   }
 
-  .stack-sub {
-    font-size: 0.9375rem;
-    color: var(--color-text-secondary);
-  }
-
-  .stack-grid {
-    gap: 1.5rem;
-  }
-
-  .stack-card {
-    grid-column: span 12;
+  .chassis-col {
     display: flex;
     flex-direction: column;
   }
 
-  @media (min-width: 960px) {
-    .stack-card {
-      grid-column: span 4;
-    }
-  }
-
-  .stack-card__badge {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-brand-primary);
-    margin-bottom: 0.75rem;
-  }
-
-  .stack-card__title {
-    font-size: 1.125rem;
-    color: var(--color-text-primary);
-    margin-bottom: 0.75rem;
-    line-height: 1.35;
-  }
-
-  .stack-card__desc {
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    margin-bottom: 1.25rem;
-    flex-grow: 1;
-  }
-
-  .stack-card__list {
-    list-style: none;
+  .layer-tag-row {
     display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border-subtle);
-  }
-
-  .stack-card__list li {
-    font-size: 0.8125rem;
-    color: var(--color-text-primary);
-    position: relative;
-    padding-left: 1.25rem;
-  }
-
-  .stack-card__list li::before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: var(--color-brand-primary);
-    font-weight: 700;
-  }
-
-  .reassurance-grid {
-    gap: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border-subtle);
-  }
-
-  .reassurance-item {
-    grid-column: span 12;
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  @media (min-width: 960px) {
-    .reassurance-item {
-      grid-column: span 4;
-    }
-  }
-
-  .reassurance-icon {
-    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background-color: var(--color-bg-tint);
-    border-radius: var(--radius-md);
-    flex-shrink: 0;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
   }
 
-  .reassurance-item h4 {
-    font-size: 1rem;
-    color: var(--color-text-primary);
-    margin-bottom: 0.375rem;
-    line-height: 1.35;
+  .layer-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-accent-cyan);
+    border-radius: var(--radius-pill);
   }
 
-  .reassurance-item p {
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
+  .layer-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .chassis-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-text-on-dark);
+    margin-bottom: 0.875rem;
+    line-height: 1.3;
+  }
+
+  .chassis-desc {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-muted-dark);
+    max-width: 36ch;
   }
 </style>

@@ -1,58 +1,53 @@
 ---
 const faqs = [
   {
-    question: "How do we determine the right screen size and pixel pitch for our property?",
-    answer: "Pixel pitch (e.g., P2.5 vs. P4.0) is determined strictly by your property's minimum viewing distance: each millimetre of pitch corresponds to approximately one metre of viewing distance. Sizing depends on gatehouse boom geometry or mall atrium scale. During our on-site feasibility assessment, our technicians measure exact sightlines, approach speeds, and ambient lux so you never overpay for unneeded pixel density."
+    question: "How do we determine the correct screen dimensions and pixel pitch?",
+    answer: "Pixel pitch is determined strictly by minimum viewing distance: each millimetre of pitch corresponds to approximately one metre of viewing distance (e.g. a P3 display is crisp from 3 metres). Sizing depends on gatehouse boom geometry or atrium height. During our on-site survey, we calculate exact sightlines and approach speeds so you never overpay for unneeded pixel density."
   },
   {
-    question: "Does the outdoor display comply with municipal outdoor advertising by-laws and curfews?",
-    answer: "Yes. South African municipal by-laws (including the City of Cape Town Outdoor Advertising By-law and George Municipality by-laws) enforce strict luminance caps and curfews. Our outdoor displays include factory-calibrated ambient lux sensors that automatically dim the screen at dusk (capping output below municipal thresholds like 1,000 cd/m²) to prevent glare and comply with environmental dark-sky regulations."
+    question: "Does the outdoor display comply with municipal outdoor advertising by-laws?",
+    answer: "Yes. South African municipal frameworks (including Cape Town, Johannesburg, and George Municipality) distinguish between on-premises estate communications and third-party commercial advertising. Our outdoor displays feature calibrated ambient lux sensors that automatically dim output below municipal caps (such as 1,000 cd/m²) at dusk, complying with local dark-sky regulations."
   },
   {
-    question: "How does an estate installation satisfy Body Corporate PMR 29 and HOA approval?",
-    answer: "Under the Sectional Titles Schemes Management Act (STSMA Act 8 of 2011), permanent displays are classified as improvements to common property. By configuring the screen primarily for essential community utility—gatehouse security notices, municipal water/load-shedding alerts, and AGM reminders—the installation qualifies under Prescribed Management Rule 29(2) as a 'reasonably necessary' improvement requiring only a 30-day trustee notice rather than a unanimous vote under PMR 29(1). We furnish board-ready itemised proposals suitable for trustee and AGM distribution."
+    question: "How does the installation satisfy Body Corporate PMR 29 and HOA procedures?",
+    answer: "Under the Sectional Titles Schemes Management Act 8 of 2011, displays are classified as common-property improvements. By dedicating the screen to essential community utility—security alerts, municipal outage notices, and AGM reminders—the installation qualifies under Prescribed Management Rule 29(2) as a 'reasonably necessary' improvement requiring a 30-day notice rather than a unanimous vote. We furnish itemised engineering proposals suitable for trustee sign-off."
   },
   {
     question: "Who manages the structural steelwork, wind loading, and electrical compliance?",
-    answer: "We deliver complete turnkey installation accountability. Our team coordinates custom structural bracket mounting engineered to SANS 10160 wind-load standards (critical for Cape coastal winds), safe concealed power cabling, dedicated sub-distribution breakers, and certified electrical compliance under SANS 10142-1 (issuing a formal electrical Certificate of Compliance / CoC upon sign-off)."
+    answer: "We provide complete turnkey installation accountability. Our technicians manage custom structural steel brackets engineered to SANS 10160 wind-load standards, concealed cabling, dedicated sub-distribution breakers, and certified electrical compliance under SANS 10142-1 (issuing an electrical CoC upon handover)."
   },
   {
     question: "How complex is daily content scheduling for non-technical office staff?",
-    answer: "No dedicated IT personnel or graphic designers are required. Our cloud CMS runs in any desktop or mobile browser. Estate managers or mall marketing teams can select from pre-formatted notice templates, schedule automated dayparted playlists (e.g. morning traffic alerts vs. evening AGM notices), and publish updates in under 90 seconds. We conduct comprehensive operator training upon handover."
+    answer: "No dedicated IT personnel or graphic design skills are required. The cloud CMS runs in any desktop or mobile browser. Estate managers or marketing staff can select pre-formatted notice templates, schedule automated dayparted playlists, and publish announcements in under 90 seconds. We include 1-on-1 operator training upon handover."
   },
   {
-    question: "Can our property use optional advertising slots to offset the capital expenditure?",
-    answer: "Yes, where permitted by estate rules or commercial landlord policies. For shopping centres and mixed-use precincts, commercial advertising slots provide substantial recurring non-GLA revenue. For residential estates, trustees frequently approve vetted local community service sponsors (security providers, local schools, or estate golf clubs) to subsidise display CapEx without compromising estate aesthetic integrity."
+    question: "Can our property use optional advertising slots to offset capital costs?",
+    answer: "Yes, where approved by trustees or commercial asset managers. For shopping centres and mixed-use precincts, commercial advertising slots generate recurring non-GLA revenue. For residential estates, trustees frequently approve vetted local community service sponsors (security providers, schools, golf clubs) to subsidise CapEx without visual clutter."
   }
 ];
 ---
 
 <section class="section" id="faq" aria-labelledby="faq-heading">
   <div class="container">
-    <div class="section-header">
-      <span class="section-eyebrow">Pre-Assessment Answers</span>
+    <div class="faq-header">
+      <span class="section-index">07 / GOVERNANCE & FAQ</span>
       <h2 id="faq-heading" class="section-title">
-        Frequently Asked Questions Before Booking a Site Visit
+        Frequently Asked Questions
       </h2>
-      <p class="section-desc">
-        Direct answers to technical, statutory, and commercial governance questions commonly evaluated by managing agents, trustees, and commercial asset managers.
-      </p>
     </div>
 
-    <!-- FAQ Accordion List -->
-    <div class="faq-list" role="region" aria-label="Frequently Asked Questions">
-      {faqs.map((faq, index) => (
-        <details class="faq-item" name="faq-group">
-          <summary class="faq-question">
-            <span class="faq-index tabular-num">0{index + 1}</span>
-            <span class="faq-title">{faq.question}</span>
-            <span class="faq-chevron" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
+    <!-- Flush-Left Hairline Accordion List -->
+    <div class="minimal-faq-list" role="region" aria-label="Frequently Asked Questions">
+      {faqs.map((faq) => (
+        <details class="minimal-faq-item">
+          <summary class="minimal-faq-summary">
+            <span class="faq-question-text">{faq.question}</span>
+            <span class="faq-icon-indicator" aria-hidden="true">
+              <span class="icon-plus">+</span>
+              <span class="icon-minus">−</span>
             </span>
           </summary>
-          <div class="faq-answer">
+          <div class="minimal-faq-body">
             <p>{faq.answer}</p>
           </div>
         </details>
@@ -62,91 +57,77 @@ const faqs = [
 </section>
 
 <style>
-  .faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 860px;
-    margin-inline: auto;
+  .faq-header {
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
   }
 
-  .faq-item {
-    background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-border-subtle);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  .minimal-faq-list {
+    max-width: 900px;
+    border-top: 1px solid var(--color-border-hairline);
   }
 
-  .faq-item:hover {
-    border-color: rgba(36, 99, 184, 0.4);
+  .minimal-faq-item {
+    border-bottom: 1px solid var(--color-border-hairline);
   }
 
-  .faq-item[open] {
-    border-color: var(--color-brand-primary);
-    box-shadow: var(--shadow-card);
-  }
-
-  .faq-question {
+  .minimal-faq-summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 1.25rem 1.5rem;
-    min-height: 44px;
+    gap: 1.5rem;
+    padding-block: 1.5rem;
     cursor: pointer;
     user-select: none;
-    font-weight: 600;
-    color: var(--color-text-primary);
     list-style: none;
+    min-height: 44px;
+    text-align: left;
   }
 
-  .faq-question::-webkit-details-marker {
+  .minimal-faq-summary::-webkit-details-marker {
     display: none;
   }
 
-  .faq-index {
-    font-size: 0.875rem;
-    color: var(--color-brand-primary);
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-
-  .faq-title {
+  .faq-question-text {
     font-size: 1.0625rem;
+    font-weight: 500;
     line-height: 1.4;
-    flex-grow: 1;
+    color: var(--color-text-primary);
+    letter-spacing: -0.015em;
   }
 
-  .faq-chevron {
+  .minimal-faq-summary:hover .faq-question-text {
+    color: var(--color-text-secondary);
+  }
+
+  .faq-icon-indicator {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-secondary);
-    transition: transform 0.2s ease;
+    width: 24px;
+    height: 24px;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--color-text-primary);
     flex-shrink: 0;
   }
 
-  .faq-item[open] .faq-chevron {
-    transform: rotate(180deg);
-    color: var(--color-brand-primary);
+  .icon-minus {
+    display: none;
   }
 
-  .faq-answer {
-    padding: 0 1.5rem 1.5rem 3.5rem;
+  .minimal-faq-item[open] .icon-plus {
+    display: none;
+  }
+
+  .minimal-faq-item[open] .icon-minus {
+    display: inline-block;
+  }
+
+  .minimal-faq-body {
+    padding-bottom: 1.5rem;
     font-size: 0.9375rem;
     line-height: 1.65;
     color: var(--color-text-secondary);
-    border-top: 1px solid rgba(226, 232, 240, 0.5);
-    padding-top: 1rem;
-  }
-
-  @media (max-width: 640px) {
-    .faq-question {
-      padding: 1rem;
-    }
-    .faq-answer {
-      padding: 0.75rem 1rem 1rem 1rem;
-    }
+    max-width: 72ch;
   }
 </style>

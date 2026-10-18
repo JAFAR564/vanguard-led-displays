@@ -20,3 +20,4 @@ data/*.jsonl
 # Large raw video binaries (>100MB)
 *.raw.mp4
 .vercel
+.env*

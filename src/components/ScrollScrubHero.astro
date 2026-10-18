@@ -125,10 +125,12 @@
 <style>
   .hero-scroll-track {
     position: relative;
-    height: 360vh;
+    height: 400vh;
+    height: 400dvh;
     width: 100%;
     max-width: 100%;
     background-color: var(--color-bg-obsidian);
+    z-index: 1;
   }
 
   .hero-sticky-stage {
@@ -606,25 +608,31 @@
     }
 
     const stickyStage = document.getElementById('sticky-stage') as HTMLElement | null;
-    const SCRUB_END = 0.68; // 68% of 360vh track is dedicated to video camera move
+    const scrollIndicator = document.querySelector('.hero-scroll-indicator') as HTMLElement | null;
+    const SCRUB_END = 0.667; // Exactly 2/3 of 400vh track (0-200vh) for video scrub, 200vh-300vh for sheet glide
 
     function updateNarrativeBeats(scrubProgress: number, totalProgress: number) {
       // Beat 1: 0% to 28% of scrub
-      const inBeat1 = scrubProgress <= 0.28 && totalProgress < SCRUB_END + 0.1;
-      // Beat 2: 32% to 62% of scrub
-      const inBeat2 = scrubProgress >= 0.32 && scrubProgress <= 0.62 && totalProgress < SCRUB_END + 0.1;
-      // Beat 3: 66% to 100% of scrub, fading out as sheet lifts
-      const inBeat3 = scrubProgress >= 0.66 && totalProgress < SCRUB_END + 0.08;
+      const inBeat1 = scrubProgress <= 0.28 && totalProgress < SCRUB_END;
+      // Beat 2: 34% to 64% of scrub
+      const inBeat2 = scrubProgress >= 0.34 && scrubProgress <= 0.64 && totalProgress < SCRUB_END;
+      // Beat 3: 70% to 96% of scrub, fading cleanly before sheet enters at SCRUB_END
+      const inBeat3 = scrubProgress >= 0.70 && scrubProgress <= 0.96 && totalProgress < (SCRUB_END - 0.02);
 
       if (beat1) beat1.classList.toggle('active', inBeat1);
       if (beat2) beat2.classList.toggle('active', inBeat2);
       if (beat3) beat3.classList.toggle('active', inBeat3);
 
+      if (scrollIndicator) {
+        scrollIndicator.style.opacity = totalProgress > (SCRUB_END - 0.05) ? '0' : '1';
+        scrollIndicator.style.transition = 'opacity 0.3s ease';
+      }
+
       if (telemetryFill) {
         telemetryFill.style.width = `${Math.round(scrubProgress * 100)}%`;
       }
       if (telemetryFrame) {
-        if (totalProgress > SCRUB_END + 0.05) {
+        if (totalProgress > SCRUB_END + 0.02) {
           telemetryFrame.textContent = 'UNVEILING ARCHITECTURE';
         } else {
           const frameNum = Math.min(Math.floor(scrubProgress * (TOTAL_FRAMES - 1)) + 1, TOTAL_FRAMES);

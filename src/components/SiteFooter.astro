@@ -202,20 +202,32 @@ const year = new Date().getFullYear();
 
   .footer__legal-actions {
     display: flex;
-    align-items: center;
-    gap: 10px;
     flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
   }
 
-  .footer__legal-btn {
+  /* One shared box model for the button, the link and the separator spans.
+     A taller button beside bare spans is what pushed the baselines apart. */
+  .footer__legal-actions > * {
+    display: inline-flex;
+    align-items: center;
     min-height: 44px;
+    margin: 0;
     padding: 0;
+    border: 0;
+    background: none;
     font-family: var(--font-mono);
     font-size: 10.5px;
+    line-height: 1;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-2);
     text-decoration: none;
+    vertical-align: middle;
+  }
+
+  .footer__legal-btn {
     border-bottom: 1px solid transparent;
   }
 
@@ -226,6 +238,7 @@ const year = new Date().getFullYear();
 
   .footer__year {
     margin-left: 4px;
+    color: var(--text-3);
   }
 
   /* Privacy dialog ------------------------------------------------------- */

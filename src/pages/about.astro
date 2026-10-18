@@ -4,7 +4,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig } from '../config/site';
 import rigging from '../assets/rigging.jpg';
 import installation01 from '../assets/installation-01.jpg';
-import installation02 from '../assets/installation-02.jpg';
 import installation03 from '../assets/installation-03.jpg';
 
 const { brand, contact, coverage, method, site } = siteConfig;
@@ -125,7 +124,7 @@ const aboutPage = {
                 loading="lazy"
               />
             </div>
-            <figcaption>Plate 04 — cabinet rigging during installation, Garden Route.</figcaption>
+            <figcaption>Plate 02 — cabinet rigging during installation, Garden Route.</figcaption>
           </figure>
         </div>
       </div>
@@ -179,43 +178,30 @@ const aboutPage = {
       </div>
 
       <div class="about-record__grid">
-        <figure class="plate about-record__wide">
-          <div class="plate__frame about-record__frame about-record__frame--wide">
+        <figure class="plate">
+          <div class="plate__frame about-record__frame">
             <Image
               src={installation01}
-              alt="Completed outdoor LED display mounted at an estate entrance."
-              widths={[640, 960, 1280]}
-              sizes="(max-width: 1023px) 92vw, 62vw"
+              alt="The LED cabinet fixed to the estate wall before commissioning, with the screen unlit."
+              widths={[520, 760, 960, 1280]}
+              sizes="(max-width: 767px) 92vw, 44vw"
               loading="lazy"
             />
           </div>
-          <figcaption>Plate 05 — completed gatehouse display, daytime.</figcaption>
+          <figcaption>Plate 03 — cabinet installed, awaiting commissioning.</figcaption>
         </figure>
 
         <figure class="plate">
-          <div class="plate__frame about-record__frame about-record__frame--tall">
-            <Image
-              src={installation02}
-              alt="Display cabinet being aligned on its mounting frame during installation."
-              widths={[420, 640, 800]}
-              sizes="(max-width: 1023px) 45vw, 22vw"
-              loading="lazy"
-            />
-          </div>
-          <figcaption>Plate 06 — cabinet alignment.</figcaption>
-        </figure>
-
-        <figure class="plate">
-          <div class="plate__frame about-record__frame about-record__frame--tall">
+          <div class="plate__frame about-record__frame about-record__frame--after">
             <Image
               src={installation03}
-              alt="Detail of concealed cabling and cabinet sealing at the rear of the display."
-              widths={[420, 640, 800]}
-              sizes="(max-width: 1023px) 45vw, 22vw"
+              alt="The commissioned display showing a golf broadcast, with planted landscaping in front of the wall."
+              widths={[520, 760, 960]}
+              sizes="(max-width: 767px) 92vw, 44vw"
               loading="lazy"
             />
           </div>
-          <figcaption>Plate 07 — rear service access and sealing.</figcaption>
+          <figcaption>Plate 04 — commissioned display in service, George.</figcaption>
         </figure>
       </div>
     </div>
@@ -357,27 +343,26 @@ const aboutPage = {
     margin-top: 12px;
   }
 
+  /* Before → after diptych: both plates are landscape and share one ratio,
+     so neither subject is squeezed into a portrait crop. */
   .about-record__grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--gutter-x);
   }
 
-  .about-record__wide {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .about-record__frame--wide {
+  .about-record__frame {
     aspect-ratio: 4 / 3;
-  }
-
-  .about-record__frame--tall {
-    aspect-ratio: 3 / 4;
   }
 
   .about-record__frame img {
     object-position: center;
+  }
+
+  /* The commissioned shot is a portrait original: bias the crop onto the wall
+     and display band rather than the sky above it. */
+  .about-record__frame--after img {
+    object-position: center 44%;
   }
 
   .about-standards__list {
@@ -435,14 +420,13 @@ const aboutPage = {
     font-size: 0.8125rem;
   }
 
-  @media (max-width: 1023px) {
+  @media (max-width: 767px) {
     .about-record__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr);
     }
-    .about-record__wide {
-      grid-column: 1 / -1;
-      grid-row: auto;
-    }
+  }
+
+  @media (max-width: 1023px) {
     .about-standards__list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }

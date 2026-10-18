@@ -9,15 +9,17 @@ const { method } = siteConfig;
     <div class="split split--4-8 method__split">
       <div class="method__aside sticky-host">
         <div class="sticky method__sticky">
-          <p class="section__index">
-            <span>{method.index}</span>
-            <span>{method.eyebrow}</span>
-          </p>
-          <h2 id="method-heading">{method.heading}</h2>
-          <p class="method__lede">{method.lede}</p>
+          <div class="method__header">
+            <p class="section__index">
+              <span>{method.index}</span>
+              <span>{method.eyebrow}</span>
+            </p>
+            <h2 id="method-heading">{method.heading}</h2>
+            <p class="method__lede">{method.lede}</p>
+          </div>
 
-          <div class="method__standards">
-            <p class="mono method__standards-title">Compliance register</p>
+          <div class="method__register">
+            <p class="mono method__register-title">Compliance register</p>
             <ul role="list">
               {method.standards.map((standard) => (
                 <li class="method__standard">
@@ -72,17 +74,17 @@ const { method } = siteConfig;
     max-width: 40ch;
   }
 
-  .method__standards {
+  .method__register {
     margin-top: clamp(28px, 3vw, 40px);
     border-top: 1px solid var(--rule-strong);
     padding-top: 16px;
   }
 
-  .method__standards-title {
+  .method__register-title {
     margin: 0 0 12px;
   }
 
-  .method__standards ul {
+  .method__register ul {
     display: grid;
     gap: 14px;
     margin: 0;
@@ -189,14 +191,31 @@ const { method } = siteConfig;
       max-width: 60ch;
     }
 
-    /* Read the four chronological stages first; the compliance register
-       summarises standards and reads better as a closing panel. */
-    .method__aside {
-      order: 2;
+    /* Dissolve both wrappers so the header, the stages and the register become
+       siblings in the split grid. Ordering the aside as a whole would drag the
+       section heading below the stages with it. */
+    .method__aside,
+    .method__sticky {
+      display: contents;
+    }
+
+    .method__header {
+      order: 1;
     }
 
     .method__stages {
-      order: 1;
+      order: 2;
+    }
+
+    .method__register {
+      order: 3;
+      margin-top: 0;
+    }
+
+    .method__header,
+    .method__stages,
+    .method__register {
+      grid-column: 1 / -1;
     }
   }
 

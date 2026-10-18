@@ -1,0 +1,16 @@
+# Kept out of the source upload for CLI / Git deployments.
+# `dist` and `.vercel` are rebuilt on the platform; `data` may contain a local
+# lead ledger and must never be uploaded.
+
+dist
+.vercel
+data
+docs
+.agents
+.github
+.git
+node_modules
+*.log
+.env
+.env.*
+!.env.example

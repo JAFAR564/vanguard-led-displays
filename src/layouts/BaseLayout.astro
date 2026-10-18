@@ -1,105 +1,106 @@
 ---
-import { siteConfig } from '../config/site';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/inter-tight';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
 import '../styles/tokens.css';
+
+import { siteConfig } from '../config/site';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import MobileStickyCta from '../components/MobileStickyCta.astro';
 
 interface Props {
   title?: string;
   description?: string;
-  canonicalUrl?: string;
+  path?: string;
+  noindex?: boolean;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>[];
 }
 
 const {
-  title = `${siteConfig.brand.name} | Installed LED Displays South Africa`,
-  description = "Turnkey indoor and outdoor LED display screens for South African residential estates, shopping centres and commercial properties. Request a site assessment.",
-  canonicalUrl = "https://leddisplays.co.za/",
+  title = siteConfig.site.title,
+  description = siteConfig.site.description,
+  path = '/',
+  noindex = false,
+  ogImage = siteConfig.site.ogImage,
+  jsonLd = [],
 } = Astro.props;
 
-// JSON-LD Structured Data
-const jsonLdOrg = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": siteConfig.brand.name,
-  "legalName": siteConfig.brand.legalName,
-  "url": canonicalUrl,
-  "logo": "https://leddisplays.co.za/assets/brand-logo.svg",
-  "telephone": siteConfig.contact.phoneDial,
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "George",
-    "addressRegion": "Western Cape",
-    "addressCountry": "ZA"
+const canonical = new URL(path, siteConfig.site.url).toString();
+const ogImageUrl = new URL(ogImage, siteConfig.site.url).toString();
+
+const organisation = {
+  '@context': 'https://schema.org',
+  '@type': ['Organization', 'LocalBusiness'],
+  '@id': `${siteConfig.site.url}/#organisation`,
+  name: siteConfig.brand.name,
+  legalName: siteConfig.brand.legalName,
+  url: siteConfig.site.url,
+  logo: new URL('/favicon.svg', siteConfig.site.url).toString(),
+  image: ogImageUrl,
+  description: siteConfig.site.description,
+  foundingDate: String(siteConfig.brand.establishedYear),
+  telephone: siteConfig.contact.phoneDisplay,
+  email: siteConfig.contact.emailQuote,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'George',
+    addressRegion: 'Western Cape',
+    addressCountry: 'ZA',
   },
-  "areaServed": {
-    "@type": "Country",
-    "name": "South Africa"
-  }
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Western Cape' },
+    { '@type': 'Country', name: 'South Africa' },
+  ],
+  openingHours: 'Mo-Fr 08:00-17:00',
 };
 
-const jsonLdService = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Commercial & Residential LED Screen Supply and Turnkey Installation",
-  "serviceType": "LED Display Supply and Installation",
-  "provider": {
-    "@type": "Organization",
-    "name": siteConfig.brand.name
-  },
-  "areaServed": "South Africa",
-  "description": description
-};
-
-const jsonLdVideo = {
-  "@context": "https://schema.org",
-  "@type": "VideoObject",
-  "name": siteConfig.featuredProject.title,
-  "description": siteConfig.featuredProject.brief,
-  "thumbnailUrl": ["https://leddisplays.co.za/assets/george-estate-poster.jpg"],
-  "uploadDate": "2026-10-16T12:00:00+02:00",
-  "contentUrl": "https://leddisplays.co.za/assets/george-estate-installation.mp4"
-};
+const structured = [organisation, ...jsonLd];
 ---
 
 <!doctype html>
 <html lang="en-ZA">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="robots" content="index, follow" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="theme-color" content="#202A36" />
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content={siteConfig.site.themeColor} />
 
-    <!-- OpenGraph Metadata -->
+    <meta property="og:type" content="website" />
     <meta property="og:site_name" content={siteConfig.brand.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:locale" content="en_ZA" />
-    <meta property="og:image" content="https://leddisplays.co.za/assets/hero-amphitheater-estate.jpg" />
-
-    <!-- Twitter Card -->
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={siteConfig.site.locale} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://leddisplays.co.za/assets/hero-amphitheater-estate.jpg" />
+    <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <!-- Structured Data Scripts -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLdOrg)} />
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLdService)} />
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLdVideo)} />
+    {structured.map((item) => (
+      <script type="application/ld+json" set:html={JSON.stringify(item)} />
+    ))}
   </head>
   <body>
-    <!-- WCAG 2.2 Accessible Skip Link -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
-    <slot />
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+    <MobileStickyCta />
   </body>
 </html>

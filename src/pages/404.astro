@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+
+export const prerender = false;
+---
+
+<BaseLayout
+  title={`Page not found — ${siteConfig.brand.name}`}
+  description="That page is not part of this site. Return to the overview or commission a survey."
+  path="/404"
+  noindex
+>
+  <section class="notfound" aria-labelledby="notfound-heading">
+    <div class="container">
+      <div class="split split--5-7 notfound__split">
+        <div>
+          <p class="section__index">
+            <span>404</span>
+            <span>Off the survey</span>
+          </p>
+          <h1 id="notfound-heading" class="notfound__heading">
+            This page is not on the plan.
+          </h1>
+          <p class="notfound__body">
+            The address you followed does not exist on this site. It may have been renamed when the
+            site was rebuilt.
+          </p>
+          <div class="btn-row notfound__actions">
+            <a class="btn" href="/">
+              Return to the overview
+            </a>
+            <a class="btn btn--ghost" href="/#commission">
+              Commission a survey
+            </a>
+          </div>
+        </div>
+
+        <div class="notfound__register">
+          <p class="mono">Where to go instead</p>
+          <ul role="list">
+            <li>
+              <a class="arrow-link" href="/#applications">
+                Applications
+              </a>
+            </li>
+            <li>
+              <a class="arrow-link" href="/#case-study">
+                Case study
+              </a>
+            </li>
+            <li>
+              <a class="arrow-link" href="/#method">
+                Method &amp; compliance
+              </a>
+            </li>
+            <li>
+              <a class="arrow-link" href="/about">
+                Studio &amp; coverage
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding-top: calc(var(--header-h) + clamp(56px, 8vw, 120px));
+    padding-bottom: clamp(80px, 10vw, 160px);
+  }
+
+  .notfound__heading {
+    margin-top: 16px;
+    max-width: 14ch;
+  }
+
+  .notfound__body {
+    margin-top: 20px;
+    max-width: 44ch;
+    color: var(--text-2);
+  }
+
+  .notfound__actions {
+    margin-top: 28px;
+  }
+
+  .notfound__register {
+    padding-top: 6px;
+  }
+
+  .notfound__register > p {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 6px;
+  }
+
+  .notfound__register ul {
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .notfound__register .arrow-link {
+    width: 100%;
+  }
+</style>

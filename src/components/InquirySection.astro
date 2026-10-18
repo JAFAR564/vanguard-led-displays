@@ -1,0 +1,252 @@
+---
+import { siteConfig } from '../config/site';
+import InquiryForm from './InquiryForm.astro';
+import AdvertisingForm from './AdvertisingForm.astro';
+
+const { commission, contact, coverage } = siteConfig;
+---
+
+<section class="section commission" id="commission" aria-labelledby="commission-heading">
+  <div class="container">
+    <div class="split split--4-8 commission__split">
+      <div class="commission__aside sticky-host">
+        <div class="sticky">
+          <p class="section__index">
+            <span>{commission.index}</span>
+            <span>{commission.eyebrow}</span>
+          </p>
+          <h2 id="commission-heading">{commission.heading}</h2>
+          <p class="commission__lede">{commission.lede}</p>
+
+          <ul class="commission__assurances" role="list">
+            {commission.assurances.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+
+          <dl class="register commission__contact">
+            <div class="register__row">
+              <dt class="register__label">Telephone</dt>
+              <dd class="register__value">
+                <a class="link" href={`tel:${contact.phoneDial}`}>
+                  {contact.phoneDisplay}
+                </a>
+              </dd>
+            </div>
+            <div class="register__row">
+              <dt class="register__label">WhatsApp</dt>
+              <dd class="register__value">
+                <a
+                  class="link"
+                  href={`https://wa.me/${contact.whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {contact.whatsappDisplay}
+                </a>
+              </dd>
+            </div>
+            <div class="register__row">
+              <dt class="register__label">Email</dt>
+              <dd class="register__value">
+                <a class="link" href={`mailto:${contact.emailQuote}`}>
+                  {contact.emailQuote}
+                </a>
+              </dd>
+            </div>
+            <div class="register__row">
+              <dt class="register__label">Hours</dt>
+              <dd class="register__value">{contact.operatingHours}</dd>
+            </div>
+            <div class="register__row">
+              <dt class="register__label">Hub</dt>
+              <dd class="register__value">{coverage.primaryHub}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="commission__form">
+        <div class="tabs">
+          <div class="tabs__list" role="tablist" aria-label="Enquiry type">
+            <button
+              class="tabs__tab"
+              id="tab-survey"
+              role="tab"
+              type="button"
+              aria-selected="true"
+              aria-controls="panel-survey"
+              tabindex="0"
+            >
+              Site survey
+            </button>
+            <button
+              class="tabs__tab"
+              id="tab-advertising"
+              role="tab"
+              type="button"
+              aria-selected="false"
+              aria-controls="panel-advertising"
+              tabindex="-1"
+            >
+              Advertising
+            </button>
+          </div>
+
+          <div
+            class="tabs__panel"
+            id="panel-survey"
+            role="tabpanel"
+            aria-labelledby="tab-survey"
+            tabindex="0"
+          >
+            <InquiryForm />
+          </div>
+
+          <div
+            class="tabs__panel"
+            id="panel-advertising"
+            role="tabpanel"
+            aria-labelledby="tab-advertising"
+            tabindex="0"
+            hidden
+          >
+            <AdvertisingForm />
+          </div>
+        </div>
+
+        <p class="commission__response small">{commission.responseNote}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .commission__split {
+    border-top: 1px solid var(--ink);
+    padding-top: clamp(28px, 3vw, 40px);
+  }
+
+  .commission__lede {
+    margin-top: 18px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
+    max-width: 40ch;
+  }
+
+  .commission__assurances {
+    display: grid;
+    gap: 8px;
+    margin: 24px 0 0;
+    padding: 0;
+  }
+
+  .commission__assurances li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+
+  .commission__assurances li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 9px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .commission__contact {
+    margin-top: 26px;
+  }
+
+  .commission__response {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .tabs__list {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tabs__tab {
+    min-height: 44px;
+    padding: 10px 18px;
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    transition:
+      color var(--fast) var(--ease),
+      border-color var(--fast) var(--ease);
+  }
+
+  .tabs__tab:hover {
+    color: var(--ink);
+  }
+
+  .tabs__tab[aria-selected='true'] {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+
+  .tabs__tab:first-child {
+    padding-left: 0;
+  }
+
+  .tabs__panel {
+    padding-top: 24px;
+  }
+
+  .tabs__panel:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 6px;
+  }
+
+  @media (max-width: 1023px) {
+    .commission__lede {
+      max-width: 60ch;
+    }
+  }
+</style>
+
+<script>
+  const tablist = document.querySelector<HTMLElement>('.tabs__list');
+  if (tablist) {
+    const tabs = Array.from(tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+
+    const select = (index: number, focus = true) => {
+      tabs.forEach((tab, i) => {
+        const selected = i === index;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        const panel = document.getElementById(tab.getAttribute('aria-controls') ?? '');
+        if (panel) panel.hidden = !selected;
+      });
+      if (focus) tabs[index]?.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => select(index, false));
+      tab.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+        event.preventDefault();
+        const next =
+          event.key === 'ArrowRight'
+            ? (index + 1) % tabs.length
+            : (index - 1 + tabs.length) % tabs.length;
+        select(next);
+      });
+    });
+  }
+</script>

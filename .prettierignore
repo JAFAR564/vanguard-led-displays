@@ -1,0 +1,12 @@
+dist/
+node_modules/
+.astro/
+.vercel/
+data/
+public/assets/
+package-lock.json
+docs/
+AGENTS.md
+DESIGN.md
+HANDOVER.md
+.agents/

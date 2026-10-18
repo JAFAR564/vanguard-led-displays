@@ -1,0 +1,176 @@
+---
+import { Image } from 'astro:assets';
+import { siteConfig } from '../config/site';
+import estateImage from '../assets/application-estate.jpg';
+import commercialImage from '../assets/application-commercial.jpg';
+
+const { applications } = siteConfig;
+---
+
+<section class="section applications" id="applications" aria-labelledby="applications-heading">
+  <div class="container">
+    <div class="split split--4-8 sections__head">
+      <div>
+        <p class="section__index">
+          <span>{applications.index}</span>
+          <span>{applications.eyebrow}</span>
+        </p>
+        <h2 id="applications-heading">{applications.heading}</h2>
+      </div>
+      <div class="applications__intro">
+        <p class="section__lede">{applications.lede}</p>
+        <p class="applications__thesis mono">{applications.thesis}</p>
+      </div>
+    </div>
+
+    <div class="applications__plates split split--6-6">
+      <figure class="plate">
+        <div class="plate__frame plate__frame--lock">
+          <Image
+            src={estateImage}
+            alt={applications.plates.estate.alt}
+            widths={[480, 720, 960, 1280]}
+            sizes="(max-width: 1023px) 92vw, 46vw"
+            loading="lazy"
+          />
+        </div>
+        <figcaption>{applications.plates.estate.caption}</figcaption>
+      </figure>
+
+      <figure class="plate">
+        <div class="plate__frame plate__frame--lock">
+          <Image
+            src={commercialImage}
+            alt={applications.plates.commercial.alt}
+            widths={[480, 720, 960, 1212]}
+            sizes="(max-width: 1023px) 92vw, 46vw"
+            loading="lazy"
+          />
+        </div>
+        <figcaption>{applications.plates.commercial.caption}</figcaption>
+      </figure>
+    </div>
+
+    <ul class="applications__list" role="list">
+      {applications.items.map((item) => (
+        <li class="applications__item">
+          <p class="applications__index mono">Application {item.index}</p>
+          <h3 class="applications__title">{item.title}</h3>
+          <p class="applications__body">{item.body}</p>
+          <ul class="applications__points" role="list">
+            {item.points.map((point) => (
+              <li>{point}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .sections__head {
+    margin-bottom: clamp(36px, 4vw, 56px);
+  }
+
+  .applications__intro {
+    display: grid;
+    gap: 18px;
+    padding-top: 6px;
+  }
+
+  .applications__thesis {
+    margin: 0;
+    max-width: 58ch;
+    line-height: 1.6;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: var(--text-2);
+  }
+
+  /* Both plates are locked to the same ratio: the commercial source is
+     near-square after cropping, the estate source is 3:2. */
+  .plate__frame--lock {
+    aspect-ratio: 4 / 3;
+  }
+
+  .applications__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .applications__item {
+    padding: 24px clamp(20px, 2.4vw, 32px) 8px 0;
+    border-right: 1px solid var(--rule);
+  }
+
+  .applications__item:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .applications__item:not(:first-child) {
+    padding-left: clamp(20px, 2.4vw, 32px);
+  }
+
+  .applications__index {
+    margin: 0 0 14px;
+  }
+
+  .applications__title {
+    font-size: var(--step-2);
+    max-width: 16ch;
+  }
+
+  .applications__body {
+    margin-top: 12px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  .applications__points {
+    margin: 18px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+
+  .applications__points li {
+    position: relative;
+    padding-left: 16px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    color: var(--text-3);
+  }
+
+  .applications__points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 8px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  @media (max-width: 1023px) {
+    .applications__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .applications__item {
+      border-right: 0;
+      border-bottom: 1px solid var(--rule);
+      padding: 22px 0;
+    }
+    .applications__item:not(:first-child) {
+      padding-left: 0;
+    }
+  }
+</style>

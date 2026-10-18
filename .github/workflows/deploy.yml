@@ -1,0 +1,93 @@
+name: deploy
+
+# Manual, opt-in deployment to Vercel.
+#
+# The repository is normally deployed by Vercel's own Git integration: importing
+# the project at vercel.com sets VERCEL=1, which switches astro.config.mjs to the
+# Vercel adapter. This workflow exists for environments that cannot reach the
+# Vercel API directly and for triggering a production deploy from GitHub.
+#
+# Required repository secrets:
+#   VERCEL_TOKEN       — account token from vercel.com/account/tokens
+#   VERCEL_ORG_ID      — from `vercel link` → .vercel/project.json
+#   VERCEL_PROJECT_ID  — from `vercel link` → .vercel/project.json
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Deploy target
+        type: choice
+        options: [production, preview]
+        default: production
+
+concurrency:
+  group: deploy-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Verify
+        run: |
+          npm run lint
+          npm run format:check
+          npm run check
+
+      - name: Pull Vercel environment
+        run: |
+          npx vercel@latest pull --yes \
+            --environment=${{ inputs.target == 'production' && 'production' || 'preview' }} \
+            --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build
+        run: |
+          npx vercel@latest build \
+            ${{ inputs.target == 'production' && '--prod' || '' }} \
+            --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy
+        id: deploy
+        run: |
+          url=$(npx vercel@latest deploy --prebuilt \
+            ${{ inputs.target == 'production' && '--prod' || '' }} \
+            --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke test
+        run: |
+          url="${{ steps.deploy.outputs.url }}"
+          echo "Deployed to $url"
+          for path in / /about /sitemap.xml /robots.txt; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$url$path")
+            echo "$path -> $code"
+            [ "$code" = "200" ] || exit 1
+          done
+          # The API must answer 405 to GET, not 404.
+          api=$(curl -s -o /dev/null -w '%{http_code}' "$url/api/enquiry")
+          echo "/api/enquiry -> $api"
+          [ "$api" = "405" ] || exit 1
+
+      - name: Summary
+        run: |
+          {
+            echo "### Deployed to Vercel"
+            echo
+            echo "- Target: \`${{ inputs.target }}\`"
+            echo "- URL: ${{ steps.deploy.outputs.url }}"
+            echo "- Commit: \`${{ github.sha }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"

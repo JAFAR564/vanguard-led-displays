@@ -1,0 +1,94 @@
+---
+import { siteConfig } from '../config/site';
+
+const { specifications } = siteConfig;
+---
+
+<section
+  class="section specifications"
+  id="specifications"
+  aria-labelledby="specifications-heading"
+>
+  <div class="container">
+    <div class="split split--4-8 specifications__head">
+      <div>
+        <p class="section__index">
+          <span>{specifications.index}</span>
+          <span>{specifications.eyebrow}</span>
+        </p>
+        <h2 id="specifications-heading">{specifications.heading}</h2>
+      </div>
+      <div>
+        <p class="section__lede">{specifications.lede}</p>
+      </div>
+    </div>
+
+    <div class="specifications__groups split split--6-6">
+      {specifications.groups.map((group) => (
+        <section class="spec-group" aria-labelledby={`spec-${group.id}`}>
+          <div class="spec-group__head">
+            <h3 id={`spec-${group.id}`} class="spec-group__title">
+              {group.label}
+            </h3>
+            <p class="spec-group__caption">{group.caption}</p>
+          </div>
+          <dl class="register spec-group__rows">
+            {group.rows.map((row) => (
+              <div class="register__row">
+                <dt class="register__label">{row.label}</dt>
+                <dd class="register__value numeric">{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))}
+    </div>
+
+    <p class="specifications__note small">{specifications.note}</p>
+  </div>
+</section>
+
+<style>
+  .specifications__head {
+    margin-bottom: clamp(36px, 4vw, 56px);
+  }
+
+  .spec-group__head {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .spec-group__title {
+    font-size: var(--step-2);
+  }
+
+  .spec-group__caption {
+    margin-top: 6px;
+    font-size: 0.875rem;
+    color: var(--text-3);
+  }
+
+  .spec-group__rows {
+    border-top: 0;
+  }
+
+  .spec-group__rows .register__value {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
+    color: var(--text-1);
+  }
+
+  .specifications__note {
+    max-width: 76ch;
+    margin-top: clamp(28px, 3vw, 40px);
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (max-width: 1023px) {
+    .specifications__groups {
+      row-gap: 40px;
+    }
+  }
+</style>

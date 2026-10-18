@@ -9,15 +9,13 @@ node_modules/
 .env.*
 !.env.example
 
-# OS and Editor
+# OS and editor
 .DS_Store
 Thumbs.db
 *.log
 
-# Captured Leads Ledger (POPIA Compliance)
+# Captured leads ledger (POPIA)
 data/*.jsonl
 
-# Large raw video binaries (>100MB)
+# Large raw video binaries
 *.raw.mp4
-.vercel
-.env*

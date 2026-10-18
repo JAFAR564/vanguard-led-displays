@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { siteConfig } from '../config/site';
-import estateImage from '../assets/application-estate.jpg';
+import riggingImage from '../assets/rigging.jpg';
 import commercialImage from '../assets/application-commercial.jpg';
 
 const { applications } = siteConfig;
@@ -27,14 +27,14 @@ const { applications } = siteConfig;
       <figure class="plate">
         <div class="plate__frame plate__frame--lock">
           <Image
-            src={estateImage}
-            alt={applications.plates.estate.alt}
+            src={riggingImage}
+            alt={applications.plates.rigging.alt}
             widths={[480, 720, 960, 1280]}
             sizes="(max-width: 1023px) 92vw, 46vw"
             loading="lazy"
           />
         </div>
-        <figcaption>{applications.plates.estate.caption}</figcaption>
+        <figcaption>{applications.plates.rigging.caption}</figcaption>
       </figure>
 
       <figure class="plate">

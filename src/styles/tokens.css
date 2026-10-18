@@ -752,11 +752,19 @@ strong {
 }
 
 .hpot {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+/* The `hidden` attribute must win over component `display` declarations.
+   Without this, `.callout { display: flex }` (and similar) keep marked-up
+   elements — the form status banner, tab panels, field errors — rendered. */
+[hidden] {
+  display: none !important;
 }
 
 /* Accessibility ---------------------------------------------------------- */

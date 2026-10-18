@@ -23,11 +23,15 @@ import { siteConfig } from '../config/site';
     background: var(--rule);
     border-top: 1px solid var(--ink);
     padding-bottom: env(safe-area-inset-bottom, 0);
-    transition: transform var(--normal) var(--ease);
+    transition:
+      transform var(--normal) var(--ease),
+      opacity var(--normal) var(--ease);
   }
 
   .sticky-cta[data-hidden='true'] {
     transform: translateY(120%);
+    opacity: 0;
+    pointer-events: none;
   }
 
   .sticky-cta__btn {
@@ -75,14 +79,25 @@ import { siteConfig } from '../config/site';
 <script>
   const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
   const commission = document.querySelector('#commission');
+  const footer = document.querySelector('footer');
 
-  if (bar && commission && 'IntersectionObserver' in window) {
+  if (bar && 'IntersectionObserver' in window) {
+    // Track every region that already offers its own call to action, so the bar
+    // stops covering the form and the footer's own button.
+    const covering = new Set<Element>();
+
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        bar.dataset.hidden = String(entry.isIntersecting);
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) covering.add(entry.target);
+          else covering.delete(entry.target);
+        }
+        bar.dataset.hidden = String(covering.size > 0);
       },
-      { rootMargin: '0px 0px -20% 0px' },
+      { rootMargin: '0px 0px -15% 0px' },
     );
-    observer.observe(commission);
+
+    if (commission) observer.observe(commission);
+    if (footer) observer.observe(footer);
   }
 </script>

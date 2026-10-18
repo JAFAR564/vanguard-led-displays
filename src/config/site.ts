@@ -66,8 +66,6 @@ export const siteConfig = {
     { label: 'Case study', href: '/#case-study' },
     { label: 'Method', href: '/#method' },
     { label: 'Specifications', href: '/#specifications' },
-    { label: 'Models', href: '/#commercial' },
-    { label: 'Questions', href: '/#questions' },
     { label: 'Studio', href: '/about' },
   ],
 
@@ -143,9 +141,9 @@ export const siteConfig = {
       },
     ] satisfies Application[],
     plates: {
-      estate: {
-        caption: 'Plate 02 — residential estate approach, Garden Route.',
-        alt: 'LED display and landscape signage at the entrance of a residential estate in the Western Cape.',
+      rigging: {
+        caption: 'Plate 02 — cabinet rigging during installation, Garden Route.',
+        alt: 'A technician on a ladder fixing LED display cabinets to a wall mounting frame, with cabling coiled on the ground below.',
       },
       commercial: {
         caption: 'Plate 03 — commercial display, forecourt elevation.',

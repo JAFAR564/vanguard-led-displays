@@ -125,7 +125,7 @@
 <style>
   .hero-scroll-track {
     position: relative;
-    height: 300vh;
+    height: 360vh;
     width: 100%;
     max-width: 100%;
     background-color: var(--color-bg-obsidian);
@@ -142,6 +142,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    will-change: transform, opacity, border-radius;
+    transform-origin: center center;
+    border-radius: 0px;
   }
 
   /* Canvas styling */
@@ -602,24 +605,31 @@
       return start + (end - start) * factor;
     }
 
-    function updateNarrativeBeats(progress: number) {
-      // Beat 1: 0% to 28%
-      const inBeat1 = progress <= 0.28;
-      // Beat 2: 32% to 62%
-      const inBeat2 = progress >= 0.32 && progress <= 0.62;
-      // Beat 3: 66% to 100%
-      const inBeat3 = progress >= 0.66;
+    const stickyStage = document.getElementById('sticky-stage') as HTMLElement | null;
+    const SCRUB_END = 0.68; // 68% of 360vh track is dedicated to video camera move
+
+    function updateNarrativeBeats(scrubProgress: number, totalProgress: number) {
+      // Beat 1: 0% to 28% of scrub
+      const inBeat1 = scrubProgress <= 0.28 && totalProgress < SCRUB_END + 0.1;
+      // Beat 2: 32% to 62% of scrub
+      const inBeat2 = scrubProgress >= 0.32 && scrubProgress <= 0.62 && totalProgress < SCRUB_END + 0.1;
+      // Beat 3: 66% to 100% of scrub, fading out as sheet lifts
+      const inBeat3 = scrubProgress >= 0.66 && totalProgress < SCRUB_END + 0.08;
 
       if (beat1) beat1.classList.toggle('active', inBeat1);
       if (beat2) beat2.classList.toggle('active', inBeat2);
       if (beat3) beat3.classList.toggle('active', inBeat3);
 
       if (telemetryFill) {
-        telemetryFill.style.width = `${Math.round(progress * 100)}%`;
+        telemetryFill.style.width = `${Math.round(scrubProgress * 100)}%`;
       }
       if (telemetryFrame) {
-        const frameNum = Math.min(Math.floor(progress * (TOTAL_FRAMES - 1)) + 1, TOTAL_FRAMES);
-        telemetryFrame.textContent = `FRM ${String(frameNum).padStart(2, '0')}/${TOTAL_FRAMES}`;
+        if (totalProgress > SCRUB_END + 0.05) {
+          telemetryFrame.textContent = 'UNVEILING ARCHITECTURE';
+        } else {
+          const frameNum = Math.min(Math.floor(scrubProgress * (TOTAL_FRAMES - 1)) + 1, TOTAL_FRAMES);
+          telemetryFrame.textContent = `FRM ${String(frameNum).padStart(2, '0')}/${TOTAL_FRAMES}`;
+        }
       }
     }
 
@@ -627,7 +637,9 @@
       // Linear interpolation smoothing out mobile touch scrolling
       currentProgress = lerp(currentProgress, targetProgress, 0.08);
 
-      const targetFrame = Math.round(currentProgress * (TOTAL_FRAMES - 1));
+      // Phase 1: Frame Scrub (0% to 68%)
+      const scrubProgress = Math.min(1, currentProgress / SCRUB_END);
+      const targetFrame = Math.round(scrubProgress * (TOTAL_FRAMES - 1));
       const clampedFrame = Math.max(0, Math.min(targetFrame, TOTAL_FRAMES - 1));
 
       if (clampedFrame !== currentRenderIndex) {
@@ -635,7 +647,27 @@
         renderFrame(currentRenderIndex);
       }
 
-      updateNarrativeBeats(currentProgress);
+      updateNarrativeBeats(scrubProgress, currentProgress);
+
+      // Phase 2: Apple Sheet Transition Window (68% to 100%)
+      if (stickyStage) {
+        if (currentProgress > SCRUB_END) {
+          const transitionT = Math.min(1, (currentProgress - SCRUB_END) / (1 - SCRUB_END));
+          // Smoothstep curve for natural physical deceleration
+          const easeT = transitionT * transitionT * (3 - 2 * transitionT);
+          const scale = 1.0 - (0.06 * easeT);
+          const opacity = 1.0 - (0.35 * easeT);
+          const radius = 24 * easeT;
+
+          stickyStage.style.transform = `scale3d(${scale.toFixed(4)}, ${scale.toFixed(4)}, 1)`;
+          stickyStage.style.opacity = `${opacity.toFixed(3)}`;
+          stickyStage.style.borderRadius = `${radius.toFixed(1)}px`;
+        } else {
+          stickyStage.style.transform = 'scale3d(1, 1, 1)';
+          stickyStage.style.opacity = '1';
+          stickyStage.style.borderRadius = '0px';
+        }
+      }
 
       // Keep animation loop alive if there is significant delta
       if (Math.abs(targetProgress - currentProgress) > 0.0005) {

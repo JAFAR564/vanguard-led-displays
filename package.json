@@ -10,6 +10,7 @@
     "preview": "node ./node_modules/astro/astro.js preview",
     "serve": "HOST=0.0.0.0 PORT=4321 node ./dist/server/entry.mjs",
     "leads": "node ./scripts/view-leads.mjs",
+    "extract-frames": "bash scripts/extract-frames.sh",
     "astro": "node ./node_modules/astro/astro.js"
   },
   "dependencies": {

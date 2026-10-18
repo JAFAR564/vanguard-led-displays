@@ -164,6 +164,14 @@ const project = siteConfig.featuredProject;
     margin-bottom: 2rem;
   }
 
+  @media (max-width: 639px) {
+    .horizontal-stat-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem 1rem;
+    }
+  }
+
   .stat-item {
     display: flex;
     flex-direction: column;

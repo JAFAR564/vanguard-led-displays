@@ -47,7 +47,7 @@ const comparisonRows = [
       </h2>
     </div>
 
-    <!-- Borderless Comparison Table with Shared Hairline Rows -->
+    <!-- Desktop Comparison Table (>= 768px) -->
     <div class="table-container">
       <table class="borderless-table" role="table">
         <thead>
@@ -68,6 +68,25 @@ const comparisonRows = [
         </tbody>
       </table>
     </div>
+
+    <!-- Mobile Comparison View (< 768px) -->
+    <div class="mobile-matrix-list">
+      {comparisonRows.map((row) => (
+        <div class="mobile-matrix-card">
+          <div class="mobile-matrix-param-tag">{row.parameter}</div>
+          
+          <div class="mobile-matrix-spec">
+            <span class="mobile-spec-badge">Outdoor Weatherproof</span>
+            <p class="mobile-spec-desc">{row.outdoor}</p>
+          </div>
+
+          <div class="mobile-matrix-spec">
+            <span class="mobile-spec-badge mobile-spec-badge--indoor">Indoor Commercial</span>
+            <p class="mobile-spec-desc">{row.indoor}</p>
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
 
@@ -87,6 +106,79 @@ const comparisonRows = [
     border-collapse: collapse;
     text-align: left;
     min-width: 680px;
+  }
+
+  /* Mobile Comparison Cards (< 768px) */
+  .mobile-matrix-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  .mobile-matrix-card {
+    padding: 1.5rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border-hairline);
+    border-radius: var(--radius-sm);
+  }
+
+  .mobile-matrix-param-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border-hairline);
+  }
+
+  .mobile-matrix-spec {
+    margin-bottom: 1rem;
+  }
+
+  .mobile-matrix-spec:last-child {
+    margin-bottom: 0;
+  }
+
+  .mobile-spec-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-stone);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-pill);
+    margin-bottom: 0.35rem;
+  }
+
+  .mobile-spec-badge--indoor {
+    color: #1E293B;
+    background-color: #E2E8F0;
+  }
+
+  .mobile-spec-desc {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-matrix-list {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .table-container {
+      display: none;
+    }
   }
 
   .table-header-row {

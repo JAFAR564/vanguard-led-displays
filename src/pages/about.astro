@@ -545,6 +545,31 @@ const indoorSpecs = siteConfig.hardwareBenchmarks.indoor;
     margin: 0;
   }
 
+  @media (max-width: 639px) {
+    .hardware-tier-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .spec-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .spec-row dd {
+      text-align: left;
+    }
+
+    .cta-banner-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .cta-banner-actions .btn {
+      width: 100%;
+    }
+  }
+
   /* Dark Section Styling */
   .section--dark {
     background-color: #0B0F17;

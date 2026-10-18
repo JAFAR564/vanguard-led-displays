@@ -451,6 +451,23 @@
     font-weight: 600;
   }
 
+  @media (max-width: 639px) {
+    .segmented-control {
+      flex-direction: column;
+      border-radius: var(--radius-md);
+      padding: 6px;
+      gap: 6px;
+    }
+
+    .segmented-btn {
+      width: 100%;
+      text-align: center;
+      border-radius: var(--radius-sm);
+      padding: 0.625rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+
   .minimal-form {
     display: flex;
     flex-direction: column;

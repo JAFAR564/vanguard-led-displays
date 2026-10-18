@@ -41,17 +41,19 @@ const layers = [
       ))}
     </div>
 
-    <!-- Engineering Hardware Chassis Visual Frame -->
-    <div class="chassis-engineering-frame">
-      <img 
-        src="/assets/hardware-exploded-chassis.webp" 
-        alt="Exploded isometric engineering CAD visualization of Vanguard modular die-cast aluminium display chassis with Micro-COB matrix and IP65 perimeter seal"
-        width="1672"
-        height="941"
-        loading="lazy"
-        decoding="async"
-        class="chassis-engineering-img"
-      />
+    <!-- Seamless Architectural Hardware Visual Canvas -->
+    <div class="chassis-visual-canvas">
+      <div class="chassis-img-wrap">
+        <img 
+          src="/assets/hardware-exploded-chassis.webp" 
+          alt="Exploded isometric engineering CAD visualization of Vanguard modular die-cast aluminium display chassis with Micro-COB matrix and IP65 perimeter seal"
+          width="1672"
+          height="941"
+          loading="lazy"
+          decoding="async"
+          class="chassis-engineering-img"
+        />
+      </div>
       <div class="chassis-caption-strip">
         <div class="caption-metric-group">
           <span class="caption-metric-label">CHASSIS BLUEPRINT</span>
@@ -181,19 +183,29 @@ const layers = [
     max-width: 36ch;
   }
 
-  /* Engineering Hardware Chassis Visual Frame */
-  .chassis-engineering-frame {
-    margin-top: clamp(3rem, 6vw, 4.5rem);
-    border: 1px solid var(--color-border-dark);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background-color: var(--color-bg-dark-elev);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  #architecture {
+    background-color: #0D0F12;
+    background-image: radial-gradient(ellipse 75% 65% at 50% 55%, #141820 0%, #0D0F12 70%);
   }
 
-  .chassis-engineering-frame:hover {
-    border-color: #334155;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  /* Seamless Floating 3D Hardware Canvas */
+  .chassis-visual-canvas {
+    margin-top: clamp(3.5rem, 7vw, 5.5rem);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .chassis-img-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Softly melt all outer edges into 100% transparency while preserving callout labels */
+    mask-image: radial-gradient(ellipse 96% 88% at 50% 50%, black 68%, rgba(0, 0, 0, 0.9) 82%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 96% 88% at 50% 50%, black 68%, rgba(0, 0, 0, 0.9) 82%, transparent 100%);
   }
 
   .chassis-engineering-img {
@@ -202,23 +214,33 @@ const layers = [
     display: block;
     aspect-ratio: 16 / 9;
     object-fit: cover;
+    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.65));
   }
 
+  /* Architectural Telemetry Capsule Strip */
   .chassis-caption-strip {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem 1.5rem;
-    background-color: rgba(11, 15, 23, 0.95);
-    border-top: 1px solid var(--color-border-dark);
+    gap: 0.65rem;
+    padding: 0.75rem 1.4rem;
+    background: rgba(14, 18, 26, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-pill);
     font-family: var(--font-mono);
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 860px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   }
 
-  @media (min-width: 640px) {
+  @media (min-width: 768px) {
     .chassis-caption-strip {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      width: auto;
     }
   }
 
@@ -228,7 +250,7 @@ const layers = [
     gap: 0.2rem;
   }
 
-  @media (min-width: 640px) {
+  @media (min-width: 768px) {
     .caption-metric-group {
       flex-direction: row;
       align-items: center;
@@ -251,6 +273,7 @@ const layers = [
     font-size: 0.6875rem;
     color: var(--color-accent-cyan);
     letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 </style>
 

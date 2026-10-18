@@ -20,4 +20,11 @@ export default defineConfig({
   site: 'https://leddisplays.co.za',
   trailingSlash: 'ignore',
   compressHTML: true,
+  vite: {
+    server: {
+      watch: {
+        ignored: ['**/.vercel/**', '**/data/**', '**/*.raw.mp4']
+      }
+    }
+  }
 });

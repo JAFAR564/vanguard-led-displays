@@ -122,6 +122,27 @@ redeploy.
 
 **CLI path:** `npx vercel link`, `npx vercel env pull`, `npx vercel --prod`.
 
+#### Deployment protection
+
+Branch preview URLs (`<project>-git-<branch>-<team>.vercel.app`) sit behind **Vercel
+Authentication** under the default *Standard Protection*. Opening one in a browser that is not
+signed in to Vercel returns the login page, which is expected — the deployment itself is fine.
+Under Standard Protection only the production domain is public.
+
+To open a preview without signing in, pick one:
+
+1. **Promote the deployment** — *Deployments* → the build → ⋯ → *Promote to Production*. It then
+   serves on the production domain, which Standard Protection does not gate.
+2. **Turn the gate off** — *Settings* → *Deployment Protection* → *Vercel Authentication*. On
+   Hobby this can be limited; if the option is greyed out, use (1) or (3).
+3. **Bypass link** — *Settings* → *Deployment Protection* → *Protection Bypass for Automation* →
+   create a secret, then share
+   `https://<preview-url>?x-vercel-protection-bypass=<secret>&x-vercel-set-bypass-cookie=samesitenone`.
+   Treat the URL as a credential: anyone holding it bypasses the gate.
+
+Note that `master` still carries the previous build; until this branch is merged, the production
+domain serves the old site and only the protected preview carries the redesign.
+
 Environment variables required before the site can accept enquiries:
 
 | Variable | Required | Notes |

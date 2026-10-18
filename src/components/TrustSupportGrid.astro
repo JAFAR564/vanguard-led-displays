@@ -40,6 +40,26 @@ const layers = [
         </div>
       ))}
     </div>
+
+    <!-- Engineering Hardware Chassis Visual Frame -->
+    <div class="chassis-engineering-frame">
+      <img 
+        src="/assets/hardware-exploded-chassis.webp" 
+        alt="Exploded isometric engineering CAD visualization of Vanguard modular die-cast aluminium display chassis with Micro-COB matrix and IP65 perimeter seal"
+        width="1672"
+        height="941"
+        loading="lazy"
+        decoding="async"
+        class="chassis-engineering-img"
+      />
+      <div class="chassis-caption-strip">
+        <div class="caption-metric-group">
+          <span class="caption-metric-label">CHASSIS BLUEPRINT</span>
+          <span class="caption-metric-value">Die-Cast Thermal Aluminium · IP65 Hermetic Ingress · Dual Front/Rear Fast-Latch</span>
+        </div>
+        <span class="caption-telemetry-tag">100% MODULAR CUSTODY</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -107,5 +127,77 @@ const layers = [
     line-height: 1.65;
     color: var(--color-text-muted-dark);
     max-width: 36ch;
+  }
+
+  /* Engineering Hardware Chassis Visual Frame */
+  .chassis-engineering-frame {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-bg-dark-elev);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .chassis-engineering-frame:hover {
+    border-color: #334155;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .chassis-engineering-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .chassis-caption-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background-color: rgba(11, 15, 23, 0.95);
+    border-top: 1px solid var(--color-border-dark);
+    font-family: var(--font-mono);
+  }
+
+  @media (min-width: 640px) {
+    .chassis-caption-strip {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .caption-metric-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  @media (min-width: 640px) {
+    .caption-metric-group {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+    }
+  }
+
+  .caption-metric-label {
+    font-size: 0.6875rem;
+    color: var(--color-accent-cyan);
+    letter-spacing: 0.08em;
+  }
+
+  .caption-metric-value {
+    font-size: 0.75rem;
+    color: var(--color-text-muted-dark);
+  }
+
+  .caption-telemetry-tag {
+    font-size: 0.6875rem;
+    color: var(--color-accent-cyan);
+    letter-spacing: 0.08em;
   }
 </style>

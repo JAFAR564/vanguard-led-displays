@@ -176,6 +176,23 @@ const indoorSpecs = siteConfig.hardwareBenchmarks.indoor;
             </dl>
           </div>
         </div>
+
+        <!-- Hardware Chassis Exploded Visualization -->
+        <div class="about-chassis-frame">
+          <img 
+            src="/assets/hardware-exploded-chassis.webp" 
+            alt="Isometric CAD exploded view of Vanguard modular die-cast aluminium display chassis with Micro-COB surface matrix"
+            width="1672"
+            height="941"
+            loading="lazy"
+            decoding="async"
+            class="about-chassis-img"
+          />
+          <div class="about-chassis-caption">
+            <span class="caption-tag">Chassis Engineering</span>
+            <span class="caption-desc">Precision die-cast aluminium chassis · IP65 hermetic perimeter · Front vacuum-magnetic extraction</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -673,5 +690,56 @@ const indoorSpecs = siteConfig.hardwareBenchmarks.indoor;
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
+  }
+
+  /* Hardware Chassis Exploded Visualization */
+  .about-chassis-frame {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    border: 1px solid var(--color-border-hairline);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background-color: var(--color-bg-obsidian);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .about-chassis-frame:hover {
+    border-color: #CBD5E1;
+    box-shadow: 0 12px 32px rgba(11, 15, 23, 0.08);
+  }
+
+  .about-chassis-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .about-chassis-caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.25rem;
+    background-color: #0F141C;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .about-chassis-caption {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .about-chassis-caption .caption-tag {
+    color: var(--color-accent-cyan);
+    font-weight: 500;
+  }
+
+  .about-chassis-caption .caption-desc {
+    color: #9CA3AF;
   }
 </style>

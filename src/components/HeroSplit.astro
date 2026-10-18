@@ -1,348 +1,133 @@
 ---
-/**
- * HeroSplit.astro
- * 
- * Minimalist Architectural Hero with authentic estate amphitheater visual.
- * Implements tasteful, fluid entrance motion and hardware telemetry pulses.
- */
+import { Image } from 'astro:assets';
+import { siteConfig } from '../config/site';
+import heroImage from '../assets/hero-estate.jpg';
+
+const { hero } = siteConfig;
 ---
 
-<section class="hero-section" id="hero" aria-labelledby="hero-heading">
-  <div class="container hero-container">
-    <div class="hero-header">
-      
-      <!-- Architectural Telemetry Eyebrow -->
-      <div class="hero-eyebrow-row">
-        <span class="section-index">01 / ARCHITECTURAL INFRASTRUCTURE</span>
-        <div class="telemetry-badge">
-          <span class="telemetry-live-dot" aria-hidden="true"></span>
-          <span class="telemetry-live-text">ONLINE · GARDEN ROUTE HUB</span>
+<section class="hero" id="hero" aria-labelledby="hero-heading">
+  <div class="container">
+    <div class="split split--5-7 hero__split">
+      <div class="hero__copy">
+        <p class="eyebrow">{hero.eyebrow}</p>
+        <h1 id="hero-heading" class="hero__heading">
+          {hero.heading}
+        </h1>
+        <p class="hero__standfirst">{hero.standfirst}</p>
+
+        <div class="btn-row hero__actions">
+          <a class="btn" href={hero.primaryCta.href}>
+            {hero.primaryCta.label}
+          </a>
+          <a class="btn btn--ghost" href={hero.secondaryCta.href}>
+            {hero.secondaryCta.label}
+          </a>
         </div>
+
+        <dl class="hero__register">
+          {hero.register.map((row) => (
+            <div class="hero__register-row">
+              <dt class="mono">{row.label}</dt>
+              <dd>{row.value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
 
-      <h1 id="hero-heading" class="hero-title">
-        Installed LED Displays for Architecture & Property
-      </h1>
-      
-      <p class="hero-subtext">
-        Turnkey digital infrastructure for South African residential estates and commercial precincts. Engineered for daylight legibility, municipal compliance, and seamless daily operation.
-      </p>
-
-      <div class="hero-actions">
-        <a href="#inquiry" class="btn btn-dark hero-primary-btn">
-          <span>Book On-Site Assessment</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
-        <a href="#featured-project" class="hero-secondary-link">
-          <span>View Flagship Project</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- Full-Bleed Architectural Visual Frame with Subtle Ambient Reveal -->
-    <div class="hero-dusk-visual">
-      <div class="hero-image-wrapper">
-        <img 
-          src="/assets/hero-amphitheater-estate.jpg" 
-          alt="Architectural outdoor LED display screen integrated into estate amphitheater wall with live broadcast"
-          width="1600"
-          height="1066"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-          class="hero-dusk-image"
-        />
-        <div class="image-ambient-glow" aria-hidden="true"></div>
-      </div>
-
-      <div class="visual-caption-bar">
-        <div class="caption-left">
-          <span class="caption-location">George, Western Cape</span>
-          <span class="caption-pill">Turnkey SLA</span>
+      <figure class="plate hero__plate">
+        <div class="plate__frame hero__frame">
+          <Image
+            src={heroImage}
+            alt={hero.plate.alt}
+            widths={[480, 720, 960, 1280, 1600]}
+            sizes="(max-width: 1023px) 92vw, 55vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <span class="hero__frame-index mono" aria-hidden="true">
+            Ref. 01
+          </span>
         </div>
-        <span class="caption-spec">P4.8 Outdoor LED Wall · 6,500 Nits · Synchronised Amphitheater Audio</span>
-      </div>
+        <figcaption>{hero.plate.caption}</figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
 <style>
-  .hero-section {
-    padding-top: clamp(3.5rem, 6vw, 5.5rem);
-    padding-bottom: clamp(4rem, 7vw, 6.5rem);
-    background-color: var(--color-bg-primary);
-    border-bottom: 1px solid var(--color-border-hairline);
-    position: relative;
+  .hero {
+    padding-top: calc(var(--header-h) + clamp(40px, 6vw, 88px));
+    padding-bottom: clamp(48px, 6vw, 96px);
   }
 
-  .hero-header {
-    max-width: 960px;
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  .hero__heading {
+    margin-top: 20px;
+    max-width: 13ch;
   }
 
-  /* Telemetry Eyebrow with Ambient Diode */
-  .hero-eyebrow-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-    animation: heroFadeSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  .hero__standfirst {
+    margin-top: 24px;
+    max-width: 46ch;
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--text-2);
   }
 
-  .section-index {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    color: var(--color-text-muted);
+  .hero__actions {
+    margin-top: 32px;
   }
 
-  .telemetry-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.2rem 0.65rem;
-    border-radius: var(--radius-pill);
-    background-color: var(--color-bg-stone);
-    border: 1px solid var(--color-border-hairline);
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.06em;
-    color: var(--color-text-secondary);
+  .hero__register {
+    margin-top: clamp(32px, 4vw, 48px);
+    border-top: 1px solid var(--rule);
   }
 
-  .telemetry-live-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #10B981;
-    box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
-    animation: livePulse 2.4s infinite ease-in-out;
+  .hero__register-row {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
   }
 
-  @keyframes livePulse {
-    0%, 100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.4;
-      transform: scale(0.85);
-    }
+  .hero__register-row dt {
+    margin: 0;
+    padding-top: 2px;
   }
 
-  .hero-title {
-    font-size: var(--font-size-display);
-    line-height: var(--line-height-display);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    color: var(--color-text-primary);
-    margin-bottom: 1.25rem;
-    animation: heroFadeSlide 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
-    opacity: 0;
-  }
-
-  .hero-subtext {
-    font-size: clamp(1.125rem, 1.5vw, 1.3125rem);
-    line-height: 1.55;
-    color: var(--color-text-secondary);
-    max-width: 62ch;
-    margin-bottom: 2.25rem;
-    animation: heroFadeSlide 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.16s forwards;
-    opacity: 0;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.5rem;
-    animation: heroFadeSlide 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.24s forwards;
-    opacity: 0;
-  }
-
-  @keyframes heroFadeSlide {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media (max-width: 639px) {
-    .hero-actions {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 1rem;
-    }
-
-    .hero-primary-btn {
-      width: 100%;
-      text-align: center;
-      justify-content: center;
-    }
-
-    .hero-secondary-link {
-      justify-content: center;
-    }
-  }
-
-  .hero-primary-btn {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
-  }
-
-  .hero-primary-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(11, 15, 23, 0.12);
-  }
-
-  .hero-secondary-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 44px;
+  .hero__register-row dd {
+    margin: 0;
     font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--color-text-primary);
-    text-decoration: none;
-    transition: color 0.15s ease, transform 0.15s ease;
+    color: var(--text-1);
   }
 
-  .hero-secondary-link:hover {
-    color: var(--color-text-secondary);
-    transform: translateX(2px);
+  .hero__frame {
+    aspect-ratio: 4 / 3;
   }
 
-  /* Full-Bleed Architectural Frame */
-  .hero-dusk-visual {
-    width: 100%;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background-color: var(--color-bg-obsidian);
-    border: 1px solid var(--color-border-hairline);
-    animation: heroImageReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-    opacity: 0;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-  }
-
-  .hero-dusk-visual:hover {
-    border-color: #CBD5E1;
-    box-shadow: 0 12px 32px rgba(11, 15, 23, 0.08);
-  }
-
-  @keyframes heroImageReveal {
-    from {
-      opacity: 0;
-      transform: scale(0.99);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  .hero-image-wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-  }
-
-  .hero-dusk-image {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .hero-dusk-visual:hover .hero-dusk-image {
-    transform: scale(1.015);
-  }
-
-  .image-ambient-glow {
+  .hero__frame-index {
     position: absolute;
-    inset: 0;
-    pointer-events: none;
-    box-shadow: inset 0 0 80px rgba(11, 15, 23, 0.25);
+    top: 10px;
+    left: 10px;
+    padding: 3px 6px;
+    background: var(--paper);
+    color: var(--text-2);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
   }
 
-  .visual-caption-bar {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.875rem 1.25rem;
-    background-color: var(--color-bg-primary);
-    border-top: 1px solid var(--color-border-hairline);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-  }
-
-  @media (min-width: 640px) {
-    .visual-caption-bar {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
+  @media (max-width: 1023px) {
+    .hero__heading {
+      max-width: 16ch;
     }
   }
 
-  .caption-left {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .caption-location {
-    font-weight: 600;
-    color: var(--color-text-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .caption-pill {
-    padding: 0.15rem 0.5rem;
-    border-radius: var(--radius-pill);
-    background-color: var(--color-bg-stone);
-    border: 1px solid var(--color-border-hairline);
-    font-size: 0.6875rem;
-    color: var(--color-text-secondary);
-  }
-
-  .caption-spec {
-    color: var(--color-text-muted);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-eyebrow-row,
-    .hero-title,
-    .hero-subtext,
-    .hero-actions,
-    .hero-dusk-visual {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-    .telemetry-live-dot {
-      animation: none !important;
-    }
-    .hero-dusk-image {
-      transition: none !important;
+  @media (max-width: 560px) {
+    .hero__register-row {
+      grid-template-columns: 84px minmax(0, 1fr);
     }
   }
 </style>

@@ -1,69 +1,35 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
+/**
+ * Append-only JSONL backup ledger.
+ *
+ * Every valid enquiry is written here *before* delivery is attempted, so a
+ * transport outage never loses a lead. The file is git-ignored. On Vercel the
+ * filesystem is ephemeral, which is why a delivery transport is mandatory in
+ * production (see /api/enquiry).
+ */
 
-export interface BaseLead {
-  leadId: string;
+import { appendFile, mkdir } from 'node:fs/promises';
+import { join } from 'node:path';
+
+export interface StoredLead {
+  reference: string;
   submittedAt: string;
-  formType: 'installation_quote' | 'advertising_enquiry';
-  phone: string;
-  email: string;
-  destinationEmail: string;
+  formType: string;
+  sourcePath: string;
+  [key: string]: unknown;
 }
 
-export interface InstallationLead extends BaseLead {
-  formType: 'installation_quote';
-  fullName: string;
-  buyerRole: string;
-  propertyName: string;
-  propertyType: string;
-  townCity: string;
-  environment: string;
-  projectNotes: string;
+export function ledgerDir(): string {
+  if (process.env.LEAD_STORE_DIR) return process.env.LEAD_STORE_DIR;
+  if (process.env.VERCEL) return '/tmp';
+  return join(process.cwd(), 'data');
 }
 
-export interface AdvertisingLead extends BaseLead {
-  formType: 'advertising_enquiry';
-  advName: string;
-  advCompany: string;
-  advNotes: string;
+export function ledgerFile(): string {
+  return join(ledgerDir(), 'leads.jsonl');
 }
 
-export type LeadRecord = InstallationLead | AdvertisingLead;
-
-const DATA_DIR = process.env.VERCEL
-  ? path.join('/tmp', 'data')
-  : path.resolve(process.cwd(), 'data');
-const LEADS_FILE = path.join(DATA_DIR, 'leads.jsonl');
-
-/**
- * Persists a lead record atomically to an append-only JSON Lines file on disk.
- * This guarantees no inquiries are lost across server reboots.
- */
-export async function persistLead(lead: LeadRecord): Promise<void> {
-  try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    const line = JSON.stringify(lead) + '\n';
-    await fs.appendFile(LEADS_FILE, line, 'utf-8');
-    console.log(`[LEAD PERSISTENCE] [DISK SUCCESS] Written to ${LEADS_FILE}`);
-  } catch (err) {
-    console.error('[LEAD PERSISTENCE] [DISK ERROR] Failed to append lead:', err);
-  }
-}
-
-/**
- * Reads all stored leads from disk.
- */
-export async function getAllLeads(): Promise<LeadRecord[]> {
-  try {
-    const content = await fs.readFile(LEADS_FILE, 'utf-8');
-    return content
-      .split('\n')
-      .filter((line: string) => line.trim().length > 0)
-      .map((line: string) => JSON.parse(line));
-  } catch (err: any) {
-    if (err.code === 'ENOENT') {
-      return [];
-    }
-    throw err;
-  }
+export async function persistLead(lead: StoredLead): Promise<void> {
+  const dir = ledgerDir();
+  await mkdir(dir, { recursive: true });
+  await appendFile(ledgerFile(), `${JSON.stringify(lead)}\n`, 'utf8');
 }

@@ -1,0 +1,339 @@
+---
+import { siteConfig } from '../config/site';
+
+const { contact } = siteConfig;
+---
+
+<div class="form-shell">
+  <noscript>
+    <p class="callout">
+      <span>
+        JavaScript is disabled in this browser. Please email
+        <a class="link" href={`mailto:${contact.emailAdvertise}`}>
+          {contact.emailAdvertise}
+        </a>
+        or call{' '}
+        <a class="link" href={`tel:${contact.phoneDial}`}>
+          {contact.phoneDisplay}
+        </a>{' '}
+        to send this enquiry.
+      </span>
+    </p>
+  </noscript>
+
+  <form
+    class="quote-form"
+    data-advertising-form
+    data-whatsapp-number={contact.whatsappNumber}
+    novalidate
+  >
+    <input type="hidden" name="formType" value="advertising_enquiry" />
+    <input type="hidden" name="formRenderTimestamp" value="" />
+    <input type="hidden" name="sourcePath" value="/" />
+
+    <div class="hpot" aria-hidden="true">
+      <label for="adv_company_website_url">Company website</label>
+      <input
+        id="adv_company_website_url"
+        type="text"
+        name="company_website_url"
+        tabindex="-1"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label class="field__label" for="advFullName">
+          <span>
+            Full name <span class="field__req">*</span>
+          </span>
+        </label>
+        <input
+          class="input"
+          id="advFullName"
+          name="fullName"
+          type="text"
+          autocomplete="name"
+          required
+          aria-describedby="err-advFullName"
+        />
+        <p class="field-error" id="err-advFullName" data-error-for="fullName" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="advCompany">
+          <span>
+            Business or agency <span class="field__req">*</span>
+          </span>
+        </label>
+        <input
+          class="input"
+          id="advCompany"
+          name="company"
+          type="text"
+          autocomplete="organization"
+          required
+          aria-describedby="err-advCompany"
+        />
+        <p class="field-error" id="err-advCompany" data-error-for="company" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="advPhone">
+          <span>
+            Contact number <span class="field__req">*</span>
+          </span>
+        </label>
+        <input
+          class="input numeric"
+          id="advPhone"
+          name="phone"
+          type="tel"
+          inputmode="tel"
+          autocomplete="tel"
+          placeholder="082 782 4346"
+          required
+          aria-describedby="err-advPhone"
+        />
+        <p class="field-error" id="err-advPhone" data-error-for="phone" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="advEmail">
+          <span>
+            Work email <span class="field__req">*</span>
+          </span>
+        </label>
+        <input
+          class="input"
+          id="advEmail"
+          name="email"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          required
+          aria-describedby="err-advEmail"
+        />
+        <p class="field-error" id="err-advEmail" data-error-for="email" hidden></p>
+      </div>
+
+      <div class="field form-grid__full">
+        <label class="field__label" for="advNotes">
+          <span>Campaign or site brief</span>
+        </label>
+        <textarea
+          class="textarea"
+          id="advNotes"
+          name="notes"
+          rows="4"
+          maxlength="2000"
+          placeholder="Property, audience, campaign timing, artwork readiness…"
+        ></textarea>
+        <p class="field__hint">
+          Optional. Rate cards are issued after the site and approvals are confirmed.
+        </p>
+      </div>
+
+      <div class="field form-grid__full">
+        <label class="checkbox" for="advConsent">
+          <input
+            id="advConsent"
+            name="consent"
+            type="checkbox"
+            required
+            aria-describedby="err-advConsent"
+          />
+          <span>
+            I have read the
+            <button type="button" class="link" data-open-privacy>
+              privacy notice
+            </button>
+            and consent to my details being used to respond to this enquiry.
+          </span>
+        </label>
+        <p class="field-error" id="err-advConsent" data-error-for="consent" hidden></p>
+      </div>
+    </div>
+
+    <p
+      class="callout callout--error form-status"
+      data-form-status
+      role="alert"
+      aria-live="polite"
+      hidden
+    ></p>
+
+    <div class="form-footer">
+      <button class="btn" type="submit">
+        Request the rate card
+      </button>
+      <p class="small form-footer__hint">
+        Advertising is subject to property approval and municipal by-laws.
+      </p>
+    </div>
+  </form>
+
+  <div
+    class="confirmation"
+    data-confirmation="advertising_enquiry"
+    role="status"
+    aria-live="polite"
+    hidden
+  >
+    <p class="mono confirmation__eyebrow">Recorded · rate card on request</p>
+    <h3 class="confirmation__title" tabindex="-1" data-confirmation-title>
+      Your advertising enquiry is in.
+    </h3>
+    <p class="confirmation__body">
+      Your reference is{' '}
+      <strong class="numeric" data-reference>
+        —
+      </strong>
+      . We will confirm the site, the approval route and available slots before sending the rate
+      card.
+    </p>
+    <div class="confirmation__actions">
+      <a
+        class="btn"
+        data-whatsapp
+        href={`https://wa.me/${contact.whatsappNumber}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Send the reference on WhatsApp
+      </a>
+      <a class="btn btn--ghost" href={`mailto:${contact.emailAdvertise}`}>
+        {contact.emailAdvertise}
+      </a>
+    </div>
+    <button class="confirmation__again" type="button" data-send-again>
+      Send another enquiry
+    </button>
+  </div>
+</div>
+
+<script>
+  import { wireForm } from '../lib/form-client';
+
+  const form = document.querySelector<HTMLFormElement>('[data-advertising-form]');
+  if (form) {
+    wireForm(form, {
+      formType: 'advertising_enquiry',
+      whatsappNumber: form.dataset.whatsappNumber ?? '27827824346',
+    });
+
+    const confirmation = document.querySelector<HTMLElement>(
+      '[data-confirmation="advertising_enquiry"]',
+    );
+    confirmation
+      ?.querySelector<HTMLButtonElement>('[data-send-again]')
+      ?.addEventListener('click', () => {
+        confirmation.hidden = true;
+        form.hidden = false;
+        form.reset();
+        const timestamp = form.querySelector<HTMLInputElement>('[name="formRenderTimestamp"]');
+        if (timestamp) timestamp.value = String(Date.now());
+        form.querySelector<HTMLInputElement>('input, select, textarea')?.focus();
+      });
+  }
+</script>
+
+<style>
+  .form-shell {
+    position: relative;
+  }
+
+  .quote-form {
+    border-top: 1px solid var(--ink);
+    padding-top: 24px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+  }
+
+  .form-grid__full {
+    grid-column: 1 / -1;
+  }
+
+  .form-status {
+    margin-top: 18px;
+  }
+
+  .form-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 20px;
+    margin-top: 22px;
+  }
+
+  .form-footer__hint {
+    margin: 0;
+    max-width: 42ch;
+  }
+
+  .confirmation {
+    border-top: 1px solid var(--ink);
+    padding-top: 24px;
+  }
+
+  .confirmation__eyebrow {
+    color: var(--ok);
+  }
+
+  .confirmation__title {
+    margin-top: 10px;
+    font-size: var(--step-2);
+  }
+
+  .confirmation__title:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  .confirmation__body {
+    margin-top: 12px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
+    max-width: 52ch;
+  }
+
+  .confirmation__body strong {
+    color: var(--text-1);
+    letter-spacing: 0.02em;
+  }
+
+  .confirmation__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .confirmation__again {
+    margin-top: 18px;
+    min-height: 44px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  .confirmation__again:hover {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+
+  @media (max-width: 560px) {
+    .form-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

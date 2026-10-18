@@ -1,745 +1,470 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SiteHeader from '../components/SiteHeader.astro';
-import SiteFooter from '../components/SiteFooter.astro';
-import MobileStickyCta from '../components/MobileStickyCta.astro';
 import { siteConfig } from '../config/site';
+import rigging from '../assets/rigging.jpg';
+import installation01 from '../assets/installation-01.jpg';
+import installation02 from '../assets/installation-02.jpg';
+import installation03 from '../assets/installation-03.jpg';
 
-const outdoorSpecs = siteConfig.hardwareBenchmarks.outdoor;
-const indoorSpecs = siteConfig.hardwareBenchmarks.indoor;
+const { brand, contact, coverage, method, site } = siteConfig;
+
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Studio',
+      item: new URL('/about', site.url).toString(),
+    },
+  ],
+};
+
+const aboutPage = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: `Studio and coverage — ${brand.name}`,
+  about: { '@id': `${site.url}/#organisation` },
+};
 ---
 
 <BaseLayout
-  title={`About & Display Engineering | ${siteConfig.brand.name}`}
-  description="Our physical engineering philosophy, hardware architecture, and turnkey delivery methodology for South African residential estates and commercial precincts."
-  canonicalUrl="https://leddisplays.co.za/about"
+  title={`Studio & coverage — ${brand.name}`}
+  description="A LED display survey and installation practice based in George, Western Cape: how we work, where we work, and the standards each installation is measured against."
+  path="/about"
+  jsonLd={[breadcrumbs, aboutPage]}
 >
-  <!-- Global Minimal Header -->
-  <SiteHeader />
+  <section class="about-hero" aria-labelledby="about-heading">
+    <div class="container">
+      <div class="split split--5-7 about-hero__split">
+        <div>
+          <p class="eyebrow">Studio — established {brand.establishedYear}</p>
+          <h1 id="about-heading" class="about-hero__heading">
+            A survey practice, not a signage broker.
+          </h1>
+        </div>
+        <div class="about-hero__intro">
+          <p class="lede">
+            We are a display contractor based in George. The work starts with a measured site visit
+            and ends with an electrical certificate and a trained operator — the hardware in between
+            is the part everybody talks about, and the part that matters least on its own.
+          </p>
+          <p>
+            Estates and precincts are usually sold a screen and then left to coordinate a steel
+            fabricator, an electrician and a content vendor. We take that coordination as one
+            contract, because the failure modes live in the seams between those trades: a mount that
+            was never wind-loaded, a circuit that was never certified, a CMS nobody was trained on.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <main id="main-content" class="about-page">
-    <!-- About Hero Section -->
-    <section class="about-hero-section">
-      <div class="container">
-        <!-- Breadcrumb & Index -->
-        <div class="about-breadcrumb">
-          <a href="/" class="breadcrumb-link">Home</a>
-          <span class="breadcrumb-sep" aria-hidden="true">/</span>
-          <span class="breadcrumb-current">About & Engineering</span>
+  <section class="section about-practice" aria-labelledby="practice-heading">
+    <div class="container">
+      <div class="split split--4-8">
+        <div class="about-practice__aside sticky-host">
+          <div class="sticky">
+            <p class="section__index">
+              <span>01</span>
+              <span>Practice</span>
+            </p>
+            <h2 id="practice-heading">How the work is structured.</h2>
+            <dl class="register about-practice__register">
+              <div class="register__row">
+                <dt class="register__label">Hub</dt>
+                <dd class="register__value">{coverage.primaryHub}</dd>
+              </div>
+              <div class="register__row">
+                <dt class="register__label">Established</dt>
+                <dd class="register__value numeric">{brand.establishedYear}</dd>
+              </div>
+              <div class="register__row">
+                <dt class="register__label">Practice</dt>
+                <dd class="register__value">Survey · engineer · install · certify</dd>
+              </div>
+              <div class="register__row">
+                <dt class="register__label">Hours</dt>
+                <dd class="register__value">{contact.operatingHours}</dd>
+              </div>
+            </dl>
+          </div>
         </div>
 
-        <span class="section-index">01 / ENGINEERING PHILOSOPHY</span>
-        <h1 class="about-headline">
-          Physical Engineering for Architectural LED Infrastructure
-        </h1>
-        <p class="about-hero-lead">
-          Why real digital display infrastructure succeeds or fails in the physical world. We build for South African coastal atmospheres, solar lux extremes, and multi-decade property asset value.
+        <div class="about-practice__body">
+          <div class="about-practice__prose">
+            <p>
+              Every project begins with a physical survey: sightline geometry, the solar load the
+              screen will face, the substrate it will hang from, and the distance to a dedicated
+              circuit. Those four measurements decide the specification. Without them a quote is a
+              guess with a letterhead.
+            </p>
+            <p>
+              The survey becomes an itemised scope with structural drawings and SANS 10160 wind-load
+              calculations — a document a body corporate can put to a vote, or a landlord can sign,
+              without commissioning a second opinion. Installation follows that document, and the
+              electrical work is certified under SANS 10142-1 before handover.
+            </p>
+            <p>
+              We specify the hardware under our own name and disclose the panel-level detail to the
+              client in the engineering pack. What we do not do is publish a supplier's brand as if
+              it were our own engineering.
+            </p>
+          </div>
+
+          <figure class="plate about-practice__plate">
+            <div class="plate__frame about-practice__frame">
+              <Image
+                src={rigging}
+                alt="Technician rigging an outdoor LED display cabinet onto a structural mounting frame."
+                widths={[480, 720, 960, 1280]}
+                sizes="(max-width: 1023px) 92vw, 58vw"
+                loading="lazy"
+              />
+            </div>
+            <figcaption>Plate 04 — cabinet rigging during installation, Garden Route.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone about-coverage" aria-labelledby="coverage-heading">
+    <div class="container">
+      <div class="split split--4-8 about-coverage__head">
+        <div>
+          <p class="section__index">
+            <span>02</span>
+            <span>Coverage</span>
+          </p>
+          <h2 id="coverage-heading">Where we survey.</h2>
+        </div>
+        <p class="section__lede">{coverage.notice}</p>
+      </div>
+
+      <ul class="about-coverage__list" role="list">
+        {coverage.regions.map((region, index) => (
+          <li>
+            <span class="mono numeric">{String(index + 1).padStart(2, '0')}</span>
+            <span>{region}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section about-record" aria-labelledby="record-heading">
+    <div class="container">
+      <div class="split split--4-8 about-record__head">
+        <div>
+          <p class="section__index">
+            <span>03</span>
+            <span>Field record</span>
+          </p>
+          <h2 id="record-heading">Reference installation.</h2>
+        </div>
+        <div>
+          <p class="section__lede">
+            Photographs from the George installation and the surrounding works. One site, recorded
+            across the install rather than staged for a brochure.
+          </p>
+          <p class="small about-record__note">
+            Estate identity is withheld at the client's request. Reference installation, George,
+            Western Cape.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-record__grid">
+        <figure class="plate about-record__wide">
+          <div class="plate__frame about-record__frame about-record__frame--wide">
+            <Image
+              src={installation01}
+              alt="Completed outdoor LED display mounted at an estate entrance."
+              widths={[640, 960, 1280]}
+              sizes="(max-width: 1023px) 92vw, 62vw"
+              loading="lazy"
+            />
+          </div>
+          <figcaption>Plate 05 — completed gatehouse display, daytime.</figcaption>
+        </figure>
+
+        <figure class="plate">
+          <div class="plate__frame about-record__frame about-record__frame--tall">
+            <Image
+              src={installation02}
+              alt="Display cabinet being aligned on its mounting frame during installation."
+              widths={[420, 640, 800]}
+              sizes="(max-width: 1023px) 45vw, 22vw"
+              loading="lazy"
+            />
+          </div>
+          <figcaption>Plate 06 — cabinet alignment.</figcaption>
+        </figure>
+
+        <figure class="plate">
+          <div class="plate__frame about-record__frame about-record__frame--tall">
+            <Image
+              src={installation03}
+              alt="Detail of concealed cabling and cabinet sealing at the rear of the display."
+              widths={[420, 640, 800]}
+              sizes="(max-width: 1023px) 45vw, 22vw"
+              loading="lazy"
+            />
+          </div>
+          <figcaption>Plate 07 — rear service access and sealing.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone about-standards" aria-labelledby="standards-heading">
+    <div class="container">
+      <div class="split split--4-8 about-standards__head">
+        <div>
+          <p class="section__index">
+            <span>04</span>
+            <span>Standards</span>
+          </p>
+          <h2 id="standards-heading">Measurements, not adjectives.</h2>
+        </div>
+        <p class="section__lede">
+          Each installation is measured against the same four instruments. They are quoted by number
+          because a claim you cannot inspect is not a specification.
         </p>
       </div>
 
-      <!-- Turnkey Rigging Photography Frame -->
-      <div class="container about-visual-wrap">
-        <div class="about-photo-frame">
-          <img 
-            src="/assets/hardware-installation-rigging.jpg" 
-            alt="Technicians mounting precision die-cast LED display modules onto wall-mounted architectural chassis frame" 
-            width="1280" 
-            height="960" 
-            loading="eager" 
-            decoding="async" 
-            class="about-photo"
-          />
-          <div class="about-photo-caption">
-            <span class="caption-tag">Turnkey Deployment</span>
-            <span class="caption-desc">Substrate anchoring & precision chassis alignment · Western Cape Installation</span>
-          </div>
-        </div>
-      </div>
-    </section>
+      <ul class="about-standards__list" role="list">
+        {method.standards.map((standard) => (
+          <li>
+            <span class="badge badge--ok">{standard.code}</span>
+            <h3 class="about-standards__title">{standard.label}</h3>
+            <p>{standard.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
-    <!-- Section 01: The Engineering Manifesto -->
-    <section class="section section--stone hairline-t hairline-b">
-      <div class="container">
-        <div class="editorial-row">
-          <div class="editorial-col-label">
-            <span class="section-index">02 / MANIFESTO</span>
-            <h2 class="editorial-title">Physical Hardware Over Software Gimmicks</h2>
-          </div>
-          <div class="editorial-col-body">
-            <p class="editorial-p">
-              In modern commercial property development, digital displays are frequently treated as disposable consumer electronics: standard commercial television panels mounted in flimsy sheet-metal frames, or low-cost imported cabinets that rust within eighteen months in coastal sea spray.
-            </p>
-            <p class="editorial-p">
-              {siteConfig.brand.name} was established on a singular premise: <strong>an installed LED display is a permanent architectural fixture</strong>. It must withstand Cape gales, resist UV degradation, operate silently without roaring cooling fans, and communicate cleanly without creating nighttime nuisance for nearby residents.
-            </p>
-            
-            <div class="manifesto-grid">
-              <div class="manifesto-card">
-                <span class="manifesto-card-num">A</span>
-                <h3 class="manifesto-card-heading">Structural Integrity</h3>
-                <p class="manifesto-card-desc">All exterior mountings calculate wind load coefficients under SANS 10160 to withstand coastal storms without structural fatigue.</p>
-              </div>
-              <div class="manifesto-card">
-                <span class="manifesto-card-num">B</span>
-                <h3 class="manifesto-card-heading">Electrical Certification</h3>
-                <p class="manifesto-card-desc">Every turnkey installation includes isolated sub-distribution boards and dedicated SANS 10142-1 Electrical Certificates of Compliance (CoC).</p>
-              </div>
-              <div class="manifesto-card">
-                <span class="manifesto-card-num">C</span>
-                <h3 class="manifesto-card-heading">Statutory Governance</h3>
-                <p class="manifesto-card-desc">Structured documentation aligned with STSMA Prescribed Management Rule 29(2) and municipal dark-sky environmental nuisance bylaws.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 02: Hardware Architecture Standards (Catalog Specs) -->
-    <section class="section">
-      <div class="container">
-        <div class="section-title-wrap">
-          <span class="section-index">03 / HARDWARE BENCHMARKS</span>
-          <h2 class="section-title">Industrial Display Architecture</h2>
-        </div>
-
-        <div class="hardware-dual-grid">
-          <!-- Architectural Outdoor Tier -->
-          <div class="hardware-tier-card">
-            <div class="tier-badge">EXTERIOR ARCHITECTURAL</div>
-            <h3 class="tier-title">Outdoor High-Luminance Cabinets</h3>
-            <p class="tier-lead">
-              Engineered for South African direct sunlight, gale-force coastal winds, and continuous 24/7 environmental exposure.
-            </p>
-
-            <dl class="specs-table">
-              <div class="spec-row">
-                <dt>Peak Luminance</dt>
-                <dd>{outdoorSpecs.brightness}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Chassis Engineering</dt>
-                <dd>{outdoorSpecs.chassis}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Ingress Protection</dt>
-                <dd>{outdoorSpecs.weatherRating}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Pixel Pitch Options</dt>
-                <dd>{outdoorSpecs.pixelPitches}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Thermal Architecture</dt>
-                <dd>{outdoorSpecs.thermal}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Maintenance Access</dt>
-                <dd>{outdoorSpecs.service}</dd>
-              </div>
-            </dl>
-          </div>
-
-          <!-- Commercial Indoor Tier -->
-          <div class="hardware-tier-card hardware-tier-card--indoor">
-            <div class="tier-badge tier-badge--indoor">INTERIOR COMMERCIAL</div>
-            <h3 class="tier-title">Fine-Pitch Atrium & Boardroom Matrix</h3>
-            <p class="tier-lead">
-              High-resolution Chip-on-Board (COB) video walls delivering pristine colour fidelity, 16-bit processing, and seamless 16:9 scaling.
-            </p>
-
-            <dl class="specs-table">
-              <div class="spec-row">
-                <dt>Luminance Range</dt>
-                <dd>{indoorSpecs.brightness}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Chassis Ratio</dt>
-                <dd>{indoorSpecs.chassis}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Core Technology</dt>
-                <dd>{indoorSpecs.technology}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Pixel Pitch Options</dt>
-                <dd>{indoorSpecs.pixelPitches}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Refresh Rate</dt>
-                <dd>{indoorSpecs.refreshRate}</dd>
-              </div>
-              <div class="spec-row">
-                <dt>Maintenance Access</dt>
-                <dd>{indoorSpecs.service}</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-
-        <!-- Hardware Chassis Exploded Visualization -->
-        <div class="about-chassis-frame">
-          <img 
-            src="/assets/hardware-exploded-chassis.webp" 
-            alt="Isometric CAD exploded view of Vanguard modular die-cast aluminium display chassis with Micro-COB surface matrix"
-            width="1672"
-            height="941"
-            loading="lazy"
-            decoding="async"
-            class="about-chassis-img"
-          />
-          <div class="about-chassis-caption">
-            <span class="caption-tag">Chassis Engineering</span>
-            <span class="caption-desc">Precision die-cast aluminium chassis · IP65 hermetic perimeter · Front vacuum-magnetic extraction</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 03: Regional Geography & Coverage -->
-    <section class="section section--dark hairline-t hairline-b">
-      <div class="container">
-        <div class="editorial-row">
-          <div class="editorial-col-label">
-            <span class="section-index section-index--light">04 / PROVENANCE</span>
-            <h2 class="editorial-title editorial-title--light">Headquartered in George, Deployed Nationally</h2>
-          </div>
-          <div class="editorial-col-body">
-            <p class="editorial-p editorial-p--light">
-              Our central engineering hub is located in <strong>George, Western Cape</strong>, positioned directly between Cape Town and Port Elizabeth. This gives our technical teams immediate physical access to key residential lifestyle corridors, wine estates, and coastal developments across the Garden Route.
-            </p>
-            <p class="editorial-p editorial-p--light">
-              For commercial developers, retail REITs, and national residential portfolio managers, we deploy dedicated installation rigs and certified technicians nationwide across Gauteng, KwaZulu-Natal, and the Western Cape.
-            </p>
-
-            <div class="region-pill-wrap">
-              {siteConfig.coverage.keyRegions.map((region) => (
-                <span class="region-pill">{region}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 04: Turnkey Project Lifecycle -->
-    <section class="section hairline-b">
-      <div class="container">
-        <div class="section-title-wrap">
-          <span class="section-index">05 / METHODOLOGY</span>
-          <h2 class="section-title">The Turnkey Custody Chain</h2>
-        </div>
-
-        <div class="methodology-grid">
-          <div class="methodology-step">
-            <span class="step-num">01</span>
-            <h3 class="step-title">Physical Sightline Survey</h3>
-            <p class="step-desc">
-              We visit your property to map viewing angles, vehicle approach corridors, ambient sun glare, and electrical breaker locations.
-            </p>
-          </div>
-
-          <div class="methodology-step">
-            <span class="step-num">02</span>
-            <h3 class="step-title">Board-Defensible Proposal</h3>
-            <p class="step-desc">
-              Detailed structural drawings, pixel-pitch simulations, electrical specifications, and clear CapEx vs. Rev-Share financial options.
-            </p>
-          </div>
-
-          <div class="methodology-step">
-            <span class="step-num">03</span>
-            <h3 class="step-title">Turnkey Rigging & CoC</h3>
-            <p class="step-desc">
-              Civil footing preparation, steel rigging, concealed weather-rated conduit, power hookup, and master electrical compliance sign-off.
-            </p>
-          </div>
-
-          <div class="methodology-step">
-            <span class="step-num">04</span>
-            <h3 class="step-title">CMS Handover & Maintenance</h3>
-            <p class="step-desc">
-              Cloud content scheduler deployment on 4G/Wi-Fi failover, staff training, and ongoing hardware warranty service level agreements.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 05: Direct Action CTA -->
-    <section class="section section--stone">
-      <div class="container cta-banner-container">
-        <div class="cta-banner-content">
-          <span class="section-index">06 / CONSULTATION</span>
-          <h2 class="cta-banner-title">Initiate an On-Site Property Assessment</h2>
-          <p class="cta-banner-desc">
-            Direct physical feasibility surveys conducted for residential estates, sectional titles, and commercial atriums across South Africa.
+  <section class="section about-cta" aria-labelledby="about-cta-heading">
+    <div class="container">
+      <div class="split split--7-5">
+        <div>
+          <p class="section__index">
+            <span>05</span>
+            <span>Next</span>
           </p>
-          <div class="cta-banner-actions">
-            <a href="/#inquiry" class="btn btn-dark">
-              <span>Book On-Site Assessment</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
-            <a href={`https://wa.me/${siteConfig.contact.whatsappNumber}`} target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-              WhatsApp Technical Team
-            </a>
-          </div>
+          <h2 id="about-cta-heading">Commission a survey.</h2>
+          <p class="about-cta__body">
+            Send the property, the town and the problem the display has to solve. If a physical
+            survey is warranted we will schedule it; if it is not, we will say so.
+          </p>
+        </div>
+        <div class="about-cta__actions">
+          <a class="btn" href="/#commission">
+            Start an enquiry
+          </a>
+          <a class="btn btn--ghost" href={`tel:${contact.phoneDial}`}>
+            {contact.phoneDisplay}
+          </a>
+          <a class="arrow-link about-cta__link" href={`mailto:${contact.emailQuote}`}>
+            {contact.emailQuote}
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.25"></path>
+            </svg>
+          </a>
         </div>
       </div>
-    </section>
-  </main>
-
-  <!-- Corporate Footer -->
-  <SiteFooter />
-
-  <!-- Mobile Sticky CTA -->
-  <MobileStickyCta />
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .about-page {
-    background-color: var(--color-bg-primary);
+  .about-hero {
+    padding-top: calc(var(--header-h) + clamp(40px, 6vw, 88px));
+    padding-bottom: clamp(48px, 6vw, 88px);
+    border-bottom: 1px solid var(--rule);
   }
 
-  .about-hero-section {
-    padding-top: clamp(5.5rem, 8vw, 7.5rem);
-    padding-bottom: clamp(3.5rem, 6vw, 5rem);
-    background-color: var(--color-bg-primary);
+  .about-hero__heading {
+    margin-top: 18px;
+    max-width: 12ch;
   }
 
-  .about-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8125rem;
-    font-family: var(--font-mono);
-    color: var(--color-text-secondary);
-    margin-bottom: 2rem;
-  }
-
-  .breadcrumb-link {
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-
-  .breadcrumb-link:hover {
-    color: var(--color-text-primary);
-  }
-
-  .breadcrumb-sep {
-    color: var(--color-border-hairline);
-  }
-
-  .breadcrumb-current {
-    color: var(--color-text-primary);
-    font-weight: 500;
-  }
-
-  .about-headline {
-    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--color-text-primary);
-    max-width: 24ch;
-    margin-bottom: 1.5rem;
-  }
-
-  .about-hero-lead {
-    font-size: clamp(1.125rem, 2vw, 1.35rem);
-    line-height: 1.55;
-    color: var(--color-text-secondary);
-    max-width: 48ch;
-    margin-bottom: 3rem;
-  }
-
-  .about-visual-wrap {
-    margin-top: 1rem;
-  }
-
-  .about-photo-frame {
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    border: 1px solid var(--color-border-hairline);
-    background-color: var(--color-bg-obsidian);
-  }
-
-  .about-photo {
-    width: 100%;
-    height: auto;
-    max-height: 540px;
-    object-fit: cover;
-    object-position: center 35%;
-    display: block;
-  }
-
-  .about-photo-caption {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.875rem 1.25rem;
-    background-color: #0F141C;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    font-size: 0.8125rem;
-    color: #9CA3AF;
-    font-family: var(--font-mono);
-  }
-
-  .caption-tag {
-    color: var(--color-accent-cyan);
-    font-weight: 500;
-  }
-
-  /* Editorial 2-Col Layout */
-  .editorial-row {
+  .about-hero__intro {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 18px;
+    padding-top: 6px;
   }
 
-  @media (min-width: 860px) {
-    .editorial-row {
-      grid-template-columns: 1fr 2fr;
-      gap: 4rem;
-    }
+  .about-hero__intro p {
+    color: var(--text-2);
   }
 
-  .editorial-title {
-    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
-    font-weight: 600;
-    line-height: 1.18;
-    letter-spacing: -0.02em;
-    color: var(--color-text-primary);
-    margin-top: 0.75rem;
+  .about-practice__register {
+    margin-top: 24px;
   }
 
-  .editorial-title--light {
-    color: #FFFFFF;
-  }
-
-  .editorial-p {
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-    margin-bottom: 1.5rem;
-  }
-
-  .editorial-p--light {
-    color: #D1D5DB;
-  }
-
-  .editorial-p strong {
-    color: var(--color-text-primary);
-  }
-
-  .editorial-p--light strong {
-    color: #FFFFFF;
-  }
-
-  .manifesto-grid {
+  .about-practice__prose {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-top: 2.5rem;
-  }
-
-  @media (min-width: 640px) {
-    .manifesto-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .manifesto-card {
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border-hairline);
-  }
-
-  .manifesto-card-num {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: 0.5rem;
-  }
-
-  .manifesto-card-heading {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: 0.5rem;
-  }
-
-  .manifesto-card-desc {
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-  }
-
-  /* Hardware Dual Grid */
-  .hardware-dual-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  @media (min-width: 860px) {
-    .hardware-dual-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-    }
-  }
-
-  .hardware-tier-card {
-    padding: 2.5rem;
-    background-color: #FFFFFF;
-    border: 1px solid var(--color-border-hairline);
-    border-radius: var(--radius-sm);
-  }
-
-  .tier-badge {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--color-text-primary);
-    padding: 0.25rem 0.625rem;
-    background-color: var(--color-bg-stone);
-    border-radius: var(--radius-pill);
-    margin-bottom: 1.25rem;
-  }
-
-  .tier-badge--indoor {
-    color: #1E293B;
-  }
-
-  .tier-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 1.25;
-    letter-spacing: -0.015em;
-    color: var(--color-text-primary);
-    margin-bottom: 0.75rem;
-  }
-
-  .tier-lead {
+    gap: 16px;
+    color: var(--text-2);
     font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    margin-bottom: 2rem;
+    line-height: 1.65;
+    max-width: 66ch;
   }
 
-  .specs-table {
-    display: flex;
-    flex-direction: column;
+  .about-practice__plate {
+    margin-top: clamp(28px, 3vw, 40px);
   }
 
-  .spec-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 0.875rem 0;
-    border-top: 1px solid var(--color-border-hairline);
-    font-size: 0.875rem;
-    gap: 1rem;
+  .about-practice__frame {
+    aspect-ratio: 4 / 3;
   }
 
-  .spec-row dt {
-    color: var(--color-text-secondary);
-    font-weight: 500;
-    flex-shrink: 0;
+  .about-coverage__head,
+  .about-record__head,
+  .about-standards__head {
+    margin-bottom: clamp(28px, 3.4vw, 44px);
   }
 
-  .spec-row dd {
-    text-align: right;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin: 0;
-  }
-
-  @media (max-width: 639px) {
-    .hardware-tier-card {
-      padding: 1.5rem 1.25rem;
-    }
-
-    .spec-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.25rem;
-    }
-
-    .spec-row dd {
-      text-align: left;
-    }
-
-    .cta-banner-actions {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .cta-banner-actions .btn {
-      width: 100%;
-    }
-  }
-
-  /* Dark Section Styling */
-  .section--dark {
-    background-color: #0B0F17;
-    color: #FFFFFF;
-  }
-
-  .section-index--light {
-    color: var(--color-accent-cyan) !important;
-  }
-
-  .region-pill-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 2rem;
-  }
-
-  .region-pill {
-    display: inline-block;
-    padding: 0.35rem 0.875rem;
-    background-color: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: var(--radius-pill);
-    font-size: 0.8125rem;
-    font-family: var(--font-mono);
-    color: #E5E7EB;
-  }
-
-  /* Methodology Grid */
-  .methodology-grid {
+  .about-coverage__list {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule-strong);
   }
 
-  @media (min-width: 640px) {
-    .methodology-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .methodology-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  .methodology-step {
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border-hairline);
-  }
-
-  .step-num {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: 0.75rem;
-  }
-
-  .step-title {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: 0.5rem;
-  }
-
-  .step-desc {
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-  }
-
-  /* CTA Banner */
-  .cta-banner-container {
-    max-width: 760px;
-    margin-inline: auto;
-    text-align: center;
-  }
-
-  .cta-banner-title {
-    font-size: clamp(2rem, 3.5vw, 2.75rem);
-    font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    color: var(--color-text-primary);
-    margin-top: 0.75rem;
-    margin-bottom: 1rem;
-  }
-
-  .cta-banner-desc {
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    margin-bottom: 2rem;
-  }
-
-  .cta-banner-actions {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-  }
-
-  /* Hardware Chassis Exploded Visualization */
-  .about-chassis-frame {
-    margin-top: clamp(2.5rem, 5vw, 4rem);
-    border: 1px solid var(--color-border-hairline);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    background-color: var(--color-bg-obsidian);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .about-chassis-frame:hover {
-    border-color: #CBD5E1;
-    box-shadow: 0 12px 32px rgba(11, 15, 23, 0.08);
-  }
-
-  .about-chassis-img {
-    width: 100%;
-    height: auto;
-    display: block;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-  }
-
-  .about-chassis-caption {
+  .about-coverage__list li {
     display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    padding: 1rem 1.25rem;
-    background-color: #0F141C;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    align-items: baseline;
+    gap: 12px;
+    padding: 16px 20px 16px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.9375rem;
   }
 
-  @media (min-width: 640px) {
-    .about-chassis-caption {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
+  .about-coverage__list .mono {
+    color: var(--accent-text);
+  }
+
+  .about-record__note {
+    margin-top: 12px;
+  }
+
+  .about-record__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gutter-x);
+  }
+
+  .about-record__wide {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .about-record__frame--wide {
+    aspect-ratio: 4 / 3;
+  }
+
+  .about-record__frame--tall {
+    aspect-ratio: 3 / 4;
+  }
+
+  .about-record__frame img {
+    object-position: center;
+  }
+
+  .about-standards__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .about-standards__list li {
+    padding: 20px 20px 12px 0;
+    border-right: 1px solid var(--rule);
+  }
+
+  .about-standards__list li:last-child {
+    border-right: 0;
+  }
+
+  .about-standards__list li:not(:first-child) {
+    padding-left: 20px;
+  }
+
+  .about-standards__title {
+    margin-top: 12px;
+    font-size: var(--step-1);
+  }
+
+  .about-standards__list p {
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--text-3);
+  }
+
+  .about-cta__body {
+    margin-top: 18px;
+    max-width: 46ch;
+    color: var(--text-2);
+  }
+
+  .about-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    padding-top: 6px;
+  }
+
+  .about-cta__link {
+    flex-basis: 100%;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 1023px) {
+    .about-record__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .about-record__wide {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+    .about-standards__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .about-standards__list li:nth-child(2) {
+      border-right: 0;
     }
   }
 
-  .about-chassis-caption .caption-tag {
-    color: var(--color-accent-cyan);
-    font-weight: 500;
-  }
-
-  .about-chassis-caption .caption-desc {
-    color: #9CA3AF;
+  @media (max-width: 767px) {
+    .about-coverage__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .about-standards__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .about-standards__list li {
+      border-right: 0;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .about-standards__list li:not(:first-child) {
+      padding-left: 0;
+    }
   }
 </style>

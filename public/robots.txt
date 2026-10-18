@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
-Sitemap: https://leddisplays.co.za/sitemap.xml
+Sitemap: https://leddisplays.co.za/sitemap-index.xml

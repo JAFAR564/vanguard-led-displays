@@ -1,0 +1,410 @@
+---
+import { siteConfig } from '../config/site';
+
+const { formOptions, commission, contact } = siteConfig;
+---
+
+<div class="form-shell">
+  <noscript>
+    <p class="callout">
+      <span>
+        JavaScript is disabled in this browser. Please call
+        <a class="link" href={`tel:${contact.phoneDial}`}>
+          {contact.phoneDisplay}
+        </a>
+        or WhatsApp
+        <a
+          class="link"
+          href={`https://wa.me/${contact.whatsappNumber}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          +{contact.whatsappNumber}
+        </a>{' '}
+        to send this enquiry.
+      </span>
+    </p>
+  </noscript>
+
+  <form class="quote-form" data-quote-form data-whatsapp-number={contact.whatsappNumber} novalidate>
+    <input type="hidden" name="formType" value="installation_quote" />
+    <input type="hidden" name="formRenderTimestamp" value="" />
+    <input type="hidden" name="sourcePath" value="/" />
+
+    <div class="hpot" aria-hidden="true">
+      <label for="company_website_url">Company website</label>
+      <input
+        id="company_website_url"
+        type="text"
+        name="company_website_url"
+        tabindex="-1"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="form-grid">
+      <div class="field form-grid__full">
+        <label class="field__label" for="fullName">
+          <span>
+            Full name <span class="field__req">*</span>
+          </span>
+        </label>
+        <input
+          class="input"
+          id="fullName"
+          name="fullName"
+          type="text"
+          autocomplete="name"
+          required
+          aria-describedby="err-fullName"
+        />
+        <p class="field-error" id="err-fullName" data-error-for="fullName" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="buyerRole">
+          <span>
+            Your role <span class="field__req">*</span>
+          </span>
+        </label>
+        <select
+          class="select"
+          id="buyerRole"
+          name="buyerRole"
+          required
+          aria-describedby="err-buyerRole"
+        >
+          <option value="">Select…</option>
+          {formOptions.buyerRoles.map((role) => (
+            <option value={role}>{role}</option>
+          ))}
+        </select>
+        <p class="field-error" id="err-buyerRole" data-error-for="buyerRole" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="propertyType">
+          <span>
+            Property type <span class="field__req">*</span>
+          </span>
+        </label>
+        <select
+          class="select"
+          id="propertyType"
+          name="propertyType"
+          required
+          aria-describedby="err-propertyType"
+        >
+          <option value="">Select…</option>
+          {formOptions.propertyTypes.map((type) => (
+            <option value={type}>{type}</option>
+          ))}
+        </select>
+        <p class="field-error" id="err-propertyType" data-error-for="propertyType" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="propertyName">
+          <span>
+            Property or scheme <span class="field__req">*</span>
+          </span>
+        </label>
+        <input
+          class="input"
+          id="propertyName"
+          name="propertyName"
+          type="text"
+          autocomplete="organization"
+          required
+          aria-describedby="err-propertyName"
+        />
+        <p class="field-error" id="err-propertyName" data-error-for="propertyName" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="townCity">
+          <span>
+            Town or city <span class="field__req">*</span>
+          </span>
+        </label>
+        <input
+          class="input"
+          id="townCity"
+          name="townCity"
+          type="text"
+          autocomplete="address-level2"
+          required
+          aria-describedby="err-townCity"
+        />
+        <p class="field-error" id="err-townCity" data-error-for="townCity" hidden></p>
+      </div>
+
+      <div class="field form-grid__full">
+        <label class="field__label" for="environment">
+          <span>Display environment</span>
+        </label>
+        <select class="select" id="environment" name="environment">
+          <option value="">Not sure yet</option>
+          {formOptions.environments.map((env) => (
+            <option value={env}>{env}</option>
+          ))}
+        </select>
+        <p class="field__hint">
+          Outdoor, indoor, or both — the survey will confirm the final choice.
+        </p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="phone">
+          <span>
+            Contact number <span class="field__req">*</span>
+          </span>
+        </label>
+        <input
+          class="input numeric"
+          id="phone"
+          name="phone"
+          type="tel"
+          inputmode="tel"
+          autocomplete="tel"
+          placeholder="082 782 4346"
+          required
+          aria-describedby="err-phone"
+        />
+        <p class="field-error" id="err-phone" data-error-for="phone" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="email">
+          <span>
+            Email <span class="field__req">*</span>
+          </span>
+        </label>
+        <input
+          class="input"
+          id="email"
+          name="email"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          required
+          aria-describedby="err-email"
+        />
+        <p class="field-error" id="err-email" data-error-for="email" hidden></p>
+      </div>
+
+      <div class="field form-grid__full">
+        <label class="field__label" for="notes">
+          <span>Anything the survey should know</span>
+        </label>
+        <textarea
+          class="textarea"
+          id="notes"
+          name="notes"
+          rows="4"
+          maxlength="2000"
+          placeholder="Gatehouse dimensions, existing signage, board deadlines, power available at the wall…"
+        ></textarea>
+        <p class="field__hint">Optional. Do not include personal information about residents.</p>
+      </div>
+
+      <div class="field form-grid__full">
+        <label class="checkbox" for="consent">
+          <input
+            id="consent"
+            name="consent"
+            type="checkbox"
+            required
+            aria-describedby="err-consent"
+          />
+          <span>
+            I have read the
+            <button type="button" class="link" data-open-privacy>
+              privacy notice
+            </button>
+            and consent to my details being used to respond to this enquiry.
+          </span>
+        </label>
+        <p class="field-error" id="err-consent" data-error-for="consent" hidden></p>
+      </div>
+    </div>
+
+    <p
+      class="callout callout--error form-status"
+      data-form-status
+      role="alert"
+      aria-live="polite"
+      hidden
+    ></p>
+
+    <div class="form-footer">
+      <button class="btn" type="submit">
+        Send survey request
+      </button>
+      <p class="small form-footer__hint">{commission.formNote}</p>
+    </div>
+  </form>
+
+  <div
+    class="confirmation"
+    data-confirmation="installation_quote"
+    role="status"
+    aria-live="polite"
+    hidden
+  >
+    <p class="mono confirmation__eyebrow">Recorded · {contact.responseCommitment}</p>
+    <h3 class="confirmation__title" tabindex="-1" data-confirmation-title>
+      Your survey request is in.
+    </h3>
+    <p class="confirmation__body">
+      Your reference is{' '}
+      <strong class="numeric" data-reference>
+        —
+      </strong>
+      . A copy has been sent to our survey desk. If the site is remote, we will confirm whether a
+      physical visit is required before quoting.
+    </p>
+    <div class="confirmation__actions">
+      <a
+        class="btn"
+        data-whatsapp
+        href={`https://wa.me/${contact.whatsappNumber}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Send the reference on WhatsApp
+      </a>
+      <a class="btn btn--ghost" href={`tel:${contact.phoneDial}`}>
+        {contact.phoneDisplay}
+      </a>
+    </div>
+    <button class="confirmation__again" type="button" data-send-again>
+      Send another enquiry
+    </button>
+  </div>
+</div>
+
+<script>
+  import { wireForm } from '../lib/form-client';
+
+  const form = document.querySelector<HTMLFormElement>('[data-quote-form]');
+  if (form) {
+    wireForm(form, {
+      formType: 'installation_quote',
+      whatsappNumber: form.dataset.whatsappNumber ?? '27827824346',
+    });
+
+    const confirmation = document.querySelector<HTMLElement>(
+      '[data-confirmation="installation_quote"]',
+    );
+    confirmation
+      ?.querySelector<HTMLButtonElement>('[data-send-again]')
+      ?.addEventListener('click', () => {
+        confirmation.hidden = true;
+        form.hidden = false;
+        form.reset();
+        const timestamp = form.querySelector<HTMLInputElement>('[name="formRenderTimestamp"]');
+        if (timestamp) timestamp.value = String(Date.now());
+        form.querySelector<HTMLInputElement>('input, select, textarea')?.focus();
+      });
+  }
+</script>
+
+<style>
+  .form-shell {
+    position: relative;
+  }
+
+  .quote-form {
+    border-top: 1px solid var(--ink);
+    padding-top: 24px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+  }
+
+  .form-grid__full {
+    grid-column: 1 / -1;
+  }
+
+  .form-status {
+    margin-top: 18px;
+  }
+
+  .form-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 20px;
+    margin-top: 22px;
+  }
+
+  .form-footer__hint {
+    margin: 0;
+    max-width: 42ch;
+  }
+
+  .confirmation {
+    border-top: 1px solid var(--ink);
+    padding-top: 24px;
+  }
+
+  .confirmation__eyebrow {
+    color: var(--ok);
+  }
+
+  .confirmation__title {
+    margin-top: 10px;
+    font-size: var(--step-2);
+  }
+
+  .confirmation__title:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  .confirmation__body {
+    margin-top: 12px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
+    max-width: 52ch;
+  }
+
+  .confirmation__body strong {
+    color: var(--text-1);
+    letter-spacing: 0.02em;
+  }
+
+  .confirmation__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .confirmation__again {
+    margin-top: 18px;
+    min-height: 44px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  .confirmation__again:hover {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+
+  @media (max-width: 560px) {
+    .form-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

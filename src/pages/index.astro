@@ -1,52 +1,67 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SiteHeader from '../components/SiteHeader.astro';
-import ScrollScrubHero from '../components/ScrollScrubHero.astro';
-import UseCaseCards from '../components/UseCaseCards.astro';
-import VideoProofPlayer from '../components/VideoProofPlayer.astro';
-import SolutionMatrix from '../components/SolutionMatrix.astro';
-import ProcessTimeline from '../components/ProcessTimeline.astro';
-import TrustSupportGrid from '../components/TrustSupportGrid.astro';
+import HeroSplit from '../components/HeroSplit.astro';
+import Applications from '../components/Applications.astro';
+import CaseStudy from '../components/CaseStudy.astro';
+import MethodCompliance from '../components/MethodCompliance.astro';
+import Specifications from '../components/Specifications.astro';
+import CommercialModels from '../components/CommercialModels.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
-import PropertyQuoteForm from '../components/PropertyQuoteForm.astro';
-import SiteFooter from '../components/SiteFooter.astro';
-import MobileStickyCta from '../components/MobileStickyCta.astro';
+import InquirySection from '../components/InquirySection.astro';
+import { siteConfig } from '../config/site';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: siteConfig.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Turnkey LED display installation',
+  serviceType: 'LED display survey, engineering, installation and certification',
+  provider: { '@id': `${siteConfig.site.url}/#organisation` },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Western Cape' },
+    { '@type': 'Country', name: 'South Africa' },
+  ],
+  description:
+    'Survey, structural mounting, SANS-compliant electrical installation, CMS commissioning and operator handover for estates and commercial precincts.',
+  audience: {
+    '@type': 'Audience',
+    audienceType: 'Residential estates, body corporates and commercial property owners',
+  },
+};
+
+const videoSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: siteConfig.caseStudy.video.caption,
+  description: siteConfig.caseStudy.lede,
+  thumbnailUrl: new URL('/assets/og-image.jpg', siteConfig.site.url).toString(),
+  contentUrl: new URL(siteConfig.caseStudy.video.src, siteConfig.site.url).toString(),
+  uploadDate: '2025-01-01',
+};
+
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.site.url }],
+};
 ---
 
-<BaseLayout>
-  <!-- 01. Global Minimal Header -->
-  <SiteHeader />
-
-  <!-- Main Content Container with Landmark for Accessibility -->
-  <main id="main-content">
-    <!-- 02. Architectural Scrollytelling Hero (60fps Canvas Scrub Engine) -->
-    <ScrollScrubHero />
-
-    <!-- 03. Editorial Applications Split -->
-    <UseCaseCards />
-
-    <!-- 04. Case Study Showcase -->
-    <VideoProofPlayer />
-
-    <!-- 05. Borderless Comparison Table -->
-    <SolutionMatrix />
-
-    <!-- 06. 4-Stage Delivery Methodology -->
-    <ProcessTimeline />
-
-    <!-- 07. Hardware Chassis System Architecture -->
-    <TrustSupportGrid />
-
-    <!-- 08. Governance & Pre-Assessment FAQ -->
-    <FaqAccordion />
-
-    <!-- 09. Unified Segmented Consultation & Media Inquiries -->
-    <PropertyQuoteForm />
-  </main>
-
-  <!-- 10. Corporate Footer & Disclosures -->
-  <SiteFooter />
-
-  <!-- Mobile Ergonomics: Fixed Bottom Action Bar (< 768px) with Auto-Hide -->
-  <MobileStickyCta />
+<BaseLayout jsonLd={[faqSchema, serviceSchema, videoSchema, breadcrumbs]}>
+  <HeroSplit />
+  <Applications />
+  <CaseStudy />
+  <MethodCompliance />
+  <Specifications />
+  <CommercialModels />
+  <FaqAccordion />
+  <InquirySection />
 </BaseLayout>

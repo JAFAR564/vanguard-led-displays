@@ -1,133 +1,151 @@
 ---
-const faqs = [
-  {
-    question: "How do we determine the correct screen dimensions and pixel pitch?",
-    answer: "Pixel pitch is determined strictly by minimum viewing distance: each millimetre of pitch corresponds to approximately one metre of viewing distance (e.g. a P3 display is crisp from 3 metres). Sizing depends on gatehouse boom geometry or atrium height. During our on-site survey, we calculate exact sightlines and approach speeds so you never overpay for unneeded pixel density."
-  },
-  {
-    question: "Does the outdoor display comply with municipal outdoor advertising by-laws?",
-    answer: "Yes. South African municipal frameworks (including Cape Town, Johannesburg, and George Municipality) distinguish between on-premises estate communications and third-party commercial advertising. Our outdoor displays feature calibrated ambient lux sensors that automatically dim output below municipal caps (such as 1,000 cd/m²) at dusk, complying with local dark-sky regulations."
-  },
-  {
-    question: "How does the installation satisfy Body Corporate PMR 29 and HOA procedures?",
-    answer: "Under the Sectional Titles Schemes Management Act 8 of 2011, displays are classified as common-property improvements. By dedicating the screen to essential community utility—security alerts, municipal outage notices, and AGM reminders—the installation qualifies under Prescribed Management Rule 29(2) as a 'reasonably necessary' improvement requiring a 30-day notice rather than a unanimous vote. We furnish itemised engineering proposals suitable for trustee sign-off."
-  },
-  {
-    question: "Who manages the structural steelwork, wind loading, and electrical compliance?",
-    answer: "We provide complete turnkey installation accountability. Our technicians manage custom structural steel brackets engineered to SANS 10160 wind-load standards, concealed cabling, dedicated sub-distribution breakers, and certified electrical compliance under SANS 10142-1 (issuing an electrical CoC upon handover)."
-  },
-  {
-    question: "How complex is daily content scheduling for non-technical office staff?",
-    answer: "No dedicated IT personnel or graphic design skills are required. The cloud CMS runs in any desktop or mobile browser. Estate managers or marketing staff can select pre-formatted notice templates, schedule automated dayparted playlists, and publish announcements in under 90 seconds. We include 1-on-1 operator training upon handover."
-  },
-  {
-    question: "Can our property use optional advertising slots to offset capital costs?",
-    answer: "Yes, where approved by trustees or commercial asset managers. For shopping centres and mixed-use precincts, commercial advertising slots generate recurring non-GLA revenue. For residential estates, trustees frequently approve vetted local community service sponsors (security providers, schools, golf clubs) to subsidise CapEx without visual clutter."
-  }
-];
+import { siteConfig } from '../config/site';
+
+const { faqs } = siteConfig;
 ---
 
-<section class="section" id="faq" aria-labelledby="faq-heading">
+<section class="section faq" id="questions" aria-labelledby="questions-heading">
   <div class="container">
-    <div class="faq-header">
-      <span class="section-index">07 / GOVERNANCE & FAQ</span>
-      <h2 id="faq-heading" class="section-title">
-        Frequently Asked Questions
-      </h2>
-    </div>
+    <div class="split split--4-8 faq__split">
+      <div class="faq__aside sticky-host">
+        <div class="sticky">
+          <p class="section__index">
+            <span>07</span>
+            <span>Questions</span>
+          </p>
+          <h2 id="questions-heading">Asked before the quote.</h2>
+          <p class="faq__lede">
+            The questions trustees, managing agents and asset managers raise in the first meeting.
+            If yours is not here, ask it directly.
+          </p>
+          <a class="arrow-link faq__contact" href={`mailto:${siteConfig.contact.emailQuote}`}>
+            {siteConfig.contact.emailQuote}
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.25"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
 
-    <!-- Flush-Left Hairline Accordion List -->
-    <div class="minimal-faq-list" role="region" aria-label="Frequently Asked Questions">
-      {faqs.map((faq) => (
-        <details class="minimal-faq-item">
-          <summary class="minimal-faq-summary">
-            <span class="faq-question-text">{faq.question}</span>
-            <span class="faq-icon-indicator" aria-hidden="true">
-              <span class="icon-plus">+</span>
-              <span class="icon-minus">−</span>
-            </span>
-          </summary>
-          <div class="minimal-faq-body">
-            <p>{faq.answer}</p>
-          </div>
-        </details>
-      ))}
+      <div class="faq__list">
+        {faqs.map((faq, index) => (
+          <details class="faq__item" name="faq" open={index === 0}>
+            <summary class="faq__summary">
+              <span class="faq__num numeric">{String(index + 1).padStart(2, '0')}</span>
+              <span class="faq__question">{faq.question}</span>
+              <span class="faq__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none">
+                  <path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.1" />
+                </svg>
+              </span>
+            </summary>
+            <div class="faq__answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .faq-header {
-    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  .faq__lede {
+    margin-top: 18px;
+    max-width: 34ch;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
   }
 
-  .minimal-faq-list {
-    max-width: 900px;
-    border-top: 1px solid var(--color-border-hairline);
+  .faq__contact {
+    margin-top: 24px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
   }
 
-  .minimal-faq-item {
-    border-bottom: 1px solid var(--color-border-hairline);
+  .faq__list {
+    border-top: 1px solid var(--rule-strong);
   }
 
-  .minimal-faq-summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding-block: 1.5rem;
+  .faq__item {
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  .faq__summary {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 24px;
+    align-items: start;
+    gap: 14px;
+    padding: 18px 0;
     cursor: pointer;
-    user-select: none;
     list-style: none;
     min-height: 44px;
-    text-align: left;
   }
 
-  .minimal-faq-summary::-webkit-details-marker {
+  .faq__summary::-webkit-details-marker {
     display: none;
   }
 
-  .faq-question-text {
-    font-size: 1.0625rem;
+  .faq__num {
+    font-size: 11px;
+    color: var(--text-3);
+    padding-top: 5px;
+  }
+
+  .faq__question {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
     font-weight: 500;
-    line-height: 1.4;
-    color: var(--color-text-primary);
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    color: var(--text-1);
+    transition: color var(--fast) var(--ease);
   }
 
-  .minimal-faq-summary:hover .faq-question-text {
-    color: var(--color-text-secondary);
+  .faq__summary:hover .faq__question {
+    color: var(--accent-text);
   }
 
-  .faq-icon-indicator {
+  .faq__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 24px;
     height: 24px;
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: var(--color-text-primary);
-    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--text-2);
   }
 
-  .icon-minus {
-    display: none;
+  .faq__icon svg {
+    width: 14px;
+    height: 14px;
+    transition: transform var(--normal) var(--ease);
   }
 
-  .minimal-faq-item[open] .icon-plus {
-    display: none;
+  .faq__item[open] .faq__icon svg {
+    transform: rotate(45deg);
   }
 
-  .minimal-faq-item[open] .icon-minus {
-    display: inline-block;
+  .faq__answer {
+    padding: 0 34px 22px 48px;
   }
 
-  .minimal-faq-body {
-    padding-bottom: 1.5rem;
+  .faq__answer p {
     font-size: 0.9375rem;
     line-height: 1.65;
-    color: var(--color-text-secondary);
-    max-width: 72ch;
+    color: var(--text-2);
+    max-width: 66ch;
+  }
+
+  @media (max-width: 560px) {
+    .faq__summary {
+      grid-template-columns: 26px minmax(0, 1fr) 20px;
+      gap: 10px;
+    }
+    .faq__answer {
+      padding: 0 0 20px 36px;
+    }
   }
 </style>

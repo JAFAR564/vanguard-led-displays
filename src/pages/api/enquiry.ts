@@ -1,229 +1,222 @@
 import type { APIRoute } from 'astro';
-import { siteConfig } from '../../config/site';
+import { validateEnquiry, type FormType } from '../../lib/validation';
 import { persistLead } from '../../lib/lead-storage';
+import { deliverLead, deliveryConfigured, activeTransport } from '../../lib/notify';
+import { rateLimit } from '../../lib/rate-limit';
 
 export const prerender = false;
 
-// South African phone regex supporting +27, 27, and local 0 prefixes
-const SA_PHONE_REGEX = /^(?:\+27|27|0)[1-8][0-9]{8}$/;
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const JSON_HEADERS = {
+  'Content-Type': 'application/json; charset=utf-8',
+  'Cache-Control': 'no-store',
+};
 
-/**
- * Normalises South African phone numbers to canonical E.164 (+27XXXXXXXXX)
- */
-function normaliseSAPhone(rawPhone: string): string | null {
-  // Strip spaces, dashes, dots, parentheses
-  let cleaned = rawPhone.replace(/[\s\-\(\)\.]/g, '');
-
-  // Convert 0027 to +27
-  if (cleaned.startsWith('0027')) {
-    cleaned = '+27' + cleaned.slice(4);
-  }
-
-  // Handle hybrid +27(0) or 27(0) e.g. +27082... or +27044...
-  if (cleaned.startsWith('+270')) {
-    cleaned = '+27' + cleaned.slice(4);
-  } else if (cleaned.startsWith('270')) {
-    cleaned = '+27' + cleaned.slice(3);
-  }
-
-  if (!SA_PHONE_REGEX.test(cleaned)) {
-    return null;
-  }
-  if (cleaned.startsWith('+27')) {
-    return cleaned;
-  }
-  if (cleaned.startsWith('27')) {
-    return `+${cleaned}`;
-  }
-  if (cleaned.startsWith('0')) {
-    return `+27${cleaned.slice(1)}`;
-  }
-  return `+27${cleaned}`;
+function json(body: unknown, status: number, extra: Record<string, string> = {}) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...JSON_HEADERS, ...extra },
+  });
 }
 
 /**
- * Strips potentially hazardous HTML/script tags from user inputs
+ * Origin check.
+ *
+ * Astro's built-in CSRF check is disabled in astro.config.mjs because the Node
+ * adapter rewrites request.url to http://localhost. We compare the Origin host
+ * against the request host instead, plus any extra hosts in ALLOWED_ORIGINS.
+ * Requests without an Origin header (curl, server-to-server) are allowed.
  */
-function sanitizeInput(str: string): string {
-  return str.replace(/[<>]/g, '').trim();
+function isAllowedOrigin(request: Request): boolean {
+  const origin = request.headers.get('origin');
+  if (!origin) return true;
+
+  let originHost: string;
+  try {
+    originHost = new URL(origin).host.toLowerCase();
+  } catch {
+    return false;
+  }
+
+  const requestHost = (request.headers.get('x-forwarded-host') ?? request.headers.get('host') ?? '')
+    .split(',')[0]!
+    .trim()
+    .toLowerCase();
+
+  if (requestHost && originHost === requestHost) return true;
+
+  const extra = (process.env.ALLOWED_ORIGINS ?? '')
+    .split(',')
+    .map((entry) => entry.trim().toLowerCase())
+    .filter(Boolean);
+
+  return extra.some((entry) => {
+    if (entry === originHost) return true;
+    try {
+      return new URL(entry).host.toLowerCase() === originHost;
+    } catch {
+      return false;
+    }
+  });
+}
+
+function reference(formType: FormType): string {
+  const stamp = Date.now().toString(36).toUpperCase().slice(-6);
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let suffix = '';
+  for (let i = 0; i < 3; i += 1) {
+    suffix += alphabet[Math.floor(Math.random() * alphabet.length)];
+  }
+  return formType === 'advertising_enquiry' ? `VGD-ADV-${stamp}${suffix}` : `VGD-${stamp}${suffix}`;
+}
+
+function sourcePathOf(value: unknown): string {
+  const raw = String(value ?? '/').trim();
+  if (!raw.startsWith('/')) return '/';
+  return raw.slice(0, 120);
 }
 
 export const POST: APIRoute = async ({ request }) => {
-  try {
-    const formData = await request.formData();
+  if (!isAllowedOrigin(request)) {
+    return json({ success: false, error: 'Request rejected.' }, 403);
+  }
 
-    // 1. Off-screen CSS Honeypot check (WCAG 2.2 accessible bot mitigation)
-    const honeypot = formData.get('company_website_url') as string | null;
-    if (honeypot && honeypot.trim().length > 0) {
-      console.warn('[SPAM BOT DETECTED] Honeypot triggered.');
-      // Return decoy HTTP 200 OK so automated bots do not mutate strategy
-      return new Response(JSON.stringify({ success: true, decoy: true }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
-    // 2. Speed-trap check: Reject form submissions completed under 2.5 seconds
-    const renderTimestamp = formData.get('formRenderTimestamp') as string | null;
-    if (renderTimestamp) {
-      const elapsed = Date.now() - Number(renderTimestamp);
-      if (elapsed < 2500) {
-        console.warn(`[SPEED TRAP BOT DETECTED] Form submitted in ${elapsed}ms.`);
-        return new Response(JSON.stringify({ success: true, decoy: true }), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        });
-      }
-    }
-
-    const formType = (formData.get('formType') as string) || 'installation_quote';
-
-    // =========================================================================
-    // BRANCH A: Property Installation Enquiry Form (Section 9)
-    // =========================================================================
-    if (formType === 'installation_quote') {
-      const fullName = sanitizeInput(String(formData.get('fullName') || ''));
-      const buyerRole = sanitizeInput(String(formData.get('buyerRole') || ''));
-      const propertyName = sanitizeInput(String(formData.get('propertyName') || ''));
-      const propertyType = sanitizeInput(String(formData.get('propertyType') || ''));
-      const townCity = sanitizeInput(String(formData.get('townCity') || ''));
-      const environment = sanitizeInput(String(formData.get('environment') || ''));
-      const rawPhone = String(formData.get('phone') || '').trim();
-      const email = String(formData.get('email') || '').trim().toLowerCase();
-      const projectNotes = sanitizeInput(String(formData.get('projectNotes') || ''));
-
-      // Validate required fields
-      if (!fullName || !buyerRole || !propertyName || !townCity) {
-        return new Response(
-          JSON.stringify({ success: false, error: 'All marked fields are required.' }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-
-      // Validate South African phone
-      const normalisedPhone = normaliseSAPhone(rawPhone);
-      if (!normalisedPhone) {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            error: 'Please enter a valid South African phone number (e.g. 082 782 4346 or +27 44 801 9000).',
-            field: 'phone',
-          }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-
-      // Validate Email
-      if (!EMAIL_REGEX.test(email)) {
-        return new Response(
-          JSON.stringify({ success: false, error: 'Please enter a valid email address.', field: 'email' }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-
-      const leadPayload = {
-        leadId: `LEAD-EST-${Date.now()}`,
-        submittedAt: new Date().toISOString(),
-        formType: 'installation_quote' as const,
-        fullName,
-        buyerRole,
-        propertyName,
-        propertyType,
-        townCity,
-        environment,
-        phone: normalisedPhone,
-        email,
-        projectNotes,
-        destinationEmail: siteConfig.contact.emailQuote,
-      };
-
-      // Dual-Channel Lead Persistence:
-      // Channel A (Primary Email Log) & Channel B (Fail-safe Backup Store on Disk)
-      console.log(`[LEAD PERSISTENCE] [INSTALLATION QUOTE]`, JSON.stringify(leadPayload, null, 2));
-      await persistLead(leadPayload);
-
-      return new Response(
-        JSON.stringify({
-          success: true,
-          leadId: leadPayload.leadId,
-          propertyName,
-          message: 'Your site assessment request has been recorded.',
-        }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // =========================================================================
-    // BRANCH B: Screen Advertising Enquiry Form (Section 10)
-    // =========================================================================
-    if (formType === 'advertising_enquiry') {
-      const advName = sanitizeInput(String(formData.get('advName') || ''));
-      const advCompany = sanitizeInput(String(formData.get('advCompany') || ''));
-      const rawPhone = String(formData.get('advPhone') || '').trim();
-      const email = String(formData.get('advEmail') || '').trim().toLowerCase();
-      const advNotes = sanitizeInput(String(formData.get('advNotes') || ''));
-
-      if (!advName || !advCompany) {
-        return new Response(
-          JSON.stringify({ success: false, error: 'Name and Business/Agency Name are required.' }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-
-      const normalisedPhone = normaliseSAPhone(rawPhone);
-      if (!normalisedPhone) {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            error: 'Please enter a valid South African telephone number.',
-            field: 'advPhone',
-          }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-
-      if (!EMAIL_REGEX.test(email)) {
-        return new Response(
-          JSON.stringify({ success: false, error: 'Please enter a valid work email address.', field: 'advEmail' }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-
-      const advPayload = {
-        leadId: `LEAD-ADV-${Date.now()}`,
-        submittedAt: new Date().toISOString(),
-        formType: 'advertising_enquiry' as const,
-        advName,
-        advCompany,
-        phone: normalisedPhone,
-        email,
-        advNotes,
-        destinationEmail: siteConfig.contact.emailAdvertise,
-      };
-
-      console.log(`[LEAD PERSISTENCE] [ADVERTISING ENQUIRY]`, JSON.stringify(advPayload, null, 2));
-      await persistLead(advPayload);
-
-      return new Response(
-        JSON.stringify({
-          success: true,
-          leadId: advPayload.leadId,
-          message: 'Advertising enquiry received. Rate card will be dispatched shortly.',
-        }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    return new Response(JSON.stringify({ success: false, error: 'Unknown form type' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (err: any) {
-    console.error('[API ERROR /api/enquiry]', err);
-    return new Response(
-      JSON.stringify({ success: false, error: 'Internal server error processing enquiry' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+  const limit = rateLimit(request);
+  if (!limit.allowed) {
+    return json(
+      {
+        success: false,
+        error: 'Too many submissions. Please try again shortly, or call us directly.',
+      },
+      429,
+      { 'Retry-After': String(limit.retryAfterSeconds) },
     );
   }
+
+  // Fail closed: never accept a lead in production that cannot be delivered.
+  const requireDelivery = process.env.REQUIRE_LEAD_DELIVERY !== 'false';
+  const isProduction = process.env.NODE_ENV === 'production';
+  if (isProduction && requireDelivery && !deliveryConfigured()) {
+    console.error('[leads] production submission refused: no delivery transport configured');
+    return json(
+      {
+        success: false,
+        error: 'DELIVERY_UNAVAILABLE',
+        message:
+          'Online enquiries are temporarily unavailable. Please call or WhatsApp us and we will respond directly.',
+      },
+      503,
+    );
+  }
+
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    return json({ success: false, error: 'Expected a form submission.' }, 400);
+  }
+
+  // Honeypot: accept silently so automated clients learn nothing.
+  const honeypot = String(form.get('company_website_url') ?? '').trim();
+  if (honeypot) {
+    console.warn('[leads] honeypot triggered');
+    return json({ success: true, delivered: false }, 200);
+  }
+
+  // Time trap: a form completed in under two seconds was not filled by a person.
+  const rendered = Number(form.get('formRenderTimestamp'));
+  if (Number.isFinite(rendered) && rendered > 0) {
+    const elapsed = Date.now() - rendered;
+    if (elapsed >= 0 && elapsed < 2000) {
+      console.warn(`[leads] time trap triggered after ${elapsed}ms`);
+      return json({ success: true, delivered: false }, 200);
+    }
+  }
+
+  const formType = String(form.get('formType') ?? 'installation_quote') as FormType;
+  if (formType !== 'installation_quote' && formType !== 'advertising_enquiry') {
+    return json({ success: false, error: 'Unknown form type.' }, 400);
+  }
+
+  const data: Record<string, unknown> = {};
+  for (const [key, value] of form.entries()) {
+    if (typeof value === 'string') data[key] = value;
+  }
+
+  const result = validateEnquiry(formType, data);
+  if (!result.valid) {
+    return json(
+      {
+        success: false,
+        error: 'Please check the highlighted fields.',
+        errors: result.errors,
+      },
+      400,
+    );
+  }
+
+  const ref = reference(formType);
+  const sourcePath = sourcePathOf(form.get('sourcePath'));
+  const submittedAt = new Date().toISOString();
+
+  try {
+    await persistLead({
+      reference: ref,
+      submittedAt,
+      sourcePath,
+      ...result.values,
+    });
+  } catch (error) {
+    console.error('[leads] ledger write failed', ref, error);
+    return json(
+      {
+        success: false,
+        error: 'We could not record your enquiry. Please call or email us directly.',
+      },
+      500,
+    );
+  }
+
+  const delivery = await deliverLead(result.values, ref, sourcePath);
+
+  if (!delivery.delivered && isProduction && requireDelivery) {
+    return json(
+      {
+        success: false,
+        reference: ref,
+        error: 'DELIVERY_UNAVAILABLE',
+        message: 'Your enquiry was recorded, but delivery failed. Please call us to confirm.',
+      },
+      503,
+    );
+  }
+
+  const message =
+    formType === 'installation_quote'
+      ? 'Your survey request has been recorded.'
+      : 'Your advertising enquiry has been recorded.';
+
+  console.info(
+    `[leads] ${ref} · ${formType} · ${activeTransport()} · ${delivery.delivered ? 'delivered' : 'not delivered'}`,
+  );
+
+  return json(
+    {
+      success: true,
+      reference: ref,
+      delivered: delivery.delivered,
+      message,
+    },
+    200,
+  );
+};
+
+export const ALL: APIRoute = ({ request }) => {
+  const headers = { Allow: 'POST', ...JSON_HEADERS };
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers });
+  }
+  return new Response(JSON.stringify({ success: false, error: 'Method not allowed.' }), {
+    status: 405,
+    headers,
+  });
 };

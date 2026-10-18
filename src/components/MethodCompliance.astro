@@ -1,0 +1,210 @@
+---
+import { siteConfig } from '../config/site';
+
+const { method } = siteConfig;
+---
+
+<section class="section section--stone method" id="method" aria-labelledby="method-heading">
+  <div class="container">
+    <div class="split split--4-8 method__split">
+      <div class="method__aside sticky-host">
+        <div class="sticky method__sticky">
+          <p class="section__index">
+            <span>{method.index}</span>
+            <span>{method.eyebrow}</span>
+          </p>
+          <h2 id="method-heading">{method.heading}</h2>
+          <p class="method__lede">{method.lede}</p>
+
+          <div class="method__standards">
+            <p class="mono method__standards-title">Compliance register</p>
+            <ul role="list">
+              {method.standards.map((standard) => (
+                <li class="method__standard">
+                  <div class="method__standard-head">
+                    <span class="badge badge--ok">{standard.code}</span>
+                    <span class="method__standard-label">{standard.label}</span>
+                  </div>
+                  <p>{standard.body}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="method__stages">
+        <ol class="method__list" role="list">
+          {method.stages.map((stage) => (
+            <li class="method__stage">
+              <div class="method__stage-head">
+                <span class="method__num numeric">{stage.num}</span>
+                <h3 class="method__title">{stage.title}</h3>
+                <span class="method__duration mono">{stage.duration}</span>
+              </div>
+              <p class="method__body">{stage.body}</p>
+              <dl class="method__deliverables">
+                <div>
+                  <dt class="mono">Deliverable</dt>
+                  <dd>{stage.deliverable}</dd>
+                </div>
+                <div>
+                  <dt class="mono">Certificate</dt>
+                  <dd>
+                    <span class="badge">{stage.certificate}</span>
+                  </dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .method__lede {
+    margin-top: 20px;
+    color: var(--text-2);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    max-width: 40ch;
+  }
+
+  .method__standards {
+    margin-top: clamp(28px, 3vw, 40px);
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 16px;
+  }
+
+  .method__standards-title {
+    margin: 0 0 12px;
+  }
+
+  .method__standards ul {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .method__standard {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .method__standard:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .method__standard-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .method__standard-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .method__standard p {
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--text-3);
+    max-width: 42ch;
+  }
+
+  .method__list {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .method__stage {
+    padding: clamp(22px, 2.6vw, 32px) 0;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  .method__stage-head {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .method__num {
+    font-size: 0.8125rem;
+    color: var(--accent-text);
+  }
+
+  .method__title {
+    font-size: var(--step-2);
+  }
+
+  .method__duration {
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .method__body {
+    margin-top: 12px;
+    margin-left: 60px;
+    max-width: 62ch;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  .method__deliverables {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 18px 0 0 60px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .method__deliverables dt {
+    margin: 0 0 4px;
+  }
+
+  .method__deliverables dd {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--text-1);
+  }
+
+  @media (max-width: 1023px) {
+    .method__standard p,
+    .method__lede {
+      max-width: 60ch;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .method__stage-head {
+      grid-template-columns: 32px minmax(0, 1fr);
+      gap: 10px;
+    }
+    .method__duration {
+      grid-column: 2;
+    }
+    .method__body,
+    .method__deliverables {
+      margin-left: 0;
+    }
+    .method__deliverables {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+  }
+</style>

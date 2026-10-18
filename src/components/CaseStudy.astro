@@ -1,0 +1,243 @@
+---
+import { getImage } from 'astro:assets';
+import { siteConfig } from '../config/site';
+import poster from '../assets/case-study-poster.jpg';
+
+const { caseStudy } = siteConfig;
+
+const posterSmall = await getImage({ src: poster, width: 960, format: 'webp' });
+---
+
+<section
+  class="section section--night case light"
+  id="case-study"
+  aria-labelledby="case-study-heading"
+>
+  <div class="container">
+    <div class="split split--4-8 case__head">
+      <div>
+        <p class="section__index">
+          <span>{caseStudy.index}</span>
+          <span>{caseStudy.eyebrow}</span>
+        </p>
+        <h2 id="case-study-heading">{caseStudy.heading}</h2>
+      </div>
+      <div class="case__lede">
+        <p class="section__lede">{caseStudy.lede}</p>
+        <dl class="case__facts">
+          {Object.entries(caseStudy.facts).map(([key, value]) => (
+            <div class="case__fact">
+              <dt class="mono">{key}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+
+    <div class="split split--5-7 case__body">
+      <figure class="plate case__media">
+        <div class="plate__frame case__video-frame">
+          <video
+            controls
+            playsinline
+            preload="none"
+            poster={posterSmall.src}
+            width="1920"
+            height="1080"
+            aria-label={caseStudy.video.caption}
+          >
+            <source src={caseStudy.video.src} type={caseStudy.video.type} />
+            <p>
+              Your browser cannot play this video.{' '}
+              <a class="link" href={caseStudy.video.src}>
+                Download the field record
+              </a>
+              .
+            </p>
+          </video>
+        </div>
+        <figcaption>
+          {caseStudy.video.caption}{' '}
+          <span class="case__duration numeric">{caseStudy.video.durationNote}</span>
+        </figcaption>
+      </figure>
+
+      <div class="case__notes">
+        <div class="case__note-grid">
+          <div>
+            <h3 class="case__note-title">Brief</h3>
+            <p>{caseStudy.brief}</p>
+          </div>
+          <div>
+            <h3 class="case__note-title">Execution</h3>
+            <p>{caseStudy.execution}</p>
+          </div>
+          <div>
+            <h3 class="case__note-title">Outcome</h3>
+            <p>{caseStudy.outcome}</p>
+          </div>
+        </div>
+
+        <dl class="register case__specs">
+          {caseStudy.specs.map((row) => (
+            <div class="register__row">
+              <dt class="register__label">{row.label}</dt>
+              <dd class="register__value">{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <p class="case__badge-line">
+          <span class="badge badge--ok">Compliance verified</span>
+          <span class="badge">SANS 10160</span>
+          <span class="badge">SANS 10142-1</span>
+        </p>
+
+        <a class="arrow-link case__link" href="/#commission">
+          Request a comparable survey
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.25"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .case__head {
+    margin-bottom: clamp(36px, 4vw, 56px);
+  }
+
+  .case__lede {
+    display: grid;
+    gap: 24px;
+    padding-top: 6px;
+  }
+
+  .case__facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 24px;
+    margin: 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule-dark);
+  }
+
+  .case__fact {
+    display: grid;
+    gap: 4px;
+  }
+
+  .case__fact dt {
+    margin: 0;
+    color: var(--on-night-3);
+  }
+
+  .case__fact dd {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--on-night);
+  }
+
+  .case__video-frame {
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-color: var(--rule-dark);
+  }
+
+  .case__video-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case__duration {
+    color: var(--on-night-3);
+    letter-spacing: 0.02em;
+  }
+
+  .case__notes {
+    display: grid;
+    gap: 28px;
+  }
+
+  .case__note-grid {
+    display: grid;
+    gap: 22px;
+  }
+
+  .case__note-title {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--on-night-3);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule-dark);
+    margin-bottom: 10px;
+  }
+
+  .case__note-grid p {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--on-night-2);
+    max-width: 62ch;
+  }
+
+  .case__specs {
+    border-top-color: var(--rule-dark);
+  }
+
+  .case__specs .register__row {
+    border-bottom-color: var(--rule-dark);
+  }
+
+  .case__specs .register__label {
+    color: var(--on-night-3);
+  }
+
+  .case__specs .register__value {
+    color: var(--on-night);
+  }
+
+  .case__badge-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .case .badge {
+    border-color: #3a4048;
+    color: var(--on-night-2);
+  }
+
+  .case .badge--ok {
+    border-color: color-mix(in srgb, var(--ok) 65%, white);
+    color: #9fd5bd;
+    background: color-mix(in srgb, var(--ok) 18%, transparent);
+  }
+
+  .case__link {
+    justify-self: start;
+    border-bottom-color: var(--rule-dark);
+    color: var(--on-night);
+  }
+
+  .case__link:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  .case .plate figcaption {
+    color: var(--on-night-3);
+  }
+
+  @media (max-width: 767px) {
+    .case__facts {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

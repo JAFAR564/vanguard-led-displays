@@ -1,60 +1,68 @@
 #!/usr/bin/env node
-import fs from 'node:fs/promises';
-import path from 'node:path';
+/**
+ * Print the local lead ledger.
+ *
+ *   npm run leads
+ *
+ * Reads data/leads.jsonl (or LEAD_STORE_DIR). The ledger is a backup, not the
+ * system of record: production leads are delivered by webhook or email.
+ */
 
-const DATA_DIR = path.resolve(process.cwd(), 'data');
-const LEADS_FILE = path.join(DATA_DIR, 'leads.jsonl');
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
-async function main() {
-  try {
-    const raw = await fs.readFile(LEADS_FILE, 'utf-8');
-    const lines = raw.split('\n').filter((l) => l.trim().length > 0);
-    const leads = lines.map((l) => JSON.parse(l));
+const dir = process.env.LEAD_STORE_DIR ?? join(process.cwd(), 'data');
+const file = join(dir, 'leads.jsonl');
 
-    if (leads.length === 0) {
-      console.log('\n[LEADS LEDGER] No leads recorded yet in data/leads.jsonl\n');
-      return;
-    }
-
-    console.log('\n================================================================================');
-    console.log(`                     CAPTURED LEADS LEDGER (${leads.length} TOTAL)`);
-    console.log('================================================================================\n');
-
-    leads.forEach((lead, idx) => {
-      const num = String(idx + 1).padStart(2, '0');
-      const time = new Date(lead.submittedAt).toLocaleString('en-ZA', {
-        timeZone: 'Africa/Johannesburg',
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      });
-
-      console.log(`[${num}] ${lead.leadId}  |  ${time} (SAST)`);
-      if (lead.formType === 'installation_quote') {
-        console.log(`     TYPE:     SITE ASSESSMENT INQUIRY (ESTATE / COMMERCIAL)`);
-        console.log(`     CONTACT:  ${lead.fullName} (${lead.buyerRole})`);
-        console.log(`     PROPERTY: ${lead.propertyName} [${lead.propertyType}] - ${lead.townCity}`);
-        console.log(`     PHONE:    ${lead.phone}  |  EMAIL: ${lead.email}`);
-        if (lead.projectNotes) {
-          console.log(`     NOTES:    "${lead.projectNotes}"`);
-        }
-      } else {
-        console.log(`     TYPE:     SCREEN NETWORK ADVERTISING INQUIRY`);
-        console.log(`     CONTACT:  ${lead.advName} (${lead.advCompany})`);
-        console.log(`     PHONE:    ${lead.phone}  |  EMAIL: ${lead.email}`);
-        if (lead.advNotes) {
-          console.log(`     NOTES:    "${lead.advNotes}"`);
-        }
-      }
-      console.log('--------------------------------------------------------------------------------');
-    });
-    console.log(`\nAll records persisted in ${LEADS_FILE}\n`);
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      console.log('\n[LEADS LEDGER] Ledger file data/leads.jsonl does not exist yet. Submit an inquiry through the form to initialise.\n');
-    } else {
-      console.error('[LEADS LEDGER ERROR]', err);
-    }
-  }
+function truncate(value, length = 28) {
+  const text = String(value ?? '—');
+  return text.length > length ? `${text.slice(0, length - 1)}…` : text;
 }
 
-main();
+try {
+  const raw = await readFile(file, 'utf8');
+  const leads = raw
+    .split('\n')
+    .filter(Boolean)
+    .map((line) => {
+      try {
+        return JSON.parse(line);
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean);
+
+  if (leads.length === 0) {
+    console.log(`No leads recorded in ${file}`);
+    process.exit(0);
+  }
+
+  console.log(`\n${leads.length} lead${leads.length === 1 ? '' : 's'} · ${file}\n`);
+
+  const header = ['Reference', 'Received', 'Type', 'Name', 'Town / company'];
+  console.log(header.map((h) => h.padEnd(20)).join(''));
+
+  for (const lead of leads) {
+    const received = lead.submittedAt ? new Date(lead.submittedAt).toISOString().slice(0, 16) : '—';
+    const type = lead.formType === 'advertising_enquiry' ? 'advertising' : 'installation';
+    const town = lead.townCity ?? lead.company ?? '—';
+    console.log(
+      [
+        truncate(lead.reference, 20).padEnd(20),
+        received.replace('T', ' ').padEnd(20),
+        type.padEnd(20),
+        truncate(lead.fullName, 20).padEnd(20),
+        truncate(town, 28),
+      ].join(''),
+    );
+  }
+  console.log('');
+} catch (error) {
+  if (error.code === 'ENOENT') {
+    console.log(`No ledger yet at ${file}. Submit an enquiry first.`);
+  } else {
+    console.error('Could not read the ledger:', error.message);
+    process.exitCode = 1;
+  }
+}

@@ -125,6 +125,12 @@
     background-color: var(--color-bg-obsidian);
     margin-bottom: 1.75rem;
     border: 1px solid var(--color-border-hairline);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .split-visual-frame:hover {
+    border-color: #CBD5E1;
+    box-shadow: 0 8px 24px rgba(11, 15, 23, 0.06);
   }
 
   .split-image {
@@ -132,6 +138,11 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .split-visual-frame:hover .split-image {
+    transform: scale(1.02);
   }
 
   .split-heading {

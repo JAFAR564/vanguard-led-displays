@@ -76,7 +76,7 @@ html {
   scroll-padding-top: 80px;
   scroll-padding-bottom: 80px;
   -webkit-text-size-adjust: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -89,7 +89,7 @@ body {
   line-height: var(--line-height-body);
   color: var(--color-text-secondary);
   background-color: var(--color-bg-primary);
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
 }
 
@@ -97,7 +97,7 @@ main {
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   flex: 1 0 auto;
 }
 

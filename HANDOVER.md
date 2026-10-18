@@ -108,9 +108,50 @@ confirmation panel and into the pre-filled WhatsApp link.
 
 ### Vercel
 
-`VERCEL=1` during build selects the Vercel adapter. `vercel.json` supplies
-`X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, a permissions policy, COOP,
-HSTS, and immutable cache headers for `/_astro/*`.
+No Vercel-specific build command is needed. Vercel sets `VERCEL=1`, which switches the adapter
+from `@astrojs/node` to `@astrojs/vercel`; the build then emits the Build Output API tree in
+`.vercel/output` (static assets, one `_render` function on `nodejs22.x`, and a route table that
+sends `/api/enquiry`, `/404` and unmatched paths to the function). `package.json` pins
+`engines.node` to `22.x`.
+
+**Import path (recommended):** project → *Add New* → *Project* → import
+`JAFAR564/vanguard-led-displays` → leave Framework Preset as **Astro**, root directory `./`,
+build command `npm run build`, output directory default. Then add the environment variables
+below under *Settings → Environment Variables* for **Production** (and Preview if wanted) and
+redeploy.
+
+**CLI path:** `npx vercel link`, `npx vercel env pull`, `npx vercel --prod`.
+
+Environment variables required before the site can accept enquiries:
+
+| Variable | Required | Notes |
+| --- | --- | --- |
+| `LEAD_WEBHOOK_URL` | one of these two | CRM / automation endpoint |
+| `LEAD_WEBHOOK_SECRET` | optional | sent as `X-Vanguard-Secret` |
+| `RESEND_API_KEY` | one of these two | plus the two addresses below |
+| `LEAD_TO_EMAIL` / `LEAD_FROM_EMAIL` | with Resend | must be a verified sending domain |
+| `ALLOWED_ORIGINS` | optional | extra origin hosts, comma separated |
+| `REQUIRE_LEAD_DELIVERY` | optional | leave unset (`true`) unless the ledger is durable |
+| `LEAD_STORE_DIR` | optional | defaults to `/tmp` on Vercel, which is **ephemeral** |
+
+Until a transport is configured, `NODE_ENV=production` makes `/api/enquiry` return
+`503 DELIVERY_UNAVAILABLE` for every submission — by design. The site renders normally; only the
+forms fail closed.
+
+`vercel.json` supplies `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, a
+permissions policy, COOP, HSTS, and immutable cache headers for `/_astro/*`. Verify after the
+first deploy, because header routes are applied by the platform and are not part of the
+generated `.vercel/output/config.json`:
+
+```bash
+curl -sI https://<domain>/ | grep -iE 'strict-transport|x-frame|referrer|x-content-type'
+curl -sI https://<domain>/_astro/<any-asset>.css | grep -i cache-control
+curl -s -o /dev/null -w '%{http_code}\n' https://<domain>/api/enquiry      # expect 405
+curl -s -o /dev/null -w '%{http_code}\n' https://<domain>/does-not-exist    # expect 404
+```
+
+`.vercelignore` keeps `data/`, `docs/` and `.agents/` out of CLI source uploads so a local lead
+ledger can never be bundled into the deployment.
 
 ### Node host
 

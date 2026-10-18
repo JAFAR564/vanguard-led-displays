@@ -30,7 +30,9 @@ export interface AdvertisingLead extends BaseLead {
 
 export type LeadRecord = InstallationLead | AdvertisingLead;
 
-const DATA_DIR = path.resolve(process.cwd(), 'data');
+const DATA_DIR = process.env.VERCEL
+  ? path.join('/tmp', 'data')
+  : path.resolve(process.cwd(), 'data');
 const LEADS_FILE = path.join(DATA_DIR, 'leads.jsonl');
 
 /**

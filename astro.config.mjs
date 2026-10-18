@@ -1,11 +1,16 @@
 import { defineConfig, passthroughImageService } from 'astro/config';
 import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
+
+const isVercel = Boolean(process.env.VERCEL);
 
 export default defineConfig({
   output: 'static',
-  adapter: node({
-    mode: 'standalone',
-  }),
+  adapter: isVercel
+    ? vercel()
+    : node({
+        mode: 'standalone',
+      }),
   security: {
     checkOrigin: false,
   },

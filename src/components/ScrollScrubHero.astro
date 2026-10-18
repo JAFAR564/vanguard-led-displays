@@ -1,0 +1,671 @@
+---
+/**
+ * ScrollScrubHero.astro
+ * 
+ * 60fps HTML5 Canvas scroll-driven product reveal engine.
+ * Preloads 96 high-resolution WebP frames and smoothly interpolates
+ * between frame indexes locked to the 300vh scroll progress.
+ * 
+ * Adheres strictly to Vanguard Architectural Displays design tokens,
+ * zero-OEM white-label mandate, and WCAG 2.2 Level AA accessibility.
+ */
+---
+
+<section class="hero-scroll-track" id="hero" aria-label="Architectural LED Infrastructure Cinematic Reveal">
+  <!-- Sticky Viewport Stage -->
+  <div class="hero-sticky-stage" id="sticky-stage">
+    
+    <!-- Fallback static hero image for instant First Contentful Paint & reduced motion -->
+    <div class="hero-fallback-backdrop" id="hero-fallback">
+      <img 
+        src="/assets/hero-fallback.webp" 
+        alt="Vanguard Architectural Outdoor LED Screen in Estate Amphitheater" 
+        class="fallback-img"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <!-- 60fps High-DPI Canvas -->
+    <canvas id="hero-scrub-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+
+    <!-- Subtle Vignette & Gradient Overlays for Architectural Legibility -->
+    <div class="hero-gradient-overlay" aria-hidden="true"></div>
+
+    <!-- Telemetry HUD & Scroll Indicator -->
+    <div class="hero-telemetry-bar">
+      <div class="telemetry-pill">
+        <span class="telemetry-dot"></span>
+        <span class="telemetry-label">SYSTEM READY · 60 FPS LERP ENGINE</span>
+      </div>
+      <div class="telemetry-progress-track">
+        <div class="telemetry-progress-fill" id="telemetry-fill"></div>
+      </div>
+      <span class="telemetry-counter" id="telemetry-frame">FRM 01/96</span>
+    </div>
+
+    <!-- Synchronized 3-Beat Architectural Narrative Captions -->
+    <div class="hero-content-overlay container">
+      
+      <!-- Beat 1: Brand & Architectural Provenance (0% - 28%) -->
+      <div class="caption-card beat-1 active" id="beat-1">
+        <span class="section-index">01 / ARCHITECTURAL ENGINEERING</span>
+        <h1 class="caption-title">The Engineering of Architectural Light</h1>
+        <p class="caption-subtext">
+          Bespoke, turnkey LED display monoliths for South African luxury residential estates and commercial atriums. Seamless integration with zero compromise.
+        </p>
+        <div class="caption-actions">
+          <a href="#inquiry" class="btn btn-dark action-btn">
+            <span>Book On-Site Survey</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <span class="scroll-cue">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            Scroll to inspect chassis
+          </span>
+        </div>
+      </div>
+
+      <!-- Beat 2: Hardware Benchmarks & Daylight Luminance (33% - 62%) -->
+      <div class="caption-card beat-2" id="beat-2">
+        <span class="section-index">02 / HARDWARE BENCHMARKS</span>
+        <h2 class="caption-title">Up to 10,000 Nits True-Black Contrast</h2>
+        <p class="caption-subtext">
+          Thermal-conductive die-cast aluminium cabinets engineered for extreme African coastal sun and salt-air climates. Automatic ambient lux dimming complies strictly with STSMA PMR 29 governance.
+        </p>
+        <div class="spec-pills-row">
+          <span class="spec-pill">IP65 Hermetic Ingress</span>
+          <span class="spec-pill">16-Bit Grayscale</span>
+          <span class="spec-pill">Dual Magnetic Service</span>
+        </div>
+      </div>
+
+      <!-- Beat 3: Environmental Custody & Turnkey SLA (66% - 98%) -->
+      <div class="caption-card beat-3" id="beat-3">
+        <span class="section-index">03 / REGIONAL PROVENANCE</span>
+        <h2 class="caption-title">George Hub · Turnkey Western Cape SLA</h2>
+        <p class="caption-subtext">
+          Direct physical custody from structural foundation engineering (SANS 10160) and electrical compliance (SANS 10142-1) through to on-site preventive maintenance.
+        </p>
+        <div class="caption-actions">
+          <a href="#inquiry" class="btn btn-dark action-btn">
+            <span>Request Site Assessment</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#matrix" class="action-link">
+            <span>Compare Specifications</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Scroll Indicator Cue -->
+    <div class="hero-scroll-indicator" aria-hidden="true">
+      <div class="scroll-mouse-icon">
+        <div class="scroll-mouse-wheel"></div>
+      </div>
+      <span class="scroll-text">CONTINUE SCROLLING</span>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .hero-scroll-track {
+    position: relative;
+    height: 300vh;
+    width: 100%;
+    max-width: 100%;
+    background-color: var(--color-bg-obsidian);
+  }
+
+  .hero-sticky-stage {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Canvas styling */
+  .hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .hero-canvas.is-ready {
+    opacity: 1;
+  }
+
+  /* Static fallback backdrop */
+  .hero-fallback-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-color: var(--color-bg-obsidian);
+  }
+
+  .fallback-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.6;
+  }
+
+  /* Gradient overlays for high text contrast */
+  .hero-gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, rgba(11, 15, 23, 0.4) 0%, rgba(11, 15, 23, 0.88) 100%),
+                linear-gradient(180deg, rgba(11, 15, 23, 0.7) 0%, rgba(11, 15, 23, 0.3) 40%, rgba(11, 15, 23, 0.85) 100%);
+  }
+
+  /* Telemetry Top Bar */
+  .hero-telemetry-bar {
+    position: absolute;
+    top: clamp(1rem, 2.5vw, 1.75rem);
+    left: var(--container-padding);
+    right: var(--container-padding);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-muted-dark);
+    pointer-events: none;
+  }
+
+  .telemetry-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-pill);
+    background-color: rgba(20, 26, 35, 0.8);
+    border: 1px solid var(--color-border-dark);
+    backdrop-filter: blur(8px);
+  }
+
+  .telemetry-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-accent-cyan);
+    box-shadow: 0 0 8px var(--color-accent-cyan);
+  }
+
+  .telemetry-progress-track {
+    flex: 1;
+    max-width: 200px;
+    height: 2px;
+    background-color: var(--color-border-dark);
+    border-radius: 1px;
+    overflow: hidden;
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .telemetry-progress-track {
+      display: block;
+    }
+  }
+
+  .telemetry-progress-fill {
+    width: 0%;
+    height: 100%;
+    background-color: var(--color-accent-cyan);
+    transition: width 0.05s linear;
+  }
+
+  .telemetry-counter {
+    letter-spacing: 0.08em;
+  }
+
+  /* Content Overlay & Narrative Cards */
+  .hero-content-overlay {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .caption-card {
+    position: absolute;
+    max-width: 720px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .caption-card.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .section-index {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--color-accent-cyan);
+    margin-bottom: 0.75rem;
+  }
+
+  .caption-title {
+    font-size: clamp(2rem, 4vw + 0.8rem, 3.5rem);
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    color: var(--color-text-on-dark);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+  }
+
+  .caption-subtext {
+    font-size: clamp(1rem, 1.3vw, 1.1875rem);
+    line-height: 1.6;
+    color: var(--color-text-muted-dark);
+    max-width: 58ch;
+    margin-bottom: 1.75rem;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .caption-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .action-btn {
+    background-color: #FFFFFF;
+    color: var(--color-bg-obsidian);
+    padding: 0.875rem 1.75rem;
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .action-btn:hover {
+    background-color: var(--color-bg-stone);
+    color: var(--color-bg-obsidian);
+    transform: translateY(-1px);
+  }
+
+  .action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text-on-dark);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .action-link:hover {
+    color: var(--color-accent-cyan);
+    text-decoration: underline;
+  }
+
+  .scroll-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-muted-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .spec-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .spec-pill {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-text-on-dark);
+    background-color: rgba(20, 26, 35, 0.8);
+    border: 1px solid var(--color-border-dark);
+    padding: 0.4rem 0.875rem;
+    border-radius: var(--radius-pill);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Bottom Scroll Cue */
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: clamp(1rem, 2.5vw, 2rem);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    color: var(--color-text-muted-dark);
+    pointer-events: none;
+  }
+
+  .scroll-mouse-icon {
+    width: 18px;
+    height: 28px;
+    border: 1px solid var(--color-border-dark);
+    border-radius: 10px;
+    position: relative;
+  }
+
+  .scroll-mouse-wheel {
+    width: 2px;
+    height: 6px;
+    background-color: var(--color-accent-cyan);
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 1px;
+    animation: mouseWheel 1.8s infinite;
+  }
+
+  @keyframes mouseWheel {
+    0% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, 10px);
+    }
+  }
+
+  /* Reduced motion degradation */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scroll-track {
+      height: auto;
+    }
+    .hero-sticky-stage {
+      position: relative;
+      height: auto;
+      min-height: 80vh;
+      padding: 5rem 0;
+    }
+    .hero-canvas {
+      display: none;
+    }
+    .caption-card {
+      position: relative;
+      opacity: 1 !important;
+      transform: none !important;
+      margin-bottom: 2rem;
+    }
+    .caption-card:not(.beat-1) {
+      display: none;
+    }
+    .hero-scroll-indicator, .hero-telemetry-bar {
+      display: none;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .caption-actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+    .action-btn {
+      width: 100%;
+      justify-content: center;
+    }
+    .action-link {
+      justify-content: center;
+    }
+    .scroll-cue {
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  (function initScrollScrubHero() {
+    const track = document.querySelector('.hero-scroll-track') as HTMLElement | null;
+    const canvas = document.getElementById('hero-scrub-canvas') as HTMLCanvasElement | null;
+    const fallback = document.getElementById('hero-fallback') as HTMLElement | null;
+    const telemetryFill = document.getElementById('telemetry-fill');
+    const telemetryFrame = document.getElementById('telemetry-frame');
+    
+    const beat1 = document.getElementById('beat-1');
+    const beat2 = document.getElementById('beat-2');
+    const beat3 = document.getElementById('beat-3');
+
+    if (!track || !canvas) return;
+
+    // Honor user accessibility preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    const ctx = canvas.getContext('2d', { alpha: false });
+    if (!ctx) return;
+
+    const TOTAL_FRAMES = 96;
+    const FRAME_BASE_URL = '/assets/scrollytelling/hero/frame_';
+    const frames: HTMLImageElement[] = new Array(TOTAL_FRAMES);
+    let loadedCount = 0;
+    let currentRenderIndex = 0;
+    let targetProgress = 0;
+    let currentProgress = 0;
+    let isTicking = false;
+
+    // Responsive Canvas Resizing with devicePixelRatio compensation
+    function resizeCanvas() {
+      if (!canvas || !ctx) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2x for optimal mobile memory
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      renderFrame(currentRenderIndex);
+    }
+
+    // Cover math logic preserving original 16:9 aspect ratio
+    function renderFrame(index: number) {
+      if (!ctx || !canvas) return;
+      const img = frames[index];
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+
+      const scale = Math.max(cw / iw, ch / ih);
+      const nw = iw * scale;
+      const nh = ih * scale;
+      const nx = (cw - nw) / 2;
+      const ny = (ch - nh) / 2;
+
+      ctx.drawImage(img, nx, ny, nw, nh);
+    }
+
+    // Preload helper
+    function loadFrame(i: number): Promise<void> {
+      return new Promise((resolve) => {
+        if (frames[i]) {
+          resolve();
+          return;
+        }
+        const img = new Image();
+        const padIndex = String(i + 1).padStart(3, '0');
+        img.src = `${FRAME_BASE_URL}${padIndex}.webp`;
+        img.onload = () => {
+          frames[i] = img;
+          loadedCount++;
+          if (i === 0) {
+            canvas?.classList.add('is-ready');
+            if (fallback) fallback.style.opacity = '0';
+            renderFrame(0);
+          }
+          resolve();
+        };
+        img.onerror = () => {
+          resolve();
+        };
+      });
+    }
+
+    // Phase 1: Preload first 15 critical frames immediately
+    const criticalPromises: Promise<void>[] = [];
+    for (let i = 0; i < Math.min(15, TOTAL_FRAMES); i++) {
+      criticalPromises.push(loadFrame(i));
+    }
+
+    Promise.all(criticalPromises).then(() => {
+      // Phase 2: Lazy load remaining frames progressively via IdleCallback or low-priority chunks
+      let remaining = 15;
+      function loadNextChunk() {
+        if (remaining >= TOTAL_FRAMES) return;
+        const chunkEnd = Math.min(remaining + 10, TOTAL_FRAMES);
+        for (let j = remaining; j < chunkEnd; j++) {
+          loadFrame(j);
+        }
+        remaining = chunkEnd;
+        if (remaining < TOTAL_FRAMES) {
+          if ('requestIdleCallback' in window) {
+            (window as any).requestIdleCallback(loadNextChunk, { timeout: 1000 });
+          } else {
+            setTimeout(loadNextChunk, 80);
+          }
+        }
+      }
+      loadNextChunk();
+    });
+
+    // 60fps Lerp Animation Loop
+    function lerp(start: number, end: number, factor: number): number {
+      return start + (end - start) * factor;
+    }
+
+    function updateNarrativeBeats(progress: number) {
+      // Beat 1: 0% to 28%
+      const inBeat1 = progress <= 0.28;
+      // Beat 2: 32% to 62%
+      const inBeat2 = progress >= 0.32 && progress <= 0.62;
+      // Beat 3: 66% to 100%
+      const inBeat3 = progress >= 0.66;
+
+      if (beat1) beat1.classList.toggle('active', inBeat1);
+      if (beat2) beat2.classList.toggle('active', inBeat2);
+      if (beat3) beat3.classList.toggle('active', inBeat3);
+
+      if (telemetryFill) {
+        telemetryFill.style.width = `${Math.round(progress * 100)}%`;
+      }
+      if (telemetryFrame) {
+        const frameNum = Math.min(Math.floor(progress * (TOTAL_FRAMES - 1)) + 1, TOTAL_FRAMES);
+        telemetryFrame.textContent = `FRM ${String(frameNum).padStart(2, '0')}/${TOTAL_FRAMES}`;
+      }
+    }
+
+    function animate() {
+      // Linear interpolation smoothing out mobile touch scrolling
+      currentProgress = lerp(currentProgress, targetProgress, 0.08);
+
+      const targetFrame = Math.round(currentProgress * (TOTAL_FRAMES - 1));
+      const clampedFrame = Math.max(0, Math.min(targetFrame, TOTAL_FRAMES - 1));
+
+      if (clampedFrame !== currentRenderIndex) {
+        currentRenderIndex = clampedFrame;
+        renderFrame(currentRenderIndex);
+      }
+
+      updateNarrativeBeats(currentProgress);
+
+      // Keep animation loop alive if there is significant delta
+      if (Math.abs(targetProgress - currentProgress) > 0.0005) {
+        requestAnimationFrame(animate);
+      } else {
+        isTicking = false;
+      }
+    }
+
+    function onScroll() {
+      if (!track) return;
+      const rect = track.getBoundingClientRect();
+      const scrollDistance = track.offsetHeight - window.innerHeight;
+      
+      if (scrollDistance <= 0) return;
+
+      const progress = Math.max(0, Math.min(1, -rect.top / scrollDistance));
+      targetProgress = progress;
+
+      if (!isTicking) {
+        isTicking = true;
+        requestAnimationFrame(animate);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+
+    // Initial configuration
+    resizeCanvas();
+    onScroll();
+  })();
+</script>

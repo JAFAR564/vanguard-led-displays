@@ -40,6 +40,22 @@ const layers = [
         </div>
       ))}
     </div>
+
+    <!-- Exploded Architectural Hardware Showcase -->
+    <div class="chassis-diagram-container">
+      <img 
+        src="/assets/hardware-exploded-chassis.jpg" 
+        alt="Exploded architectural LED display cabinet diagram showing die-cast thermal aluminium frame and IP65 hermetic sealing"
+        width="1440"
+        height="810"
+        loading="lazy"
+        decoding="async"
+        class="chassis-diagram-img"
+      />
+      <div class="chassis-diagram-caption">
+        <span class="caption-mono">DIE-CAST THERMAL CHASSIS · IP65 HERMETIC PERIMETER · FRONT VACUUM-MAGNETIC SERVICE</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -107,5 +123,35 @@ const layers = [
     line-height: 1.65;
     color: var(--color-text-muted-dark);
     max-width: 36ch;
+  }
+
+  .chassis-diagram-container {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-bg-dark-elev);
+  }
+
+  .chassis-diagram-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .chassis-diagram-caption {
+    padding: 0.875rem 1.25rem;
+    background-color: rgba(11, 15, 23, 0.95);
+    border-top: 1px solid var(--color-border-dark);
+  }
+
+  .caption-mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-cyan);
+    display: block;
   }
 </style>

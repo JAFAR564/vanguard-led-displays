@@ -52,9 +52,17 @@ const comparisonRows = [
       <table class="borderless-table" role="table">
         <thead>
           <tr class="table-header-row">
-            <th scope="col" class="th-param">Engineering Parameter</th>
-            <th scope="col" class="th-col">Outdoor Weatherproof Displays</th>
-            <th scope="col" class="th-col">Indoor Commercial Video Walls</th>
+            <th scope="col" class="th-param">
+              <span class="th-param-label">Engineering Parameter</span>
+            </th>
+            <th scope="col" class="th-col th-col--outdoor">
+              <span class="th-archetype-badge">Direct Ownership / CapEx</span>
+              <div class="th-title">Outdoor Weatherproof Displays</div>
+            </th>
+            <th scope="col" class="th-col th-col--indoor">
+              <span class="th-archetype-badge th-archetype-badge--indoor">Revenue Share / Turnkey Media</span>
+              <div class="th-title">Indoor Commercial Video Walls</div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -76,12 +84,18 @@ const comparisonRows = [
           <div class="mobile-matrix-param-tag">{row.parameter}</div>
           
           <div class="mobile-matrix-spec">
-            <span class="mobile-spec-badge">Outdoor Weatherproof</span>
+            <div class="mobile-spec-header">
+              <span class="mobile-spec-badge">Outdoor Weatherproof</span>
+              <span class="mobile-archetype-label">Direct Ownership</span>
+            </div>
             <p class="mobile-spec-desc">{row.outdoor}</p>
           </div>
 
           <div class="mobile-matrix-spec">
-            <span class="mobile-spec-badge mobile-spec-badge--indoor">Indoor Commercial</span>
+            <div class="mobile-spec-header">
+              <span class="mobile-spec-badge mobile-spec-badge--indoor">Indoor Commercial</span>
+              <span class="mobile-archetype-label">Revenue Share</span>
+            </div>
             <p class="mobile-spec-desc">{row.indoor}</p>
           </div>
         </div>
@@ -186,24 +200,66 @@ const comparisonRows = [
   }
 
   .table-header-row th {
-    padding: 1rem 1.5rem 1rem 0;
     font-size: 0.9375rem;
     font-weight: 600;
     color: var(--color-text-primary);
     letter-spacing: -0.01em;
+    vertical-align: bottom;
   }
 
   .th-param {
-    width: 25%;
+    width: 26%;
+    padding: 1rem 1.5rem 1.25rem 0;
+  }
+
+  .th-param-label {
     font-family: var(--font-mono);
-    font-size: 0.8125rem !important;
+    font-size: 0.75rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-muted) !important;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
   }
 
   .th-col {
-    width: 37.5%;
+    width: 37%;
+    border-top: 2px solid var(--color-text-primary);
+    border-left: 1px solid var(--color-border-hairline);
+    padding: 1rem 1.5rem 1.25rem 1.75rem;
+    background-color: rgba(247, 247, 245, 0.4);
+  }
+
+  .th-col--indoor {
+    background-color: rgba(241, 245, 249, 0.3);
+  }
+
+  .th-archetype-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #0B0F17;
+    background-color: var(--color-bg-stone);
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border-hairline);
+    margin-bottom: 0.5rem;
+  }
+
+  .th-archetype-badge--indoor {
+    background-color: #F1F5F9;
+    border-color: #CBD5E1;
+    color: #0F172A;
+  }
+
+  .th-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    letter-spacing: -0.015em;
+    line-height: 1.35;
   }
 
   .table-body-row {
@@ -212,7 +268,7 @@ const comparisonRows = [
   }
 
   .table-body-row:hover {
-    background-color: var(--color-bg-stone);
+    background-color: rgba(247, 247, 245, 0.5);
   }
 
   .table-body-row td {
@@ -223,19 +279,42 @@ const comparisonRows = [
   }
 
   .td-param {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem !important;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
     font-weight: 600;
-    color: var(--color-text-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: #0B0F17;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    padding-right: 1.5rem;
+    width: 26%;
   }
 
   .td-value {
     color: var(--color-text-secondary);
   }
 
-  .td-outdoor {
-    padding-right: 2rem !important;
+  .td-outdoor,
+  .td-indoor {
+    border-left: 1px solid var(--color-border-hairline);
+    padding-left: 1.75rem !important;
+    padding-right: 1.5rem !important;
+    width: 37%;
+  }
+
+  .mobile-spec-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .mobile-archetype-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 </style>

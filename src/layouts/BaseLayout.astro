@@ -9,7 +9,7 @@ interface Props {
 }
 
 const {
-  title = "LED Screen Installation South Africa | SA LED Displays",
+  title = `${siteConfig.brand.name} | Installed LED Displays South Africa`,
   description = "Turnkey indoor and outdoor LED display screens for South African residential estates, shopping centres and commercial properties. Request a site assessment.",
   canonicalUrl = "https://leddisplays.co.za/",
 } = Astro.props;
@@ -21,7 +21,7 @@ const jsonLdOrg = {
   "name": siteConfig.brand.name,
   "legalName": siteConfig.brand.legalName,
   "url": canonicalUrl,
-  "logo": "https://leddisplays.co.za/favicon.svg",
+  "logo": "https://leddisplays.co.za/assets/brand-logo.svg",
   "telephone": siteConfig.contact.phoneDial,
   "address": {
     "@type": "PostalAddress",

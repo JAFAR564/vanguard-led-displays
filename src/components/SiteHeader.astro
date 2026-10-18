@@ -4,27 +4,33 @@ import { siteConfig } from '../config/site';
 
 <header class="site-header" id="top">
   <div class="container site-header__inner">
-    <!-- Minimalist Brand Identity -->
-    <a href="#top" class="brand-link" aria-label={`${siteConfig.brand.name} - Home`}>
-      <span class="brand-dot" aria-hidden="true"></span>
-      <span class="brand-text">SA LED <span class="brand-subtext">DISPLAYS</span></span>
+    <!-- Minimalist Brand Identity with Vector Logo -->
+    <a href="/" class="brand-link" aria-label={`${siteConfig.brand.name} - Home`}>
+      <img 
+        src="/assets/brand-logo.svg" 
+        alt={siteConfig.brand.name} 
+        class="brand-logo-img" 
+        width="220" 
+        height="36" 
+      />
     </a>
 
     <!-- Desktop Navigation -->
     <nav class="desktop-nav" aria-label="Main Navigation">
       <ul class="nav-links">
-        <li><a href="#use-cases" class="nav-anchor">Applications</a></li>
-        <li><a href="#featured-project" class="nav-anchor">Case Study</a></li>
-        <li><a href="#solutions" class="nav-anchor">Comparison</a></li>
-        <li><a href="#process" class="nav-anchor">Process</a></li>
-        <li><a href="#architecture" class="nav-anchor">Architecture</a></li>
-        <li><a href="#faq" class="nav-anchor">FAQ</a></li>
+        <li><a href="/#use-cases" class="nav-anchor">Applications</a></li>
+        <li><a href="/#featured-project" class="nav-anchor">Case Study</a></li>
+        <li><a href="/#solutions" class="nav-anchor">Comparison</a></li>
+        <li><a href="/#process" class="nav-anchor">Process</a></li>
+        <li><a href="/#architecture" class="nav-anchor">Architecture</a></li>
+        <li><a href="/about" class="nav-anchor">About</a></li>
+        <li><a href="/#faq" class="nav-anchor">FAQ</a></li>
       </ul>
     </nav>
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <a href="#inquiry" class="btn btn-dark header-pill-btn">
+      <a href="/#inquiry" class="btn btn-dark header-pill-btn">
         Book Assessment
       </a>
       <button 
@@ -44,14 +50,15 @@ import { siteConfig } from '../config/site';
   <div id="mobile-dropdown" class="mobile-dropdown" hidden>
     <div class="container">
       <ul class="mobile-nav-list">
-        <li><a href="#use-cases" class="mobile-anchor">Applications</a></li>
-        <li><a href="#featured-project" class="mobile-anchor">Case Study</a></li>
-        <li><a href="#solutions" class="mobile-anchor">Comparison</a></li>
-        <li><a href="#process" class="mobile-anchor">Process</a></li>
-        <li><a href="#architecture" class="mobile-anchor">Architecture</a></li>
-        <li><a href="#faq" class="mobile-anchor">FAQ</a></li>
+        <li><a href="/#use-cases" class="mobile-anchor">Applications</a></li>
+        <li><a href="/#featured-project" class="mobile-anchor">Case Study</a></li>
+        <li><a href="/#solutions" class="mobile-anchor">Comparison</a></li>
+        <li><a href="/#process" class="mobile-anchor">Process</a></li>
+        <li><a href="/#architecture" class="mobile-anchor">Architecture</a></li>
+        <li><a href="/about" class="mobile-anchor">About</a></li>
+        <li><a href="/#faq" class="mobile-anchor">FAQ</a></li>
         <li class="mobile-dropdown-cta">
-          <a href="#inquiry" class="btn btn-dark btn-full">Book On-Site Assessment</a>
+          <a href="/#inquiry" class="btn btn-dark btn-full">Book On-Site Assessment</a>
         </li>
       </ul>
     </div>
@@ -100,30 +107,14 @@ import { siteConfig } from '../config/site';
   .brand-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
     text-decoration: none;
-    color: var(--color-text-primary);
   }
 
-  .brand-dot {
-    width: 8px;
-    height: 8px;
-    background-color: var(--color-text-primary);
-    border-radius: var(--radius-pill);
-  }
-
-  .brand-text {
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: var(--color-text-primary);
-  }
-
-  .brand-subtext {
-    font-size: 0.8125rem;
-    font-weight: 400;
-    color: var(--color-text-secondary);
-    letter-spacing: 0.06em;
+  .brand-logo-img {
+    height: 32px;
+    width: auto;
+    display: block;
+    max-width: 100%;
   }
 
   .desktop-nav {

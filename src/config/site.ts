@@ -15,6 +15,30 @@ export interface SiteConfig {
     headquarters: string;
     serviceAreaSummary: string;
   };
+  navigation: {
+    label: string;
+    href: string;
+  }[];
+  hardwareBenchmarks: {
+    outdoor: {
+      category: string;
+      brightness: string;
+      chassis: string;
+      weatherRating: string;
+      pixelPitches: string;
+      thermal: string;
+      service: string;
+    };
+    indoor: {
+      category: string;
+      brightness: string;
+      chassis: string;
+      technology: string;
+      pixelPitches: string;
+      refreshRate: string;
+      service: string;
+    };
+  };
   contact: {
     phoneDisplay: string;
     phoneDial: string;
@@ -60,12 +84,43 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   brand: {
-    name: "South African LED Displays",
-    legalName: "SA LED Display Systems (Pty) Ltd",
-    tagline: "Installed LED Display Screens for Residential Estates and Commercial Properties",
+    name: "Vanguard Architectural Displays",
+    legalName: "Vanguard Display Systems (Pty) Ltd",
+    tagline: "Turnkey LED Display Infrastructure for Residential Estates and Commercial Precincts",
     establishedYear: 2024,
     headquarters: "George, Western Cape, South Africa",
     serviceAreaSummary: "Headquartered in George, Western Cape. Direct on-site feasibility assessments conducted across the Garden Route and Western Cape, with commercial and estate projects undertaken nationwide across South Africa.",
+  },
+
+  navigation: [
+    { label: "Overview", href: "/#hero" },
+    { label: "Applications", href: "/#use-cases" },
+    { label: "Flagship Project", href: "/#featured-project" },
+    { label: "Comparison", href: "/#matrix" },
+    { label: "Process", href: "/#process" },
+    { label: "About", href: "/about" },
+    { label: "FAQ", href: "/#faq" },
+  ],
+
+  hardwareBenchmarks: {
+    outdoor: {
+      category: "Architectural Exterior",
+      brightness: "Up to 10,000 Nits (Auto-Calibrating Ambient Lux Sensor)",
+      chassis: "Die-Cast Thermal-Conductive Aluminium",
+      weatherRating: "IP65 Front & Rear Ingress Protection",
+      pixelPitches: "P2.5, P3.0, P4.0, P6.0, P8.0, P10.0",
+      thermal: "Fanless Convective Heat Dissipation (Silent Operation)",
+      service: "Front & Rear Fast-Latch Module Maintenance",
+    },
+    indoor: {
+      category: "Commercial Interior",
+      brightness: "600 – 1,000 Nits (Anti-Glare Matte Encapsulation)",
+      chassis: "Precision CNC Magnesium/Aluminium Alloy (16:9 Ratio)",
+      technology: "Micro-COB (Chip-on-Board) & Fine-Pitch SMD",
+      pixelPitches: "P0.9, P1.2, P1.5, P1.8, P2.5",
+      refreshRate: "≥ 3,840 Hz with 16-Bit Grayscale Processing",
+      service: "100% Front Vacuum-Magnetic Module Servicing",
+    }
   },
 
   contact: {

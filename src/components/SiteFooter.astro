@@ -10,10 +10,15 @@ const currentYear = new Date().getFullYear();
     <div class="grid-12 footer-main-grid">
       <!-- Col 1: Identity & Legal Entity -->
       <div class="footer-col footer-col--brand">
-        <div class="footer-brand-title">
-          <span class="footer-dot" aria-hidden="true"></span>
-          <span class="footer-brand-name">SA LED <span class="footer-brand-sub">DISPLAYS</span></span>
-        </div>
+        <a href="/" class="footer-brand-title" aria-label={`${siteConfig.brand.name} - Home`}>
+          <img 
+            src="/assets/brand-logo-light.svg" 
+            alt={siteConfig.brand.name} 
+            class="footer-logo-img" 
+            width="220" 
+            height="36" 
+          />
+        </a>
         <p class="footer-legal-desc">
           {siteConfig.brand.legalName}. Turnkey supply, structural engineering, and permanent installation of commercial and residential estate LED display screens across South Africa.
         </p>
@@ -39,13 +44,15 @@ const currentYear = new Date().getFullYear();
       <div class="footer-col">
         <h3 class="footer-col-title">Navigation</h3>
         <ul class="footer-link-list">
-          <li><a href="#use-cases" class="footer-nav-link">Applications</a></li>
-          <li><a href="#featured-project" class="footer-nav-link">Case Study</a></li>
-          <li><a href="#solutions" class="footer-nav-link">Comparison</a></li>
-          <li><a href="#process" class="footer-nav-link">Process</a></li>
-          <li><a href="#architecture" class="footer-nav-link">Architecture</a></li>
-          <li><a href="#faq" class="footer-nav-link">FAQ</a></li>
-          <li><a href="#inquiry" class="footer-nav-link">Project Inquiry</a></li>
+          <li><a href="/" class="footer-nav-link">Home</a></li>
+          <li><a href="/about" class="footer-nav-link">About & Engineering</a></li>
+          <li><a href="/#use-cases" class="footer-nav-link">Applications</a></li>
+          <li><a href="/#featured-project" class="footer-nav-link">Case Study</a></li>
+          <li><a href="/#solutions" class="footer-nav-link">Comparison</a></li>
+          <li><a href="/#process" class="footer-nav-link">Process</a></li>
+          <li><a href="/#architecture" class="footer-nav-link">Architecture</a></li>
+          <li><a href="/#faq" class="footer-nav-link">FAQ</a></li>
+          <li><a href="/#inquiry" class="footer-nav-link">Project Inquiry</a></li>
         </ul>
       </div>
 
@@ -198,17 +205,17 @@ const currentYear = new Date().getFullYear();
   }
 
   .footer-brand-title {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    text-decoration: none;
   }
 
-  .footer-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--color-accent-cyan);
-    border-radius: var(--radius-pill);
+  .footer-logo-img {
+    height: 32px;
+    width: auto;
+    display: block;
+    max-width: 100%;
   }
 
   .footer-brand-name {

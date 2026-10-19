@@ -31,11 +31,6 @@ const { commercial } = siteConfig;
             <span class="mono">Best for</span>
             {model.bestFor}
           </p>
-          <ul class="model__points" role="list">
-            {model.points.map((point) => (
-              <li>{point}</li>
-            ))}
-          </ul>
         </article>
       ))}
     </div>
@@ -98,25 +93,6 @@ const { commercial } = siteConfig;
   .model__best .mono {
     display: block;
     margin-bottom: 4px;
-  }
-
-  .model__points {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 18px 0 0;
-    padding: 0;
-  }
-
-  .model__points li {
-    padding: 3px 8px;
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
-    background: var(--surface);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    color: var(--text-2);
   }
 
   .commercial__note {

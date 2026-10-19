@@ -10,7 +10,6 @@ export interface Application {
   index: string;
   title: string;
   body: string;
-  points: string[];
 }
 
 export interface Stage {
@@ -105,7 +104,7 @@ export const siteConfig = {
     index: '02',
     eyebrow: 'Applications',
     heading: 'Where a display earns its place.',
-    lede: 'Most estate signage is temporary by nature: vinyl banners, clip frames and laminated notices that fade, flap and date within a season. A display is only worth installing when it replaces that clutter with something permanent, legible and maintained — at the gate, in the foyer, or on the shopfront.',
+    lede: 'A display is only worth installing when it replaces temporary banners with something permanent, legible and maintained.',
     thesis:
       'Three property types, one engineering standard. The difference between them is sightline and governance, not hardware grade.',
     items: [
@@ -113,31 +112,16 @@ export const siteConfig = {
         index: 'A',
         title: 'Residential estates & HOAs',
         body: 'Gatehouse and clubhouse displays for access rules, municipal outages, AGM notices and emergency alerts. Sized for slow-moving vehicles and pedestrians, with automatic dimming so perimeter homes are not lit at night.',
-        points: [
-          'Gatehouse approach sightlines',
-          'Dark-sky compliant dimming',
-          'Trustee-ready proposal pack',
-        ],
       },
       {
         index: 'B',
         title: 'Body corporates & complexes',
         body: 'A single, defensible channel for scheme communications, replacing noticeboards that are rewritten by hand. Scoped for PMR 29 approval, with itemised costs that trustees can put to a vote without redrafting.',
-        points: [
-          'PMR 29(2) improvement notice',
-          'Levies-safe itemised scope',
-          'Managing-agent CMS access',
-        ],
       },
       {
         index: 'C',
         title: 'Commercial precincts',
         body: 'Atrium, façade and forecourt displays for centres, showrooms and mixed-use developments. Engineered for daylight legibility, tenant messaging and — where approved — third-party advertising that offsets the capital cost.',
-        points: [
-          'Daylight legibility study',
-          'Tenant scheduling & dayparting',
-          'Advertising by-law review',
-        ],
       },
     ] satisfies Application[],
     plates: {
@@ -165,8 +149,6 @@ export const siteConfig = {
       'Notices now publish from the estate manager’s desktop in under two minutes. There are no printing costs, no temporary banners, and every arriving resident, visitor and delivery driver sees the same message.',
     facts: {
       location: 'George, Western Cape',
-      environment: 'Outdoor daylight, auto-dimming',
-      control: 'Cloud CMS, 4G / Wi-Fi with offline failover',
       compliance: 'SANS 10160 · SANS 10142-1',
     },
     specs: [
@@ -187,7 +169,7 @@ export const siteConfig = {
     index: '04',
     eyebrow: 'Method & compliance',
     heading: 'Four stages, four paper trails.',
-    lede: 'Each stage ends with a document the client can file: a survey, a calculation, an electrical certificate, a handover record. Compliance is not a paragraph in the proposal — it is the sequence of deliverables that closes the project.',
+    lede: 'Compliance is not a paragraph in the proposal — it is the sequence of documents that closes the project.',
     stages: [
       {
         num: '01',
@@ -250,7 +232,7 @@ export const siteConfig = {
     index: '05',
     eyebrow: 'Specifications',
     heading: 'Hardware, stated plainly.',
-    lede: 'Two families cover every project on this site. Final specification is fixed by the survey — pitch follows viewing distance, and brightness follows the surface the display faces.',
+    lede: 'Final specification is fixed by the survey; these two families cover every project on this site.',
     groups: [
       {
         id: 'exterior',
@@ -286,25 +268,19 @@ export const siteConfig = {
     index: '06',
     eyebrow: 'Commercial models',
     heading: 'Two ways to fund the screen.',
-    lede: 'Either the property owns the asset outright, or approved advertising inventory carries part of the cost. Both are quoted from the same survey and the same engineering pack.',
+    lede: 'Either the property owns the asset, or approved advertising carries part of the cost. Both are quoted from the same engineering pack.',
     models: [
       {
         num: '01',
         title: 'Capital installation',
         body: 'The estate, body corporate or landlord owns the display and the content. We deliver the full scope — survey, structure, electrical work, commissioning and CMS — as one contract with one handover pack.',
         bestFor: 'Estates, schemes and precincts buying for their own communications.',
-        points: ['Client-owned asset', 'Full turnkey scope', 'CoC and handover record'],
       },
       {
         num: '02',
         title: 'Advertising partnership',
         body: 'Where trustees or the asset manager approve it, vetted third-party advertising runs in defined slots and contributes to the capital cost. Content, dimming and by-law compliance remain under property control.',
         bestFor: 'Shopping centres, mixed-use precincts and forecourt frontages.',
-        points: [
-          'Trustee or landlord approval first',
-          'Defined advertising slots',
-          'Property retains content veto',
-        ],
       },
     ],
     note: 'Advertising is subject to municipal outdoor advertising by-laws and, for schemes, PMR 29 approval. No revenue is promised before those approvals are in hand.',
@@ -314,32 +290,32 @@ export const siteConfig = {
     {
       question: 'How is the screen size and pixel pitch decided?',
       answer:
-        'Pitch follows viewing distance: each millimetre of pitch corresponds to roughly one metre of comfortable viewing, so a P3 display is crisp from about three metres. Size follows the gatehouse boom geometry or atrium height. The survey fixes both, so you do not pay for density the approach cannot resolve.',
+        'Pitch follows viewing distance: a P3 display is crisp from about three metres. Size follows the boom geometry or atrium height. The survey fixes both, so you never pay for density the approach cannot resolve.',
     },
     {
       question: 'Does an outdoor display comply with municipal advertising by-laws?',
       answer:
-        'Municipal frameworks distinguish between on-premises estate communications and third-party advertising. Our outdoor displays include calibrated ambient sensors that reduce output at dusk, and the by-law position for the specific site is confirmed during the survey. Where advertising is intended, approval is obtained before installation.',
+        'Municipal rules separate on-premises estate messaging from third-party advertising. Our displays dim automatically at dusk, and the by-law position for the site is confirmed in the survey before installation.',
     },
     {
       question: 'How does an installation satisfy PMR 29 and HOA procedure?',
       answer:
-        'Under the Sectional Titles Schemes Management Act, a display is a common-property improvement. By dedicating it to scheme utility — security alerts, outage notices, AGM reminders — the installation is presented under PMR 29(2) as reasonably necessary, with itemised costs and a 30-day notice rather than a lump sum requiring unanimous consent.',
+        'A display is a common-property improvement. Dedicated to scheme utility — security alerts, outages, AGMs — it is presented under PMR 29(2) as reasonably necessary, with itemised costs and a 30-day notice rather than unanimous consent.',
     },
     {
       question: 'Who carries structural and electrical compliance?',
       answer:
-        'We do, as a single contractor. Mounting steel is engineered to SANS 10160 wind loading, cabling is concealed and weather-sealed, and the dedicated circuit is issued with a SANS 10142-1 Certificate of Compliance by a registered person at handover.',
+        'We do, as one contractor. Steel is engineered to SANS 10160, cabling is concealed and weather-sealed, and the circuit is issued a SANS 10142-1 CoC by a registered person at handover.',
     },
     {
       question: 'How difficult is daily scheduling for non-technical staff?',
       answer:
-        'No design software and no IT department. The CMS runs in a browser, with pre-formatted notice templates and dayparted playlists. Estate managers publish a notice in under two minutes, and we train the operator one-to-one at handover.',
+        'None required. The CMS runs in a browser with notice templates and dayparted playlists. Managers publish a notice in under two minutes, and we train the operator at handover.',
     },
     {
       question: 'Can advertising slots offset the capital cost?',
       answer:
-        'Where trustees or the asset manager approve it. Commercial precincts typically run defined advertising slots; residential estates more often approve vetted community sponsors such as security providers, schools or clubs. The property keeps a content veto in both cases.',
+        'Where trustees or the asset manager approve it. Precincts usually run defined advertising slots; estates more often approve vetted community sponsors. The property keeps a content veto.',
     },
   ],
 
@@ -347,12 +323,7 @@ export const siteConfig = {
     index: '08',
     eyebrow: 'Commission',
     heading: 'Start with a survey.',
-    lede: 'Tell us where the display would go and who it serves. We will confirm whether a site visit is warranted, and come back with a measured assessment rather than a brochure.',
-    assurances: [
-      'A physical survey, not a desktop quote',
-      'Itemised scope suitable for trustees',
-      'No obligation to proceed after the survey',
-    ],
+    lede: 'Tell us where the display would go and who it serves. We will confirm whether a site visit is warranted, and come back with a measured assessment rather than a brochure. There is no obligation to proceed.',
     formNote:
       'Fields marked * are required. Your details are used to respond to this enquiry only.',
     responseNote: 'Enquiries are answered within one working day, Monday to Friday.',

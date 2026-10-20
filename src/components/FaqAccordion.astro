@@ -29,7 +29,7 @@ const { faqs } = siteConfig;
 
       <div class="faq__list">
         {faqs.map((faq, index) => (
-          <details class="faq__item" name="faq" open={index === 0}>
+          <details class="faq__item" name="faq">
             <summary class="faq__summary">
               <span class="faq__num numeric">{String(index + 1).padStart(2, '0')}</span>
               <span class="faq__question">{faq.question}</span>

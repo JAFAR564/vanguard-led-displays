@@ -23,31 +23,33 @@ const { applications } = siteConfig;
       </div>
     </div>
 
-    <div class="applications__plates split split--6-6">
+    <div class="applications__diptych split split--5-7">
       <figure class="plate">
-        <div class="plate__frame plate__frame--lock">
+        <div class="plate__frame plate__frame--rig">
           <Image
             src={riggingImage}
             alt={applications.plates.rigging.alt}
-            widths={[480, 720, 960, 1280]}
-            sizes="(max-width: 1023px) 92vw, 46vw"
+            widths={[420, 640, 900]}
+            sizes="(max-width: 1023px) 92vw, 40vw"
             loading="lazy"
           />
         </div>
-        <figcaption>{applications.plates.rigging.caption}</figcaption>
+        <figcaption class="applications__caption">{applications.plates.rigging.caption}</figcaption>
       </figure>
 
       <figure class="plate">
-        <div class="plate__frame plate__frame--lock">
+        <div class="plate__frame plate__frame--commercial">
           <Image
             src={commercialImage}
             alt={applications.plates.commercial.alt}
-            widths={[480, 720, 960, 1212]}
-            sizes="(max-width: 1023px) 92vw, 46vw"
+            widths={[640, 960, 1280, 1600]}
+            sizes="(max-width: 1023px) 92vw, 56vw"
             loading="lazy"
           />
         </div>
-        <figcaption>{applications.plates.commercial.caption}</figcaption>
+        <figcaption class="applications__caption">
+          {applications.plates.commercial.caption}
+        </figcaption>
       </figure>
     </div>
 
@@ -83,10 +85,43 @@ const { applications } = siteConfig;
     color: var(--text-2);
   }
 
-  /* Both plates are locked to the same ratio: the commercial source is
-     near-square after cropping, the estate source is 3:2. */
-  .plate__frame--lock {
-    aspect-ratio: 4 / 3;
+  /*
+     Asymmetric diptych: the finished installation carries the section at 7 of 12
+     columns, the rigging detail sits beside it at 5. Both frames share one height
+     so the captions land on a single baseline — the plates read as a spread rather
+     than two thumbnails. Plate numbers stay in narrative order (02 detail, 03
+     finished), so the eye travels from the work to the result.
+  */
+  .applications__diptych {
+    align-items: start;
+    --plate-h: clamp(232px, 30vw, 430px);
+  }
+
+  .plate__frame--rig,
+  .plate__frame--commercial {
+    height: var(--plate-h);
+  }
+
+  /* The rigging frame is portrait-cropped from a 4:3 source. Holding it at
+     88% keeps the installer, the ladder and the open cabinet row in shot. */
+  .plate__frame--rig img {
+    object-position: 88% 50%;
+  }
+
+  .plate__frame--commercial img {
+    object-position: 50% 48%;
+  }
+
+  .applications__caption {
+    margin-top: 0;
+    padding-top: 9px;
+    border-top: 1px solid var(--rule);
+    align-items: baseline;
+  }
+
+  .applications__caption::before {
+    margin-top: 4px;
+    flex: 0 0 14px;
   }
 
   .applications__list {
@@ -129,6 +164,15 @@ const { applications } = siteConfig;
   }
 
   @media (max-width: 1023px) {
+    .applications__diptych {
+      --plate-h: auto;
+      row-gap: clamp(24px, 5vw, 40px);
+    }
+    .plate__frame--rig,
+    .plate__frame--commercial {
+      height: auto;
+      aspect-ratio: 3 / 2;
+    }
     .applications__list {
       grid-template-columns: minmax(0, 1fr);
     }

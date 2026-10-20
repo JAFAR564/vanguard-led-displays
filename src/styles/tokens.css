@@ -221,8 +221,12 @@ strong {
   border-top: 1px solid var(--rule);
 }
 
+/* Stone is darker than paper, so a hairline tuned for paper disappears on it.
+   #D4D4D2 restores the same 1.28:1 weight the rule carries on #F7F7F5. */
 .section--stone {
   background: var(--paper-2);
+  --rule: #d4d4d2;
+  --rule-strong: #bfbfba;
 }
 
 .section--night {

@@ -1,16 +1,35 @@
 ---
 import { Image } from 'astro:assets';
 import { siteConfig } from '../config/site';
-import heroImage from '../assets/hero-estate.jpg';
+import heroImage from '../assets/hero-estate-graded.jpg';
 
 const { hero } = siteConfig;
 ---
 
 <section class="hero" id="hero" aria-labelledby="hero-heading">
-  <div class="container">
-    <div class="split split--5-7 hero__split">
+  <div class="hero__band">
+    <figure class="hero__media">
+      <Image
+        class="hero__img"
+        src={heroImage}
+        alt={hero.plate.alt}
+        widths={[640, 960, 1280, 1600]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <figcaption class="hero__credit">
+        <span class="hero__credit-rule" aria-hidden="true"></span>
+        {hero.plate.caption}
+      </figcaption>
+    </figure>
+
+    <div class="hero__scrim" aria-hidden="true"></div>
+
+    <div class="hero__inner container">
       <div class="hero__copy">
-        <p class="eyebrow">{hero.eyebrow}</p>
+        <p class="eyebrow hero__eyebrow">{hero.eyebrow}</p>
         <h1 id="hero-heading" class="hero__heading">
           {hero.heading}
         </h1>
@@ -34,98 +53,287 @@ const { hero } = siteConfig;
           ))}
         </dl>
       </div>
-
-      <figure class="plate hero__plate">
-        <div class="plate__frame hero__frame">
-          <Image
-            src={heroImage}
-            alt={hero.plate.alt}
-            widths={[480, 720, 960, 1280, 1600]}
-            sizes="(max-width: 1023px) 92vw, 55vw"
-            loading="eager"
-            fetchpriority="high"
-          />
-          <span class="hero__frame-index mono" aria-hidden="true">
-            Ref. 01
-          </span>
-        </div>
-        <figcaption>{hero.plate.caption}</figcaption>
-      </figure>
     </div>
   </div>
 </section>
 
 <style>
+  /*
+    Cover plate. The photograph is not framed on the page — it is the page.
+    Type sits in the lower left over a scrim, and the panel is the only
+    bright thing in the frame. Below 768px the image becomes a banner and the
+    copy returns to paper, because 390px of type over a busy photograph is a
+    legibility bet that does not pay.
+  */
   .hero {
-    padding-top: calc(var(--header-h) + clamp(40px, 6vw, 88px));
-    padding-bottom: clamp(48px, 6vw, 96px);
+    --hero-ink: #f7f7f5;
+    --hero-ink-2: #c9ccd2;
+    --hero-rule: rgba(247, 247, 245, 0.24);
+    --hero-rule-soft: rgba(247, 247, 245, 0.14);
+    padding-top: var(--header-h);
+  }
+
+  .hero__band {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--night);
+    color: var(--hero-ink);
+    min-height: clamp(560px, 74svh, 780px);
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    z-index: -2;
+  }
+
+  .hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 58% 46%;
+  }
+
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(
+        to right,
+        rgba(11, 13, 16, 0.9) 0%,
+        rgba(11, 13, 16, 0.62) 26%,
+        rgba(11, 13, 16, 0.16) 50%,
+        rgba(11, 13, 16, 0) 66%
+      ),
+      linear-gradient(
+        to top,
+        rgba(11, 13, 16, 0.92) 0%,
+        rgba(11, 13, 16, 0.28) 30%,
+        rgba(11, 13, 16, 0) 58%
+      ),
+      linear-gradient(to bottom, rgba(11, 13, 16, 0.4) 0%, rgba(11, 13, 16, 0) 24%);
+  }
+
+  .hero__inner {
+    width: 100%;
+    padding-block: clamp(80px, 10vw, 132px) clamp(44px, 5vw, 68px);
+  }
+
+  .hero__copy {
+    max-width: 46rem;
+  }
+
+  .hero__eyebrow {
+    color: var(--hero-ink-2);
   }
 
   .hero__heading {
     margin-top: 20px;
-    max-width: 13ch;
+    max-width: 11ch;
+    font-size: clamp(2.75rem, 5.8vw, 4.75rem);
+    line-height: 0.98;
+    color: var(--hero-ink);
   }
 
   .hero__standfirst {
     margin-top: 24px;
-    max-width: 46ch;
-    font-size: var(--step-1);
-    line-height: 1.5;
-    color: var(--text-2);
+    max-width: 50ch;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--hero-ink-2);
   }
 
   .hero__actions {
-    margin-top: 32px;
+    margin-top: 30px;
+  }
+
+  /* The one dark-surface pair: paper button, hairline ghost. */
+  .hero .btn {
+    background: #f2f2ef;
+    border-color: #f2f2ef;
+    color: var(--night);
+  }
+
+  .hero .btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .hero .btn--ghost {
+    background: transparent;
+    border-color: rgba(247, 247, 245, 0.42);
+    color: var(--hero-ink);
+  }
+
+  .hero .btn--ghost:hover {
+    background: transparent;
+    border-color: var(--hero-ink);
+    color: #fff;
   }
 
   .hero__register {
-    margin-top: clamp(32px, 4vw, 48px);
-    border-top: 1px solid var(--rule);
+    margin-top: clamp(30px, 3.6vw, 44px);
+    max-width: 34rem;
+    border-top: 1px solid var(--hero-rule);
   }
 
   .hero__register-row {
     display: grid;
     grid-template-columns: 110px minmax(0, 1fr);
     gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--rule);
+    padding: 9px 0;
+    border-bottom: 1px solid var(--hero-rule-soft);
   }
 
   .hero__register-row dt {
     margin: 0;
     padding-top: 2px;
+    color: rgba(247, 247, 245, 0.62);
   }
 
   .hero__register-row dd {
     margin: 0;
     font-size: 0.9375rem;
-    color: var(--text-1);
+    line-height: 1.4;
+    color: var(--hero-ink);
   }
 
-  .hero__frame {
-    aspect-ratio: 4 / 3;
-  }
-
-  .hero__frame-index {
+  .hero__credit {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 3px 6px;
-    background: var(--paper);
-    color: var(--text-2);
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
+    right: max(var(--gutter), calc((100% - var(--maxw)) / 2 + var(--gutter)));
+    bottom: clamp(44px, 5vw, 68px);
+    max-width: 17rem;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    text-transform: uppercase;
+    color: rgba(247, 247, 245, 0.66);
+  }
+
+  .hero__credit-rule {
+    display: block;
+    width: 22px;
+    height: 1px;
+    margin: 0 0 8px auto;
+    background: var(--accent);
   }
 
   @media (max-width: 1023px) {
     .hero__heading {
-      max-width: 16ch;
+      max-width: 13ch;
     }
   }
 
-  @media (max-width: 560px) {
+  /* Between the two layouts the credit would sit in the register's row. */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .hero__credit {
+      display: none;
+    }
+  }
+
+  /* Below 768px: image is a banner, copy returns to paper. */
+  @media (max-width: 767px) {
+    .hero {
+      --hero-ink: var(--text-1);
+      --hero-ink-2: var(--text-2);
+    }
+
+    .hero__band {
+      display: block;
+      min-height: 0;
+      background: var(--paper);
+      color: var(--text-1);
+      overflow: visible;
+    }
+
+    .hero__media {
+      position: relative;
+      inset: auto;
+      z-index: auto;
+      overflow: hidden;
+      background: var(--paper-2);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero__img {
+      aspect-ratio: 16 / 11;
+      height: auto;
+      object-position: 56% 52%;
+    }
+
+    .hero__scrim {
+      display: none;
+    }
+
+    .hero__credit {
+      position: static;
+      max-width: none;
+      margin-top: 10px;
+      padding-inline: 0;
+      text-align: left;
+      display: flex;
+      gap: 10px;
+      color: var(--text-3);
+    }
+
+    .hero__credit-rule {
+      flex: 0 0 18px;
+      width: 18px;
+      margin: 7px 0 0;
+    }
+
+    .hero__inner {
+      padding-block: clamp(28px, 6vw, 40px) clamp(44px, 8vw, 60px);
+    }
+
+    .hero__heading {
+      max-width: 15ch;
+    }
+
+    .hero .btn {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--paper);
+    }
+
+    .hero .btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .hero .btn--ghost {
+      background: transparent;
+      border-color: var(--rule-strong);
+      color: var(--ink);
+    }
+
+    .hero .btn--ghost:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .hero__register-row dt {
+      color: var(--text-3);
+    }
+
+    .hero__register-row {
+      border-bottom-color: var(--rule);
+    }
+
+    .hero__register {
+      border-top-color: var(--rule);
+    }
+  }
+
+  @media (max-width: 420px) {
     .hero__register-row {
       grid-template-columns: 84px minmax(0, 1fr);
     }

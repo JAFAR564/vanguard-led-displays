@@ -535,23 +535,39 @@ strong {
   object-fit: cover;
 }
 
+/* A caption answers a question, it does not catalogue the file. Label names
+   the frame; note says what the frame is evidence of. */
 .plate figcaption,
 .plate__caption {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+.plate__label {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  align-items: center;
+  gap: 9px;
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  line-height: 1.5;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
   color: var(--text-3);
 }
 
-.plate figcaption::before {
+.plate__label::before {
   content: '';
-  flex: 0 0 18px;
+  flex: 0 0 16px;
+  width: 16px;
   height: 1px;
-  margin-top: 8px;
   background: var(--accent);
 }
 

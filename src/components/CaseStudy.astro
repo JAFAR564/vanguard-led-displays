@@ -56,8 +56,8 @@ const posterSmall = await getImage({ src: poster, width: 960, format: 'webp' });
           </p>
         </video>
       </div>
-      <figcaption>
-        {caseStudy.video.caption}{' '}
+      <figcaption class="case__caption">
+        <span>{caseStudy.video.caption}</span>
         <span class="case__duration numeric">{caseStudy.video.durationNote}</span>
       </figcaption>
     </figure>
@@ -259,8 +259,13 @@ const posterSmall = await getImage({ src: poster, width: 960, format: 'webp' });
     border-bottom-color: var(--accent);
   }
 
-  .case .plate figcaption {
-    color: var(--on-night-3);
+  /* On night the note inherits --on-night-2 through the .light scope; only the
+     duration needs to step back. */
+  .case__caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 12px;
   }
 
   @media (max-width: 1023px) {

@@ -34,7 +34,10 @@ const { applications } = siteConfig;
             loading="lazy"
           />
         </div>
-        <figcaption class="applications__caption">{applications.plates.rigging.caption}</figcaption>
+        <figcaption class="applications__caption">
+          <span class="plate__label">{applications.plates.rigging.caption.label}</span>
+          <span>{applications.plates.rigging.caption.note}</span>
+        </figcaption>
       </figure>
 
       <figure class="plate">
@@ -48,7 +51,8 @@ const { applications } = siteConfig;
           />
         </div>
         <figcaption class="applications__caption">
-          {applications.plates.commercial.caption}
+          <span class="plate__label">{applications.plates.commercial.caption.label}</span>
+          <span>{applications.plates.commercial.caption.note}</span>
         </figcaption>
       </figure>
     </div>
@@ -110,18 +114,6 @@ const { applications } = siteConfig;
 
   .plate__frame--commercial img {
     object-position: 50% 48%;
-  }
-
-  .applications__caption {
-    margin-top: 0;
-    padding-top: 9px;
-    border-top: 1px solid var(--rule);
-    align-items: baseline;
-  }
-
-  .applications__caption::before {
-    margin-top: 4px;
-    flex: 0 0 14px;
   }
 
   .applications__list {

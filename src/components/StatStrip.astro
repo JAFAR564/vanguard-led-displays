@@ -1,0 +1,85 @@
+---
+import { siteConfig } from '../config/site';
+
+const { stats } = siteConfig;
+
+/* Hardware summary. Sits between the cover plate and section 02 so the four numbers a trustee or an
+engineer scans for are reachable in the first scroll instead of twelve rows into the specification
+tables. No top border: the paper meets the dark hero on a hard edge, which is a stronger boundary
+than a hairline. The bottom edge is the existing rule that opens section 02, so the two lines never
+double. */
+---
+
+<div class="statstrip">
+  <div class="container statstrip__grid">
+    {stats.map((stat) => (
+      <div class="statstrip__item">
+        <p class="statstrip__value">{stat.value}</p>
+        <p class="statstrip__label">{stat.label}</p>
+      </div>
+    ))}
+  </div>
+</div>
+<style>
+  .statstrip {
+    padding-block: clamp(26px, 3.2vw, 42px);
+  }
+
+  .statstrip__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .statstrip__item {
+    padding: 2px clamp(18px, 2.4vw, 34px) 2px 0;
+    border-right: 1px solid var(--rule);
+    margin-right: clamp(18px, 2.4vw, 34px);
+  }
+
+  .statstrip__item:last-child {
+    border-right: 0;
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .statstrip__value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.125rem, 1.55vw, 1.375rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text-1);
+  }
+
+  .statstrip__label {
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.13em;
+    line-height: 1.45;
+    text-transform: uppercase;
+    color: var(--text-3);
+    max-width: 22ch;
+  }
+
+  @media (max-width: 899px) {
+    .statstrip__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: clamp(20px, 3vw, 28px);
+    }
+
+    .statstrip__item:nth-child(2n) {
+      border-right: 0;
+      margin-right: 0;
+      padding-right: 0;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .statstrip__item {
+      padding-right: 14px;
+      margin-right: 14px;
+    }
+  }
+</style>

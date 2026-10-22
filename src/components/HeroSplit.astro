@@ -20,8 +20,8 @@ const { hero } = siteConfig;
         decoding="async"
       />
       <figcaption class="hero__credit">
-        <span class="hero__credit-rule" aria-hidden="true"></span>
-        {hero.plate.caption}
+        <span class="hero__credit-label">{hero.plate.caption.label}</span>
+        <span class="hero__credit-note">{hero.plate.caption.note}</span>
       </figcaption>
     </figure>
 
@@ -209,21 +209,35 @@ const { hero } = siteConfig;
     right: max(var(--gutter), calc((100% - var(--maxw)) / 2 + var(--gutter)));
     bottom: clamp(44px, 5vw, 68px);
     max-width: 17rem;
+    display: grid;
+    gap: 6px;
+    justify-items: end;
     text-align: right;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    line-height: 1.6;
-    text-transform: uppercase;
-    color: rgba(247, 247, 245, 0.66);
   }
 
-  .hero__credit-rule {
-    display: block;
-    width: 22px;
+  .hero__credit-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: rgba(247, 247, 245, 0.7);
+  }
+
+  .hero__credit-label::before {
+    content: '';
+    width: 20px;
     height: 1px;
-    margin: 0 0 8px auto;
     background: var(--accent);
+  }
+
+  .hero__credit-note {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: rgba(247, 247, 245, 0.86);
   }
 
   @media (max-width: 1023px) {
@@ -276,18 +290,19 @@ const { hero } = siteConfig;
     .hero__credit {
       position: static;
       max-width: none;
-      margin-top: 10px;
-      padding-inline: 0;
+      margin-top: 12px;
+      display: grid;
+      justify-items: start;
+      gap: 4px;
       text-align: left;
-      display: flex;
-      gap: 10px;
+    }
+
+    .hero__credit-label {
       color: var(--text-3);
     }
 
-    .hero__credit-rule {
-      flex: 0 0 18px;
-      width: 18px;
-      margin: 7px 0 0;
+    .hero__credit-note {
+      color: var(--text-2);
     }
 
     .hero__inner {

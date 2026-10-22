@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '../config/site';
+import SpecDiagrams from './SpecDiagrams.astro';
 
 const { specifications } = siteConfig;
 ---
@@ -43,6 +44,8 @@ const { specifications } = siteConfig;
         </section>
       ))}
     </div>
+
+    <SpecDiagrams />
 
     <p class="specifications__note small">{specifications.note}</p>
   </div>

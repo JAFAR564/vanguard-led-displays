@@ -217,6 +217,31 @@ const { commission, contact, coverage } = siteConfig;
       max-width: 60ch;
     }
   }
+
+  /* Two 176px columns force both doors into three cramped lines. Below 440px
+     they stack, so each keeps its own line and its own 44px row. The selection
+     mark moves to the left edge; the border is reserved at 2px on every tab so
+     the label does not shift sideways when the choice changes. */
+  @media (max-width: 439px) {
+    .tabs__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .tabs__tab {
+      border-right: 0;
+      border-bottom: 1px solid var(--rule);
+      border-left: 2px solid transparent;
+    }
+
+    .tabs__tab:last-child {
+      border-bottom: 0;
+    }
+
+    .tabs__tab[aria-selected='true'] {
+      border-bottom-color: var(--rule);
+      border-left-color: var(--accent);
+    }
+  }
 </style>
 
 <script>

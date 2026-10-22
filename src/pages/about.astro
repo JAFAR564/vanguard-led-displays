@@ -284,9 +284,13 @@ const aboutPage = {
     border-bottom: 1px solid var(--rule);
   }
 
+  /* Same measure as the home cover plate, so the two H1s are the same size on
+     the same phone. --step-5 overshoots by 3px at 360px. */
   .about-hero__heading {
     margin-top: 18px;
     max-width: 12ch;
+    font-size: clamp(2.75rem, 5.8vw, 4.75rem);
+    line-height: 0.98;
   }
 
   .about-hero__intro {

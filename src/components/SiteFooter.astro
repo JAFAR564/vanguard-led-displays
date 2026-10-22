@@ -85,31 +85,45 @@ const year = new Date().getFullYear();
 
   <dialog class="privacy" id="privacy-dialog" aria-labelledby="privacy-title" data-privacy-dialog>
     <div class="privacy__inner">
-      <div class="privacy__head">
-        <p class="mono">POPIA · Act 4 of 2013</p>
-        <h2 id="privacy-title" class="privacy__title">
-          {siteConfig.footer.privacy.title}
-        </h2>
+      <!-- Sticky, because on a phone the only close control used to be at the end
+           of the scroll. The bar carries the title and a 44px dismiss. -->
+      <div class="privacy__bar">
+        <div class="privacy__bar-text">
+          <p class="mono privacy__eyebrow">POPIA · Act 4 of 2013</p>
+          <h2 id="privacy-title" class="privacy__title">
+            {siteConfig.footer.privacy.title}
+          </h2>
+        </div>
+        <form method="dialog" class="privacy__dismiss">
+          <button class="privacy__close" type="submit" aria-label="Close privacy notice">
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.2"></path>
+            </svg>
+          </button>
+        </form>
       </div>
-      <div class="privacy__body">
-        {siteConfig.footer.privacy.body.map((paragraph) => (
-          <p>{paragraph}</p>
-        ))}
-        <p class="privacy__contact">
-          <strong>{siteConfig.contact.informationOfficer}</strong>
-          <br />
-          <a class="link" href={`mailto:${siteConfig.contact.emailQuote}`}>
-            {siteConfig.contact.emailQuote}
-          </a>
-          <br />
-          {siteConfig.brand.headquarters}
-        </p>
+
+      <div class="privacy__content">
+        <div class="privacy__body">
+          {siteConfig.footer.privacy.body.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+          <p class="privacy__contact">
+            <strong>{siteConfig.contact.informationOfficer}</strong>
+            <br />
+            <a class="link" href={`mailto:${siteConfig.contact.emailQuote}`}>
+              {siteConfig.contact.emailQuote}
+            </a>
+            <br />
+            {siteConfig.brand.headquarters}
+          </p>
+        </div>
+        <form method="dialog" class="privacy__actions">
+          <button class="btn" type="submit">
+            Close
+          </button>
+        </form>
       </div>
-      <form method="dialog" class="privacy__actions">
-        <button class="btn" type="submit">
-          Close
-        </button>
-      </form>
     </div>
   </dialog>
 </footer>
@@ -171,7 +185,9 @@ const year = new Date().getFullYear();
   .footer__link {
     display: inline-flex;
     align-items: center;
-    min-height: 36px;
+    /* 44px, like every other tappable row on the site. The two columns are the
+       most-tapped small targets on a phone and were the only ones still at 36. */
+    min-height: 44px;
     font-size: 0.875rem;
     color: var(--text-2);
     text-decoration: none;
@@ -250,6 +266,7 @@ const year = new Date().getFullYear();
     border-radius: var(--radius);
     background: var(--surface);
     color: var(--text-1);
+    overflow: hidden;
   }
 
   .privacy::backdrop {
@@ -257,20 +274,76 @@ const year = new Date().getFullYear();
   }
 
   .privacy__inner {
-    padding: clamp(24px, 4vw, 40px);
     overflow-y: auto;
-    max-height: 86vh;
+    overscroll-behavior: contain;
+    /* The dialog's max-height includes its 1px border; matching 86vh here would
+       clip the last two pixels of the scroll area. */
+    max-height: calc(86vh - 2px);
   }
 
-  .privacy__head {
-    padding-bottom: 16px;
+  .privacy__bar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px clamp(20px, 4vw, 32px) 14px;
+    background: var(--surface);
     border-bottom: 1px solid var(--rule);
-    margin-bottom: 20px;
+  }
+
+  .privacy__bar-text {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .privacy__eyebrow {
+    margin: 0;
+    font-size: 10px;
+    color: var(--text-3);
   }
 
   .privacy__title {
-    font-size: var(--step-3);
-    margin-top: 8px;
+    font-size: var(--step-2);
+    line-height: 1.1;
+  }
+
+  .privacy__dismiss {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .privacy__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-top: -2px;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text-2);
+    transition:
+      color var(--fast) var(--ease),
+      border-color var(--fast) var(--ease);
+  }
+
+  .privacy__close:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .privacy__close svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .privacy__content {
+    padding: clamp(20px, 4vw, 30px) clamp(20px, 4vw, 32px) clamp(22px, 4vw, 32px);
   }
 
   .privacy__body {

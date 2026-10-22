@@ -97,7 +97,7 @@ const { sourcePath = '/' } = Astro.props;
           type="tel"
           inputmode="tel"
           autocomplete="tel"
-          placeholder="082 782 4346"
+          placeholder="082 123 4567"
           required
           aria-describedby="err-advPhone"
         />
@@ -339,6 +339,17 @@ const { sourcePath = '/' } = Astro.props;
   @media (max-width: 560px) {
     .form-grid {
       grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .form-footer {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .form-footer .btn {
+      width: 100%;
     }
   }
 </style>

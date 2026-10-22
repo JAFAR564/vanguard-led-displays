@@ -483,6 +483,16 @@ strong {
   text-decoration-color: var(--accent);
 }
 
+/* A link rendered as a button sits inside a running sentence (the consent line).
+   The user-agent's 6px side padding is what opened the gap either side of
+   "privacy notice"; vertical padding keeps a usable target without moving the
+   baseline, because vertical padding on an inline box never affects line height. */
+button.link {
+  padding: 2px 0;
+  border: 0;
+  background: none;
+}
+
 .link--accent {
   color: var(--accent-text);
   text-decoration-color: currentColor;

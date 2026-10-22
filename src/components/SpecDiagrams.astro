@@ -32,7 +32,7 @@ const interior = specifications.groups[1];
           <path d="M56 76 V258" stroke-width="2" />
           <path d="M56 92 H108 M56 150 H108 M56 208 H108 M56 258 H108" />
         </g>
-        <text x="56" y="290" class="diagram__tag">
+        <text x="56" y="290" class="diagram__tag diagram__word">
           STRUCTURE
         </text>
 
@@ -55,7 +55,7 @@ const interior = specifications.groups[1];
           <circle cx="192" cy="242" r="3" />
           <circle cx="292" cy="242" r="3" />
         </g>
-        <text x="176" y="290" class="diagram__tag">
+        <text x="176" y="290" class="diagram__tag diagram__word">
           MOUNT FRAME
         </text>
 
@@ -74,7 +74,7 @@ const interior = specifications.groups[1];
             <path d="M408 86 V248 M430 86 V248 M452 86 V248 M474 86 V248" />
           </g>
         </g>
-        <text x="376" y="290" class="diagram__tag">
+        <text x="376" y="290" class="diagram__tag diagram__word">
           CABINET MODULE
         </text>
 
@@ -87,14 +87,18 @@ const interior = specifications.groups[1];
           1 000 mm
         </text>
 
-        <!-- front-service arrow, clear of the drawing -->
-        <g stroke="var(--accent)" stroke-width="1" fill="none">
-          <path d="M624 190 H540" />
-          <path d="M546 184 L540 190 L546 196" />
+        <!-- front-service arrow, clear of the drawing. The arrow is meaningless
+             without its label, and the label is too small to read on a phone, so
+             the pair is replaced by the key row below 900px. -->
+        <g class="diagram__front">
+          <g stroke="var(--accent)" stroke-width="1" fill="none">
+            <path d="M624 190 H540" />
+            <path d="M546 184 L540 190 L546 196" />
+          </g>
+          <text x="628" y="172" class="diagram__tag diagram__word" text-anchor="end">
+            FRONT SERVICE
+          </text>
         </g>
-        <text x="628" y="172" class="diagram__tag" text-anchor="end">
-          FRONT SERVICE
-        </text>
       </svg>
     </div>
     <figcaption class="diagram__caption">
@@ -104,6 +108,28 @@ const interior = specifications.groups[1];
         disturbing its neighbours.
       </span>
     </figcaption>
+    <dl class="diagram__key">
+      <div class="diagram__key-row">
+        <dt>Structure</dt>
+        <dd>Wall or frame the mount is anchored to</dd>
+      </div>
+      <div class="diagram__key-row">
+        <dt>Mount frame</dt>
+        <dd>Engineered steel, wind-loaded</dd>
+      </div>
+      <div class="diagram__key-row">
+        <dt>Cabinet</dt>
+        <dd>One module, hung and front-released</dd>
+      </div>
+      <div class="diagram__key-row">
+        <dt>1 000 mm</dt>
+        <dd>Cabinet module, nominal square</dd>
+      </div>
+      <div class="diagram__key-row">
+        <dt>Front service</dt>
+        <dd>Module releases from the face, no rear access</dd>
+      </div>
+    </dl>
   </figure>
 
   <figure class="diagram">
@@ -117,7 +143,7 @@ const interior = specifications.groups[1];
         </desc>
 
         <!-- rows: pitch / minimum distance / bar -->
-        <g class="diagram__tag">
+        <g class="diagram__tag diagram__pitch">
           <text x="64" y="86">
             P3
           </text>
@@ -140,7 +166,7 @@ const interior = specifications.groups[1];
           <path d="M430 286 V294" />
           <path d="M576 286 V294" />
         </g>
-        <g class="diagram__tag" text-anchor="middle">
+        <g class="diagram__tag diagram__scale" text-anchor="middle">
           <text x="136" y="312">
             0 m
           </text>
@@ -183,7 +209,7 @@ const interior = specifications.groups[1];
           </text>
         </g>
 
-        <text x="64" y="42" class="diagram__tag">
+        <text x="64" y="42" class="diagram__tag diagram__word">
           CRISP FROM
         </text>
       </svg>
@@ -195,6 +221,24 @@ const interior = specifications.groups[1];
         resolves from the distance printed at its bar.
       </span>
     </figcaption>
+    <dl class="diagram__key">
+      <div class="diagram__key-row">
+        <dt>3 m</dt>
+        <dd>P3.0 resolves from here</dd>
+      </div>
+      <div class="diagram__key-row">
+        <dt>4 m</dt>
+        <dd>P4.0 resolves from here</dd>
+      </div>
+      <div class="diagram__key-row">
+        <dt>6 m</dt>
+        <dd>P6.0 resolves from here</dd>
+      </div>
+      <div class="diagram__key-row">
+        <dt>10 m</dt>
+        <dd>P10.0 resolves from here</dd>
+      </div>
+    </dl>
   </figure>
 
   <p class="diagrams__note small">
@@ -230,19 +274,57 @@ const interior = specifications.groups[1];
     display: block;
   }
 
+  /* Type inside a 640-unit viewBox is scaled by the render width, so 9px set at
+     360px of stage arrives at about 4px. These are set for the smallest render
+     that keeps them whole; the words move into the HTML key below, and only the
+     numbers that carry the drawing stay in the artwork on a phone. */
   .diagram__tag {
     font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.12em;
+    font-size: 11px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     fill: var(--text-3);
   }
 
   .diagram__measure {
     font-family: var(--font-mono);
-    font-size: 9.5px;
-    letter-spacing: 0.06em;
+    font-size: 13px;
+    letter-spacing: 0.04em;
     fill: var(--accent-text);
+  }
+
+  /* The key is the drawing's text set as text: crisp at any width, selectable,
+     and readable by anything that does not render SVG type. */
+  .diagram__key {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 20px;
+    margin: 12px 0 0;
+  }
+
+  .diagram__key-row {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .diagram__key dt {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--accent-text);
+  }
+
+  .diagram__key dd {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--text-2);
   }
 
   .diagram__caption {
@@ -266,6 +348,40 @@ const interior = specifications.groups[1];
     .diagrams {
       grid-template-columns: minmax(0, 1fr);
       row-gap: clamp(24px, 4vw, 34px);
+    }
+
+    /* The words come out and the key below says them in HTML; the numbers stay,
+       because they are the drawing. At ~290px of stage a 640-unit viewBox scales
+       by 0.45, so 19px lands at about 8.5px on the glass — small, but a
+       measurement rather than a rumour. */
+    .diagram__word,
+    .diagram__front {
+      display: none;
+    }
+
+    .diagram__pitch,
+    .diagram__measure {
+      font-size: 19px;
+      letter-spacing: 0.02em;
+    }
+
+    .diagram__scale {
+      font-size: 19px;
+    }
+
+    .diagram__key {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .diagram__key-row {
+      grid-template-columns: 92px minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 419px) {
+    .diagram__key-row {
+      grid-template-columns: 82px minmax(0, 1fr);
+      gap: 8px;
     }
   }
 </style>

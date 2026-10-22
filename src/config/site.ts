@@ -369,8 +369,6 @@ export const siteConfig = {
     eyebrow: 'Commission',
     heading: 'Start with a survey.',
     lede: 'Tell us where the display would go and who it serves. We will confirm whether a site visit is warranted, and come back with a measured assessment rather than a brochure. There is no obligation to proceed.',
-    formNote:
-      'Fields marked * are required. Your details are used to respond to this enquiry only.',
     responseNote: 'Enquiries are answered within one working day, Monday to Friday.',
   },
 
@@ -514,6 +512,9 @@ export const siteConfig = {
       {
         title: 'Site',
         links: [
+          // Five rows here against five in Company: an odd column beside an even
+          // one leaves a visible notch at the foot of the grid on a phone.
+          { label: 'Overview', href: '/#hero' },
           { label: 'Applications', href: '/#applications' },
           { label: 'Case study', href: '/#case-study' },
           { label: 'Method', href: '/#method' },

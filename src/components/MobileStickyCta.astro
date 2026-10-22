@@ -1,5 +1,12 @@
 ---
 import { siteConfig } from '../config/site';
+
+// Same rule as the masthead: on the advertiser page the primary action is
+// availability, not a survey, and the bar has to anchor to a section that exists.
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const onAdvertise = path.startsWith('/advertise');
+const target = onAdvertise ? '#availability' : '/#commission';
+const label = onAdvertise ? 'Check availability' : 'Commission a survey';
 ---
 
 <div class="sticky-cta" data-sticky-cta>
@@ -7,8 +14,8 @@ import { siteConfig } from '../config/site';
     <span class="sticky-cta__label">Call</span>
     <span class="sticky-cta__meta numeric">044 801 9000</span>
   </a>
-  <a class="sticky-cta__btn sticky-cta__btn--primary" href="/#commission">
-    <span class="sticky-cta__label">Commission a survey</span>
+  <a class="sticky-cta__btn sticky-cta__btn--primary" href={target}>
+    <span class="sticky-cta__label">{label}</span>
   </a>
 </div>
 
@@ -78,7 +85,7 @@ import { siteConfig } from '../config/site';
 
 <script>
   const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
-  const commission = document.querySelector('#commission');
+  const commission = document.querySelector('#commission, #availability');
   const footer = document.querySelector('footer');
 
   if (bar && 'IntersectionObserver' in window) {

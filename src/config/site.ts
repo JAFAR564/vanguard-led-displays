@@ -21,6 +21,16 @@ export interface Stage {
   certificate: string;
 }
 
+export interface PlateCaption {
+  label: string;
+  note: string;
+}
+
+export interface Stat {
+  value: string;
+  label: string;
+}
+
 export interface SpecificationGroup {
   id: string;
   label: string;
@@ -86,7 +96,7 @@ export const siteConfig = {
     eyebrow: 'Survey plate 01 — Western Cape',
     heading: 'Displays that belong to the building.',
     standfirst:
-      'We survey, engineer, install and certify LED display infrastructure for residential estates, body corporates and commercial precincts. One accountable contractor from sightline study to electrical certificate.',
+      'We survey, engineer, install and certify LED display infrastructure for your residential estate, body corporate or commercial precinct. You deal with one contractor from sightline study to electrical certificate.',
     primaryCta: { label: 'Commission a site survey', href: '#commission' },
     secondaryCta: { label: 'Read the case study', href: '#case-study' },
     register: [
@@ -95,10 +105,25 @@ export const siteConfig = {
       { label: 'Practice', value: 'Survey · engineer · install · certify' },
     ],
     plate: {
-      caption: 'Reference installation — estate approach, Garden Route, Western Cape.',
+      caption: {
+        label: 'Estate approach, Garden Route',
+        note: 'Sized to the boom geometry, so it reads from the road.',
+      },
       alt: 'Outdoor LED display mounted at a residential estate entrance on a landscaped approach, photographed in daylight.',
     },
   },
+
+  /*
+     Hardware summary, read before section 02. Every figure here is repeated
+     verbatim in the specification tables — nothing new is claimed, it is the
+     same four facts moved within reach of the first scroll.
+  */
+  stats: [
+    { value: '10,000 nits', label: 'Peak exterior output' },
+    { value: 'IP65', label: 'Exterior ingress rating' },
+    { value: 'P0.9–P10', label: 'Pitch, set by viewing distance' },
+    { value: 'SANS 10142-1', label: 'Certificate of compliance at handover' },
+  ] satisfies Stat[],
 
   applications: {
     index: '02',
@@ -126,11 +151,17 @@ export const siteConfig = {
     ] satisfies Application[],
     plates: {
       rigging: {
-        caption: 'Plate 02 — cabinet rigging during installation, Garden Route.',
+        caption: {
+          label: 'Cabinet rigging, on site',
+          note: 'Cabinets hang on engineered steel, not on the cladding.',
+        },
         alt: 'A technician on a ladder fixing LED display cabinets to a wall mounting frame, with cabling coiled on the ground below.',
       },
       commercial: {
-        caption: 'Plate 03 — commercial display, forecourt elevation.',
+        caption: {
+          label: 'Forecourt elevation, commercial precinct',
+          note: 'Readable in direct sun, dimmed automatically at night.',
+        },
         alt: 'Commercial LED display mounted on a building forecourt, photographed from the approach.',
       },
     },
@@ -290,32 +321,32 @@ export const siteConfig = {
     {
       question: 'How is the screen size and pixel pitch decided?',
       answer:
-        'Pitch follows viewing distance: a P3 display is crisp from about three metres. Size follows the boom geometry or atrium height. The survey fixes both, so you never pay for density the approach cannot resolve.',
+        'Pitch follows viewing distance: a P3 display is crisp from about three metres. Size follows your boom geometry or atrium height. The survey fixes both, so you never pay for density your approach cannot resolve.',
     },
     {
       question: 'Does an outdoor display comply with municipal advertising by-laws?',
       answer:
-        'Municipal rules separate on-premises estate messaging from third-party advertising. Our displays dim automatically at dusk, and the by-law position for the site is confirmed in the survey before installation.',
+        'Municipal rules separate on-premises estate messaging from third-party advertising. Our displays dim automatically at dusk, and we confirm the by-law position for your site in the survey, before installation.',
     },
     {
       question: 'How does an installation satisfy PMR 29 and HOA procedure?',
       answer:
-        'A display is a common-property improvement. Dedicated to scheme utility — security alerts, outages, AGMs — it is presented under PMR 29(2) as reasonably necessary, with itemised costs and a 30-day notice rather than unanimous consent.',
+        'A display is a common-property improvement. Dedicated to scheme utility — security alerts, outages, AGMs — we present it to your trustees under PMR 29(2) as reasonably necessary, with itemised costs and a 30-day notice rather than unanimous consent.',
     },
     {
       question: 'Who carries structural and electrical compliance?',
       answer:
-        'We do, as one contractor. Steel is engineered to SANS 10160, cabling is concealed and weather-sealed, and the circuit is issued a SANS 10142-1 CoC by a registered person at handover.',
+        'We do, as one contractor. We engineer the steel to SANS 10160, conceal and weather-seal the cabling, and hand you a SANS 10142-1 CoC issued by a registered person.',
     },
     {
       question: 'How difficult is daily scheduling for non-technical staff?',
       answer:
-        'None required. The CMS runs in a browser with notice templates and dayparted playlists. Managers publish a notice in under two minutes, and we train the operator at handover.',
+        'None required. You run the CMS in a browser, with notice templates and dayparted playlists. You publish a notice in under two minutes, and we train your operator at handover.',
     },
     {
       question: 'Can advertising slots offset the capital cost?',
       answer:
-        'Where trustees or the asset manager approve it. Precincts usually run defined advertising slots; estates more often approve vetted community sponsors. The property keeps a content veto.',
+        'Where you and your trustees approve it. Precincts usually run defined advertising slots; estates more often approve vetted community sponsors. You keep a content veto.',
     },
   ],
 

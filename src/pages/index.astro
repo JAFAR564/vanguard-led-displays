@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroSplit from '../components/HeroSplit.astro';
+import StatStrip from '../components/StatStrip.astro';
 import Applications from '../components/Applications.astro';
 import CaseStudy from '../components/CaseStudy.astro';
 import MethodCompliance from '../components/MethodCompliance.astro';
@@ -57,6 +58,7 @@ const breadcrumbs = {
 
 <BaseLayout jsonLd={[faqSchema, serviceSchema, videoSchema, breadcrumbs]}>
   <HeroSplit />
+  <StatStrip />
   <Applications />
   <CaseStudy />
   <MethodCompliance />

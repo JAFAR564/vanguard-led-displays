@@ -1,0 +1,663 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AdvertisingForm from '../components/AdvertisingForm.astro';
+import { siteConfig } from '../config/site';
+import estateWall from '../assets/application-estate.jpg';
+import wallInService from '../assets/field-in-service.jpg';
+
+const { advertising, brand, contact, site } = siteConfig;
+
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Advertise',
+      item: new URL('/advertise', site.url).toString(),
+    },
+  ],
+};
+
+const advertisingPage = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: `Advertise on estate and precinct screens — ${brand.name}`,
+  about: { '@id': `${site.url}/#organisation` },
+};
+---
+
+<BaseLayout
+  title={`Advertise on LED screens — ${brand.name}`}
+  description="Book slots on LED displays we built, installed and maintain ourselves — at estate entrances, precinct forecourts and shared common areas in the Western Cape. Site packs with measured sightlines, no estimated reach."
+  path="/advertise"
+  jsonLd={[breadcrumbs, advertisingPage]}
+>
+  <section class="adv-hero" aria-labelledby="adv-heading">
+    <div class="container">
+      <div class="split split--5-7 adv-hero__split">
+        <div class="adv-hero__copy">
+          <p class="eyebrow">{advertising.eyebrow}</p>
+          <h1 id="adv-heading" class="adv-hero__heading">
+            {advertising.heading}
+          </h1>
+
+          <p class="adv-hero__standfirst">{advertising.standfirst}</p>
+
+          <div class="btn-row adv-hero__actions">
+            <a class="btn" href={advertising.primaryCta.href}>
+              {advertising.primaryCta.label}
+            </a>
+            <a class="btn btn--ghost" href={advertising.secondaryCta.href}>
+              {advertising.secondaryCta.label}
+            </a>
+          </div>
+
+          <p class="adv-hero__swap small">
+            Buying a screen for your own property instead?{' '}
+            <a class="link" href="/#commission">
+              Commission a survey
+            </a>
+            .
+          </p>
+        </div>
+
+        <figure class="plate adv-hero__plate">
+          <div class="plate__frame adv-hero__frame">
+            <Image
+              src={estateWall}
+              alt="A large exterior LED wall on an estate boundary, carrying a live golf broadcast."
+              widths={[720, 960, 1200, 1440]}
+              sizes="(max-width: 1023px) 92vw, 54vw"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+          <figcaption>
+            <span class="plate__label">In service</span>
+            <span>The installed estate wall, carrying a broadcast at midday.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="adv-assure">
+    <div class="container adv-assure__grid">
+      {advertising.assurances.map((item) => (
+        <div class="adv-assure__item">
+          <p class="adv-assure__value">{item.value}</p>
+          <p class="adv-assure__label">{item.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <section class="section adv-inventory" id="inventory" aria-labelledby="inventory-heading">
+    <div class="container">
+      <div class="split split--4-8 adv-head">
+        <div>
+          <p class="section__index">
+            <span>01</span>
+            <span>Inventory</span>
+          </p>
+          <h2 id="inventory-heading">{advertising.inventoryHeading}</h2>
+        </div>
+        <div class="adv-head__lede">
+          <p class="section__lede">{advertising.inventoryLede}</p>
+        </div>
+      </div>
+
+      <ul class="adv-inventory__list" role="list">
+        {advertising.inventory.map((item) => (
+          <li class="adv-inventory__item">
+            <p class="adv-inventory__num mono">{item.num}</p>
+            <h3 class="adv-inventory__title">{item.title}</h3>
+            <p class="adv-inventory__body">{item.body}</p>
+            <p class="adv-inventory__note mono">{item.note}</p>
+          </li>
+        ))}
+      </ul>
+
+      <p class="adv-inventory__foot small">{advertising.inventoryNote}</p>
+    </div>
+  </section>
+
+  <section class="section section--stone adv-steps" aria-labelledby="steps-heading">
+    <div class="container">
+      <div class="split split--4-8 adv-head">
+        <div>
+          <p class="section__index">
+            <span>02</span>
+            <span>Booking</span>
+          </p>
+          <h2 id="steps-heading">{advertising.stepsHeading}</h2>
+        </div>
+        <div class="adv-head__lede">
+          <p class="section__lede">{advertising.stepsLede}</p>
+        </div>
+      </div>
+
+      <div class="split split--7-5 adv-steps__body">
+        <ol class="adv-steps__list" role="list">
+          {advertising.steps.map((step) => (
+            <li class="adv-step">
+              <span class="adv-step__num mono">{step.num}</span>
+              <div>
+                <h3 class="adv-step__title">{step.title}</h3>
+                <p class="adv-step__body">{step.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <figure class="plate adv-steps__plate">
+          <div class="plate__frame adv-steps__frame">
+            <Image
+              src={wallInService}
+              alt="The same wall display at full exterior output in unshaded midday light."
+              widths={[480, 720, 960]}
+              sizes="(max-width: 1023px) 92vw, 40vw"
+              loading="lazy"
+            />
+          </div>
+          <figcaption>
+            <span class="plate__label">Full output</span>
+            <span>Unshaded midday, no washout — the condition a slot has to survive.</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="adv-pack">
+        <div class="adv-pack__head">
+          <h3 class="adv-pack__heading">{advertising.sitePack.heading}</h3>
+          <p class="adv-pack__lede">{advertising.sitePack.lede}</p>
+        </div>
+        <dl class="adv-pack__list">
+          {advertising.sitePack.items.map((item) => (
+            <div class="adv-pack__row">
+              <dt class="adv-pack__label mono">{item.label}</dt>
+              <dd class="adv-pack__value">{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--night light adv-limits" aria-labelledby="limits-heading">
+    <div class="container">
+      <div class="split split--4-8 adv-head">
+        <div>
+          <p class="section__index">
+            <span>03</span>
+            <span>The limits</span>
+          </p>
+          <h2 id="limits-heading">{advertising.limitsHeading}</h2>
+        </div>
+        <div class="adv-head__lede">
+          <p class="section__lede">{advertising.limitsLede}</p>
+        </div>
+      </div>
+
+      <ul class="adv-limits__list" role="list">
+        {advertising.limits.map((limit) => (
+          <li class="adv-limit">
+            <h3 class="adv-limit__title">{limit.title}</h3>
+            <p class="adv-limit__body">{limit.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section adv-enquiry" id="availability" aria-labelledby="availability-heading">
+    <div class="container">
+      <div class="split split--4-8 adv-enquiry__split">
+        <div class="adv-enquiry__aside sticky-host">
+          <div class="sticky">
+            <p class="section__index">
+              <span>04</span>
+              <span>Availability</span>
+            </p>
+            <h2 id="availability-heading">{advertising.enquiryHeading}</h2>
+            <p class="adv-enquiry__lede">{advertising.enquiryLede}</p>
+
+            <dl class="register adv-enquiry__contact">
+              <div class="register__row">
+                <dt class="register__label">Advertising</dt>
+                <dd class="register__value">
+                  <a class="link" href={`mailto:${contact.emailAdvertise}`}>
+                    {contact.emailAdvertise}
+                  </a>
+                </dd>
+              </div>
+              <div class="register__row">
+                <dt class="register__label">Telephone</dt>
+                <dd class="register__value">
+                  <a class="link" href={`tel:${contact.phoneDial}`}>
+                    {contact.phoneDisplay}
+                  </a>
+                </dd>
+              </div>
+              <div class="register__row">
+                <dt class="register__label">Hours</dt>
+                <dd class="register__value">{contact.operatingHours}</dd>
+              </div>
+            </dl>
+
+            <p class="adv-enquiry__note small">{advertising.enquiryNote}</p>
+          </div>
+        </div>
+
+        <div class="adv-enquiry__form">
+          <AdvertisingForm sourcePath="/advertise" />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------------------------------------------------------------- hero --
+     A media buyer reads this page, not a trustee. It opens on paper — the same
+     light field as the rest of the site — with the inventory itself as the
+     evidence, in one plate, rather than a cover shot. */
+  .adv-hero {
+    padding-top: calc(var(--header-h) + clamp(36px, 5vw, 72px));
+    padding-bottom: clamp(40px, 6vw, 80px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .adv-hero__heading {
+    margin-top: 20px;
+    max-width: 12ch;
+  }
+
+  .adv-hero__standfirst {
+    margin-top: 22px;
+    max-width: 46ch;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  .adv-hero__actions {
+    margin-top: 26px;
+  }
+
+  .adv-hero__swap {
+    margin-top: 26px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+    max-width: 42ch;
+  }
+
+  .adv-hero__frame {
+    aspect-ratio: 3 / 2;
+  }
+
+  .adv-hero__frame img {
+    object-position: 52% 50%;
+  }
+
+  /* ------------------------------------------------------------- assurance --
+     Four process facts, not audience numbers. The limits section says why. */
+  .adv-assure {
+    padding-block: clamp(22px, 2.6vw, 34px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .adv-assure__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .adv-assure__item {
+    padding-right: clamp(16px, 2vw, 26px);
+    margin-right: clamp(16px, 2vw, 26px);
+    border-right: 1px solid var(--rule);
+  }
+
+  .adv-assure__item:last-child {
+    border-right: 0;
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .adv-assure__value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--text-1);
+  }
+
+  .adv-assure__label {
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.11em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--text-3);
+    max-width: 24ch;
+  }
+
+  /* --------------------------------------------------------------- shared -- */
+  .adv-head {
+    margin-bottom: clamp(30px, 3.6vw, 46px);
+  }
+
+  .adv-head__lede {
+    padding-top: 6px;
+  }
+
+  /* ------------------------------------------------------------ inventory -- */
+  .adv-inventory__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .adv-inventory__item {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 22px clamp(18px, 2.2vw, 30px) 18px 0;
+    border-right: 1px solid var(--rule);
+  }
+
+  .adv-inventory__item:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .adv-inventory__item:not(:first-child) {
+    padding-left: clamp(18px, 2.2vw, 30px);
+  }
+
+  .adv-inventory__num {
+    margin: 0;
+    color: var(--accent-text);
+  }
+
+  .adv-inventory__title {
+    font-size: var(--step-2);
+    max-width: 16ch;
+  }
+
+  .adv-inventory__body {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
+    max-width: 36ch;
+  }
+
+  .adv-inventory__note {
+    margin-top: 2px;
+    font-size: 9.5px;
+    line-height: 1.5;
+    letter-spacing: 0.11em;
+    color: var(--text-3);
+  }
+
+  .adv-inventory__foot {
+    max-width: 74ch;
+    margin-top: clamp(24px, 2.8vw, 34px);
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ---------------------------------------------------------------- steps -- */
+  .adv-steps__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 clamp(20px, 2.6vw, 36px);
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+  }
+
+  .adv-step {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+    padding: 18px 0 20px;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  .adv-step__num {
+    font-size: 11px;
+    color: var(--accent-text);
+    padding-top: 4px;
+  }
+
+  .adv-step__title {
+    font-size: var(--step-1);
+    max-width: 20ch;
+  }
+
+  .adv-step__body {
+    margin-top: 8px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
+    max-width: 34ch;
+  }
+
+  .adv-steps__frame {
+    aspect-ratio: 3 / 2;
+  }
+
+  .adv-steps__frame img {
+    object-position: 42% 50%;
+  }
+
+  /* ----------------------------------------------------------- site pack -- */
+  .adv-pack {
+    margin-top: clamp(32px, 4vw, 52px);
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: clamp(20px, 3vw, 44px);
+    padding-top: clamp(22px, 2.6vw, 32px);
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .adv-pack__heading {
+    font-size: var(--step-1);
+    max-width: 16ch;
+  }
+
+  .adv-pack__lede {
+    margin-top: 10px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--text-2);
+    max-width: 30ch;
+  }
+
+  .adv-pack__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 clamp(20px, 3vw, 40px);
+    margin: 0;
+  }
+
+  .adv-pack__row {
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .adv-pack__label {
+    font-size: 9.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .adv-pack__value {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--text-1);
+  }
+
+  /* --------------------------------------------------------------- limits -- */
+  .adv-limits__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule-dark);
+  }
+
+  .adv-limit {
+    padding: 20px clamp(18px, 2.2vw, 30px) 4px 0;
+    border-right: 1px solid var(--rule-dark);
+  }
+
+  .adv-limit:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .adv-limit:not(:first-child) {
+    padding-left: clamp(18px, 2.2vw, 30px);
+  }
+
+  .adv-limit__title {
+    font-size: var(--step-1);
+    color: var(--text-1);
+    letter-spacing: -0.02em;
+  }
+
+  .adv-limit__body {
+    margin-top: 10px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
+    max-width: 34ch;
+  }
+
+  /* -------------------------------------------------------------- enquiry -- */
+  /* The form brings its own ink rule, so the split carries none: two would
+     stack 38px apart and read as a mistake. */
+  .adv-enquiry__split {
+    padding-top: clamp(6px, 1vw, 10px);
+  }
+
+  .adv-enquiry__lede {
+    margin-top: 18px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-2);
+    max-width: 42ch;
+  }
+
+  .adv-enquiry__contact {
+    margin-top: 24px;
+  }
+
+  .adv-enquiry__note {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+    max-width: 44ch;
+  }
+
+  /* --------------------------------------------------------------- narrow -- */
+  @media (max-width: 1023px) {
+    .adv-hero__standfirst,
+    .adv-hero__swap {
+      max-width: 62ch;
+    }
+
+    .adv-assure__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: clamp(16px, 3vw, 24px);
+    }
+
+    .adv-assure__item:nth-child(2n) {
+      border-right: 0;
+      margin-right: 0;
+      padding-right: 0;
+    }
+
+    .adv-assure__item:nth-child(-n + 2) {
+      padding-bottom: clamp(14px, 3vw, 22px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .adv-inventory__list,
+    .adv-steps__list,
+    .adv-limits__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .adv-inventory__item,
+    .adv-limit {
+      border-right: 0;
+      border-bottom: 1px solid var(--rule);
+      padding: 20px 0;
+    }
+
+    .adv-inventory__item:not(:first-child),
+    .adv-limit:not(:first-child) {
+      padding-left: 0;
+    }
+
+    .adv-inventory__body,
+    .adv-step__body,
+    .adv-limit__body {
+      max-width: 58ch;
+    }
+
+    .adv-step {
+      padding: 18px 0;
+    }
+
+    .adv-limits__list,
+    .adv-limit {
+      border-color: var(--rule-dark);
+    }
+
+    .adv-pack {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .adv-pack__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .adv-enquiry__lede {
+      max-width: 60ch;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .adv-hero__frame {
+      aspect-ratio: 16 / 10;
+    }
+
+    .adv-steps__list {
+      gap: 0;
+    }
+
+    .adv-pack__row {
+      grid-template-columns: 78px minmax(0, 1fr);
+    }
+  }
+</style>

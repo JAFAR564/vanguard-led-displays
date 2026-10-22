@@ -2,6 +2,13 @@
 import { siteConfig } from '../config/site';
 
 const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+// On the advertiser page the site-wide CTA is the wrong ask, so it becomes the
+// page's own action instead of sending a brand buyer to a survey form.
+const onAdvertise = path.startsWith('/advertise');
+const cta = onAdvertise
+  ? { label: 'Check availability', href: '#availability' }
+  : { label: 'Commission a survey', href: '/#commission' };
 ---
 
 <header class="masthead" data-masthead>
@@ -31,8 +38,8 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
       <a class="masthead__phone numeric" href={`tel:${siteConfig.contact.phoneDial}`}>
         {siteConfig.contact.phoneDisplay}
       </a>
-      <a class="btn masthead__cta" href="/#commission">
-        Commission a survey
+      <a class="btn masthead__cta" href={cta.href}>
+        {cta.label}
       </a>
       <button
         class="menu-toggle"
@@ -65,8 +72,8 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
         </ul>
       </nav>
       <div class="mobile-menu__foot">
-        <a class="btn btn--block" href="/#commission">
-          Commission a survey
+        <a class="btn btn--block" href={cta.href}>
+          {cta.label}
         </a>
         <a class="mobile-menu__phone" href={`tel:${siteConfig.contact.phoneDial}`}>
           {siteConfig.contact.phoneDisplay}

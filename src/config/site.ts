@@ -12,6 +12,19 @@ export interface Application {
   body: string;
 }
 
+export interface InventoryItem {
+  num: string;
+  title: string;
+  body: string;
+  note: string;
+}
+
+export interface BookingStep {
+  num: string;
+  title: string;
+  body: string;
+}
+
 export interface Stage {
   num: string;
   title: string;
@@ -76,6 +89,7 @@ export const siteConfig = {
     { label: 'Method', href: '/#method' },
     { label: 'Specifications', href: '/#specifications' },
     { label: 'Studio', href: '/about' },
+    { label: 'Advertise', href: '/advertise' },
   ],
 
   coverage: {
@@ -360,6 +374,112 @@ export const siteConfig = {
     responseNote: 'Enquiries are answered within one working day, Monday to Friday.',
   },
 
+  /*
+     Second door. This page is for the brand or agency buying a slot, not for the
+     property buying a screen, so it carries no audience figures. Nobody has counted
+     the cars at these gates, and an out-of-home media pack that estimates footfall
+     is the one claim we would have to invent. Everything below is a process fact.
+  */
+  advertising: {
+    index: '02',
+    eyebrow: 'Advertiser brief — Western Cape',
+    heading: 'Your message, at the gate.',
+    standfirst:
+      'We sell time on LED displays we built, installed and maintain ourselves: estate entrances, precinct forecourts and shared common areas. You book a screen and a time band, and the property keeps the right to refuse the creative.',
+    primaryCta: { label: 'Check availability', href: '#availability' },
+    secondaryCta: { label: 'See the inventory', href: '#inventory' },
+    assurances: [
+      { value: 'Play log', label: 'A report at the end of every flight' },
+      { value: 'Dayparted', label: 'Booked in time bands, not blind loops' },
+      { value: 'Approved', label: 'Creative cleared by the property first' },
+      { value: 'By-law first', label: 'No booking on an unapproved site' },
+    ],
+    inventoryHeading: 'What is actually available.',
+    inventoryLede:
+      'We build for the property, so there is no speculative network to buy into. One estate wall is installed in George today. The other two categories are built to order, and a booking there begins with an installation.',
+    inventory: [
+      {
+        num: '01',
+        title: 'Estate entrances',
+        body: 'Gatehouse displays on the approach road, seen by residents and their visitors every day at walking or idling speed.',
+        note: 'Installed · George, Western Cape',
+      },
+      {
+        num: '02',
+        title: 'Precinct forecourts',
+        body: 'Freestanding or façade-mounted displays at the entrance to commercial and mixed-use precincts, readable from the approach and the parking apron.',
+        note: 'Built to order · survey first',
+      },
+      {
+        num: '03',
+        title: 'Shared common areas',
+        body: 'Indoor walls in clubhouses, receptions and atria, where people stop rather than pass.',
+        note: 'Built to order · survey first',
+      },
+    ] satisfies InventoryItem[],
+    inventoryNote:
+      'Rates are quoted per screen and per time band, after the site pack is issued. Nothing on this page estimates an audience: where we have measured a screen, the measurement is in the pack, and where we have not, the pack says so.',
+    sitePack: {
+      heading: 'What a site pack contains',
+      lede: 'One document per screen, issued before any rate is quoted.',
+      items: [
+        { label: 'Panel', value: 'Size, pitch and peak output' },
+        { label: 'Structure', value: 'Mounting type and design loads' },
+        { label: 'Electrical', value: 'Supply capacity and certificate of compliance' },
+        { label: 'Sightlines', value: 'Approach distances and the measured viewing corridor' },
+        { label: 'Evidence', value: 'Photographs from the road, taken at the screen' },
+        { label: 'Permissions', value: 'The approvals that site already holds' },
+      ],
+    },
+    stepsHeading: 'From brief to booking.',
+    stepsLede:
+      'Four steps. You do not need finished artwork to start, and you do not need an agency to read the site pack.',
+    steps: [
+      {
+        num: '01',
+        title: 'Send a brief',
+        body: 'The market, the period and roughly what you want to spend. A rough idea of the creative is enough to begin.',
+      },
+      {
+        num: '02',
+        title: 'Receive a site pack',
+        body: 'For each screen we can offer: panel size, pitch, mounting, the measured viewing corridor and a photograph from the approach.',
+      },
+      {
+        num: '03',
+        title: 'Clear the creative',
+        body: 'The property approves every execution before booking. Alcohol, gambling, political and competing-trade categories are usually excluded — we tell you that up front.',
+      },
+      {
+        num: '04',
+        title: 'Run and report',
+        body: 'Slots run in scheduled time bands. At the end of the flight you receive a play report listing every scheduled play against the dates the screen was live.',
+      },
+    ] satisfies BookingStep[],
+    limitsHeading: 'What we will not tell you.',
+    limitsLede:
+      'Most out-of-home packs are built on traffic multipliers. We do not publish audience figures for our sites, because nobody has counted the cars and we are not going to estimate them to win a booking.',
+    limits: [
+      {
+        title: 'No invented reach',
+        body: 'If a site has been surveyed, you get the measured viewing corridor and the panel dimensions. If it has not, we say so rather than multiplying a road count.',
+      },
+      {
+        title: 'No approval shortcuts',
+        body: 'Outdoor advertising is subject to municipal by-laws, and on schemes to trustee approval. We do not take a booking that depends on a permission we do not already hold.',
+      },
+      {
+        title: 'No silent edits',
+        body: 'Approved creative is not altered after sign-off. If a file will not read well at the panel size you chose, you hear it from us before the flight, not after.',
+      },
+    ],
+    enquiryHeading: 'Check availability.',
+    enquiryLede:
+      'Send the market, the period and the format you have in mind. We will reply with the screens that could carry it, or tell you plainly that none of ours will.',
+    enquiryNote:
+      'Availability is confirmed per screen. Nothing is held until a booking is countersigned.',
+  },
+
   formOptions: {
     buyerRoles: [
       'Estate / HOA general manager',
@@ -405,6 +525,7 @@ export const siteConfig = {
         links: [
           { label: 'Studio & coverage', href: '/about' },
           { label: 'Commercial models', href: '/#commercial' },
+          { label: 'Advertise with us', href: '/advertise' },
           { label: 'Questions', href: '/#questions' },
           { label: 'Commission a survey', href: '/#commission' },
         ],

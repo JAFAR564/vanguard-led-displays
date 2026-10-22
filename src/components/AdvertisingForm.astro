@@ -1,7 +1,12 @@
 ---
 import { siteConfig } from '../config/site';
 
+interface Props {
+  sourcePath?: string;
+}
+
 const { contact } = siteConfig;
+const { sourcePath = '/' } = Astro.props;
 ---
 
 <div class="form-shell">
@@ -29,7 +34,7 @@ const { contact } = siteConfig;
   >
     <input type="hidden" name="formType" value="advertising_enquiry" />
     <input type="hidden" name="formRenderTimestamp" value="" />
-    <input type="hidden" name="sourcePath" value="/" />
+    <input type="hidden" name="sourcePath" value={sourcePath} />
 
     <div class="hpot" aria-hidden="true">
       <label for="adv_company_website_url">Company website</label>

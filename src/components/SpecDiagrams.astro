@@ -1,0 +1,271 @@
+---
+import { siteConfig } from '../config/site';
+
+/*
+  Two technical illustrations for the specification section. These are drawings,
+  not photographs: every dimension and label is taken from the specification
+  table beside them. They are captioned as drawings so nobody mistakes them for
+  evidence of a specific install.
+
+  Drawn as inline SVG rather than exported images: they stay crisp at any zoom,
+  inherit the page's colour tokens, and add nothing to the image payload.
+*/
+const { specifications } = siteConfig;
+const exterior = specifications.groups[0];
+const interior = specifications.groups[1];
+---
+
+<div class="diagrams">
+  <figure class="diagram">
+    <div class="diagram__stage">
+      <svg viewBox="0 0 640 340" role="img" aria-labelledby="d1-title d1-desc" class="diagram__svg">
+        <title id="d1-title">Cabinet module: structure, mount frame and cabinet</title>
+        <desc id="d1-desc">
+          An exploded elevation reading left to right: the building structure, the steel mount frame
+          bolted to it, and one cabinet module hung on the frame. A dimension line gives the cabinet
+          at one thousand millimetres square, and an arrow shows the module releasing from the
+          front.
+        </desc>
+
+        <!-- structure -->
+        <g stroke="var(--rule-strong)" stroke-width="1" fill="none">
+          <path d="M56 76 V258" stroke-width="2" />
+          <path d="M56 92 H108 M56 150 H108 M56 208 H108 M56 258 H108" />
+        </g>
+        <text x="56" y="290" class="diagram__tag">
+          STRUCTURE
+        </text>
+
+        <!-- assembly arrow 1 -->
+        <g stroke="var(--text-3)" stroke-width="1" fill="none" opacity="0.8">
+          <path d="M128 167 H156" />
+          <path d="M150 161 L156 167 L150 173" />
+        </g>
+
+        <!-- mount frame -->
+        <g stroke="var(--ink)" stroke-width="1" fill="none">
+          <rect x="176" y="76" width="132" height="182" />
+          <path
+            d="M176 121 H308 M176 167 H308 M176 213 H308"
+            stroke-dasharray="2 4"
+            opacity="0.7"
+          />
+          <circle cx="192" cy="92" r="3" />
+          <circle cx="292" cy="92" r="3" />
+          <circle cx="192" cy="242" r="3" />
+          <circle cx="292" cy="242" r="3" />
+        </g>
+        <text x="176" y="290" class="diagram__tag">
+          MOUNT FRAME
+        </text>
+
+        <!-- assembly arrow 2 -->
+        <g stroke="var(--text-3)" stroke-width="1" fill="none" opacity="0.8">
+          <path d="M328 167 H356" />
+          <path d="M350 161 L356 167 L350 173" />
+        </g>
+
+        <!-- cabinet -->
+        <g stroke="var(--ink)" stroke-width="1.25" fill="var(--paper-2)">
+          <rect x="376" y="76" width="132" height="182" />
+          <rect x="386" y="86" width="112" height="162" fill="none" stroke-width="0.75" />
+          <g stroke="var(--text-3)" stroke-width="0.5" opacity="0.4">
+            <path d="M386 118 H498 M386 150 H498 M386 182 H498 M386 214 H498" />
+            <path d="M408 86 V248 M430 86 V248 M452 86 V248 M474 86 V248" />
+          </g>
+        </g>
+        <text x="376" y="290" class="diagram__tag">
+          CABINET MODULE
+        </text>
+
+        <!-- dimension line above the cabinet -->
+        <g stroke="var(--accent)" stroke-width="1">
+          <path d="M376 62 H508" />
+          <path d="M376 56 V68 M508 56 V68" />
+        </g>
+        <text x="442" y="48" class="diagram__measure" text-anchor="middle">
+          1 000 mm
+        </text>
+
+        <!-- front-service arrow, clear of the drawing -->
+        <g stroke="var(--accent)" stroke-width="1" fill="none">
+          <path d="M624 190 H540" />
+          <path d="M546 184 L540 190 L546 196" />
+        </g>
+        <text x="628" y="172" class="diagram__tag" text-anchor="end">
+          FRONT SERVICE
+        </text>
+      </svg>
+    </div>
+    <figcaption class="diagram__caption">
+      <span class="plate__label">Drawing 01 — cabinet module</span>
+      <span>
+        A cabinet hangs on the frame and releases from the front, so one module comes out without
+        disturbing its neighbours.
+      </span>
+    </figcaption>
+  </figure>
+
+  <figure class="diagram">
+    <div class="diagram__stage">
+      <svg viewBox="0 0 640 340" role="img" aria-labelledby="d2-title d2-desc" class="diagram__svg">
+        <title id="d2-title">Pixel pitch against viewing distance</title>
+        <desc id="d2-desc">
+          A chart of viewing distance from nought to fifteen metres. P3 resolves from about three
+          metres, P4 from four, P6 from six and P10 from ten. Buying a finer pitch than the
+          sightline needs pays for resolution nobody can see.
+        </desc>
+
+        <!-- rows: pitch / minimum distance / bar -->
+        <g class="diagram__tag">
+          <text x="64" y="86">
+            P3
+          </text>
+          <text x="64" y="140">
+            P4
+          </text>
+          <text x="64" y="194">
+            P6
+          </text>
+          <text x="64" y="248">
+            P10
+          </text>
+        </g>
+
+        <!-- baseline scale, 0 to 15 m across 64..576 -->
+        <path d="M136 286 H576" stroke="var(--ink)" stroke-width="1" />
+        <g stroke="var(--rule-strong)" stroke-width="1">
+          <path d="M136 286 V294" />
+          <path d="M283 286 V294" />
+          <path d="M430 286 V294" />
+          <path d="M576 286 V294" />
+        </g>
+        <g class="diagram__tag" text-anchor="middle">
+          <text x="136" y="312">
+            0 m
+          </text>
+          <text x="283" y="312">
+            5 m
+          </text>
+          <text x="430" y="312">
+            10 m
+          </text>
+          <text x="576" y="312">
+            15 m
+          </text>
+        </g>
+
+        <!-- bars: from the minimum distance to the end of the scale -->
+        <g>
+          <rect x="224" y="72" width="352" height="18" fill="var(--accent)" opacity="0.16" />
+          <path d="M224 72 V90" stroke="var(--accent)" stroke-width="1.5" />
+          <rect x="253" y="126" width="323" height="18" fill="var(--accent)" opacity="0.16" />
+          <path d="M253 126 V144" stroke="var(--accent)" stroke-width="1.5" />
+          <rect x="312" y="180" width="264" height="18" fill="var(--accent)" opacity="0.16" />
+          <path d="M312 180 V198" stroke="var(--accent)" stroke-width="1.5" />
+          <rect x="429" y="234" width="147" height="18" fill="var(--accent)" opacity="0.16" />
+          <path d="M429 234 V252" stroke="var(--accent)" stroke-width="1.5" />
+        </g>
+
+        <!-- minimum distance labels at each bar's edge -->
+        <g class="diagram__measure">
+          <text x="228" y="66">
+            3 m
+          </text>
+          <text x="257" y="120">
+            4 m
+          </text>
+          <text x="316" y="174">
+            6 m
+          </text>
+          <text x="433" y="228">
+            10 m
+          </text>
+        </g>
+
+        <text x="64" y="42" class="diagram__tag">
+          CRISP FROM
+        </text>
+      </svg>
+    </div>
+    <figcaption class="diagram__caption">
+      <span class="plate__label">Drawing 02 — pitch against distance</span>
+      <span>
+        Pitch is chosen from where people will actually stand. Every range in the table above
+        resolves from the distance printed at its bar.
+      </span>
+    </figcaption>
+  </figure>
+
+  <p class="diagrams__note small">
+    Drawings illustrate the ranges in the tables above for {exterior.label.toLowerCase()} and{' '}
+    {interior.label.toLowerCase()} housings. They are not photographs of a specific cabinet.
+  </p>
+</div>
+
+<style>
+  .diagrams {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gutter-x);
+    margin-top: clamp(36px, 4vw, 56px);
+    padding-top: clamp(28px, 3vw, 40px);
+    border-top: 1px solid var(--rule);
+  }
+
+  .diagram {
+    margin: 0;
+  }
+
+  .diagram__stage {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: clamp(12px, 1.6vw, 20px);
+  }
+
+  .diagram__svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .diagram__tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    fill: var(--text-3);
+  }
+
+  .diagram__measure {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    fill: var(--accent-text);
+  }
+
+  .diagram__caption {
+    display: grid;
+    gap: 5px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--text-2);
+  }
+
+  .diagrams__note {
+    grid-column: 1 / -1;
+    max-width: 76ch;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 899px) {
+    .diagrams {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: clamp(24px, 4vw, 34px);
+    }
+  }
+</style>

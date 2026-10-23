@@ -73,7 +73,9 @@ Everything collapses to one column below 1024px.
 - Fields must keep their names: `fullName`, `buyerRole`, `propertyName`, `townCity`,
   `propertyType`, `environment`, `phone`, `email`, `notes`, `consent`, plus `company` for
   advertising.
-- Anti-abuse: `company_website_url` honeypot and `formRenderTimestamp` (reject < 2s).
+- Anti-abuse: `company_website_url` honeypot (silent 200, discarded) and
+  `formRenderTimestamp` (under 2s is recorded with `suspectedBot: true`, not delivered,
+  and answered 400 `SUBMISSION_UNVERIFIED` so nobody is told it was received).
 - Success: `{ success: true, reference, delivered, message }`. Failure: `{ success: false, error, errors? }`.
 - Every valid lead is written to the ledger before delivery.
 - Production without a transport returns 503 `DELIVERY_UNAVAILABLE`. Do not "fix" this by

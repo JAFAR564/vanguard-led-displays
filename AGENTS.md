@@ -66,6 +66,12 @@ Splits at ≥1024px: hero 5/7; applications head 4/8; case study head 4/8 and bo
 with a sticky register; specifications and models 4/8 head plus 6/6 body; FAQ 4/8; commission 4/8.
 Everything collapses to one column below 1024px.
 
+Plate numbers run 01–08 across that order and are printed on the page: the hero eyebrow is
+"Survey plate 01", so Applications is 02 and Commission is 08. The mobile drawer prints the plate
+a link lands on, taken from `navigation[].plate` in `src/config/site.ts`, and leaves Studio and
+Advertise unnumbered because they are separate pages rather than plates. Never number the drawer
+by array position: six links cannot agree with an eight-plate page.
+
 ## Forms contract
 
 - Endpoint: `POST /api/enquiry`, `multipart/form-data`, `Accept: application/json`.
@@ -87,6 +93,19 @@ Everything collapses to one column below 1024px.
   `sizes`, `loading="lazy"` except the hero (`eager`, `fetchpriority="high"`).
 - Large media only: `public/assets`. The video keeps `preload="none"` and a poster.
 - Never delete a caption; a plate without a record caption is decoration.
+
+## Motion
+
+- Motion is additive, never a precondition. Markup renders complete; script arms an animation
+  only for an element that is still below the fold. Anything on screen at load, any browser
+  without `IntersectionObserver`, and any reader with `prefers-reduced-motion` gets the finished
+  state. Never hide content in CSS and wait for script to reveal it.
+- The specification drawings draw once on first entry, staggered by the `--d` custom property
+  (`.draw-step`, `.draw-bar`, `.draw-line` in `SpecDiagrams.astro`). The scale baseline carries
+  `pathLength="100"` so its dash arithmetic needs no measurement in JavaScript.
+- The FAQ stays a native `<details name="faq">`. The easing is `::details-content` inside
+  `@supports`, so a browser without it snaps open exactly as before. Do not replace it with a
+  scripted accordion to buy a height transition.
 
 ## Verification notes
 

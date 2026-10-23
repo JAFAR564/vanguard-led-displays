@@ -28,22 +28,35 @@ const interior = specifications.groups[1];
         </desc>
 
         <!-- structure -->
-        <g stroke="var(--rule-strong)" stroke-width="1" fill="none">
+        <g
+          class="draw-step"
+          style="--d: 0ms"
+          stroke="var(--rule-strong)"
+          stroke-width="1"
+          fill="none"
+        >
           <path d="M56 76 V258" stroke-width="2" />
           <path d="M56 92 H108 M56 150 H108 M56 208 H108 M56 258 H108" />
         </g>
-        <text x="56" y="290" class="diagram__tag diagram__word">
+        <text x="56" y="290" class="diagram__tag diagram__word draw-step" style="--d: 0ms">
           STRUCTURE
         </text>
 
         <!-- assembly arrow 1 -->
-        <g stroke="var(--text-3)" stroke-width="1" fill="none" opacity="0.8">
+        <g
+          class="draw-step"
+          style="--d: 140ms"
+          stroke="var(--text-3)"
+          stroke-width="1"
+          fill="none"
+          opacity="0.8"
+        >
           <path d="M128 167 H156" />
           <path d="M150 161 L156 167 L150 173" />
         </g>
 
         <!-- mount frame -->
-        <g stroke="var(--ink)" stroke-width="1" fill="none">
+        <g class="draw-step" style="--d: 220ms" stroke="var(--ink)" stroke-width="1" fill="none">
           <rect x="176" y="76" width="132" height="182" />
           <path
             d="M176 121 H308 M176 167 H308 M176 213 H308"
@@ -55,18 +68,31 @@ const interior = specifications.groups[1];
           <circle cx="192" cy="242" r="3" />
           <circle cx="292" cy="242" r="3" />
         </g>
-        <text x="176" y="290" class="diagram__tag diagram__word">
+        <text x="176" y="290" class="diagram__tag diagram__word draw-step" style="--d: 220ms">
           MOUNT FRAME
         </text>
 
         <!-- assembly arrow 2 -->
-        <g stroke="var(--text-3)" stroke-width="1" fill="none" opacity="0.8">
+        <g
+          class="draw-step"
+          style="--d: 380ms"
+          stroke="var(--text-3)"
+          stroke-width="1"
+          fill="none"
+          opacity="0.8"
+        >
           <path d="M328 167 H356" />
           <path d="M350 161 L356 167 L350 173" />
         </g>
 
         <!-- cabinet -->
-        <g stroke="var(--ink)" stroke-width="1.25" fill="var(--paper-2)">
+        <g
+          class="draw-step"
+          style="--d: 460ms"
+          stroke="var(--ink)"
+          stroke-width="1.25"
+          fill="var(--paper-2)"
+        >
           <rect x="376" y="76" width="132" height="182" />
           <rect x="386" y="86" width="112" height="162" fill="none" stroke-width="0.75" />
           <g stroke="var(--text-3)" stroke-width="0.5" opacity="0.4">
@@ -74,23 +100,29 @@ const interior = specifications.groups[1];
             <path d="M408 86 V248 M430 86 V248 M452 86 V248 M474 86 V248" />
           </g>
         </g>
-        <text x="376" y="290" class="diagram__tag diagram__word">
+        <text x="376" y="290" class="diagram__tag diagram__word draw-step" style="--d: 460ms">
           CABINET MODULE
         </text>
 
         <!-- dimension line above the cabinet -->
-        <g stroke="var(--accent)" stroke-width="1">
+        <g class="draw-step" style="--d: 620ms" stroke="var(--accent)" stroke-width="1">
           <path d="M376 62 H508" />
           <path d="M376 56 V68 M508 56 V68" />
         </g>
-        <text x="442" y="48" class="diagram__measure" text-anchor="middle">
+        <text
+          x="442"
+          y="48"
+          class="diagram__measure draw-step"
+          style="--d: 620ms"
+          text-anchor="middle"
+        >
           1 000 mm
         </text>
 
         <!-- front-service arrow, clear of the drawing. The arrow is meaningless
              without its label, and the label is too small to read on a phone, so
              the pair is replaced by the key row below 900px. -->
-        <g class="diagram__front">
+        <g class="diagram__front draw-step" style="--d: 700ms">
           <g stroke="var(--accent)" stroke-width="1" fill="none">
             <path d="M624 190 H540" />
             <path d="M546 184 L540 190 L546 196" />
@@ -143,7 +175,7 @@ const interior = specifications.groups[1];
         </desc>
 
         <!-- rows: pitch / minimum distance / bar -->
-        <g class="diagram__tag diagram__pitch">
+        <g class="diagram__tag diagram__pitch draw-step" style="--d: 300ms">
           <text x="64" y="86">
             P3
           </text>
@@ -158,15 +190,22 @@ const interior = specifications.groups[1];
           </text>
         </g>
 
-        <!-- baseline scale, 0 to 15 m across 64..576 -->
-        <path d="M136 286 H576" stroke="var(--ink)" stroke-width="1" />
-        <g stroke="var(--rule-strong)" stroke-width="1">
+        <!-- baseline scale, 0 to 15 m across 64..576. pathLength normalises the
+             dash arithmetic, so the line draws without being measured in JS. -->
+        <path
+          class="draw-line"
+          pathLength="100"
+          d="M136 286 H576"
+          stroke="var(--ink)"
+          stroke-width="1"
+        />
+        <g class="draw-step" style="--d: 200ms" stroke="var(--rule-strong)" stroke-width="1">
           <path d="M136 286 V294" />
           <path d="M283 286 V294" />
           <path d="M430 286 V294" />
           <path d="M576 286 V294" />
         </g>
-        <g class="diagram__tag diagram__scale" text-anchor="middle">
+        <g class="diagram__tag diagram__scale draw-step" style="--d: 260ms" text-anchor="middle">
           <text x="136" y="312">
             0 m
           </text>
@@ -181,35 +220,71 @@ const interior = specifications.groups[1];
           </text>
         </g>
 
-        <!-- bars: from the minimum distance to the end of the scale -->
-        <g>
-          <rect x="224" y="72" width="352" height="18" fill="var(--accent)" opacity="0.16" />
+        <!-- Bars run from the distance at which that pitch resolves, out to the
+             end of the scale. Each row is one group so it arrives as a unit:
+             tick, bar, and the measurement that fixes the tick. -->
+        <g class="draw-step" style="--d: 320ms">
+          <rect
+            class="draw-bar"
+            x="224"
+            y="72"
+            width="352"
+            height="18"
+            fill="var(--accent)"
+            opacity="0.16"
+          />
           <path d="M224 72 V90" stroke="var(--accent)" stroke-width="1.5" />
-          <rect x="253" y="126" width="323" height="18" fill="var(--accent)" opacity="0.16" />
-          <path d="M253 126 V144" stroke="var(--accent)" stroke-width="1.5" />
-          <rect x="312" y="180" width="264" height="18" fill="var(--accent)" opacity="0.16" />
-          <path d="M312 180 V198" stroke="var(--accent)" stroke-width="1.5" />
-          <rect x="429" y="234" width="147" height="18" fill="var(--accent)" opacity="0.16" />
-          <path d="M429 234 V252" stroke="var(--accent)" stroke-width="1.5" />
-        </g>
-
-        <!-- minimum distance labels at each bar's edge -->
-        <g class="diagram__measure">
-          <text x="228" y="66">
+          <text x="228" y="66" class="diagram__measure">
             3 m
           </text>
-          <text x="257" y="120">
+        </g>
+        <g class="draw-step" style="--d: 380ms">
+          <rect
+            class="draw-bar"
+            x="253"
+            y="126"
+            width="323"
+            height="18"
+            fill="var(--accent)"
+            opacity="0.16"
+          />
+          <path d="M253 126 V144" stroke="var(--accent)" stroke-width="1.5" />
+          <text x="257" y="120" class="diagram__measure">
             4 m
           </text>
-          <text x="316" y="174">
+        </g>
+        <g class="draw-step" style="--d: 440ms">
+          <rect
+            class="draw-bar"
+            x="312"
+            y="180"
+            width="264"
+            height="18"
+            fill="var(--accent)"
+            opacity="0.16"
+          />
+          <path d="M312 180 V198" stroke="var(--accent)" stroke-width="1.5" />
+          <text x="316" y="174" class="diagram__measure">
             6 m
           </text>
-          <text x="433" y="228">
+        </g>
+        <g class="draw-step" style="--d: 500ms">
+          <rect
+            class="draw-bar"
+            x="429"
+            y="234"
+            width="147"
+            height="18"
+            fill="var(--accent)"
+            opacity="0.16"
+          />
+          <path d="M429 234 V252" stroke="var(--accent)" stroke-width="1.5" />
+          <text x="433" y="228" class="diagram__measure">
             10 m
           </text>
         </g>
 
-        <text x="64" y="42" class="diagram__tag diagram__word">
+        <text x="64" y="42" class="diagram__tag diagram__word draw-step" style="--d: 160ms">
           CRISP FROM
         </text>
       </svg>
@@ -344,6 +419,46 @@ const interior = specifications.groups[1];
     margin-top: 4px;
   }
 
+  /* Motion here is additive, never a precondition. The markup renders complete;
+     the script arms a drawing only when it is still below the fold and motion is
+     allowed. Every rule below is gated on that armed attribute, so with no
+     JavaScript, no IntersectionObserver, or a reduced-motion preference nothing
+     is ever hidden — the drawings are simply already drawn. */
+  @media (prefers-reduced-motion: no-preference) {
+    .diagram__svg[data-draw-armed] .draw-step {
+      opacity: 0;
+    }
+
+    .diagram__svg[data-draw-armed].is-drawn .draw-step {
+      opacity: 1;
+      transition: opacity 320ms var(--ease) var(--d, 0ms);
+    }
+
+    .diagram__svg[data-draw-armed] .draw-line {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+    }
+
+    .diagram__svg[data-draw-armed].is-drawn .draw-line {
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 520ms var(--ease);
+    }
+
+    .diagram__svg[data-draw-armed] .draw-bar {
+      transform: scaleX(0);
+      transform-box: fill-box;
+      transform-origin: left center;
+    }
+
+    .diagram__svg[data-draw-armed].is-drawn .draw-bar {
+      transform: scaleX(1);
+      transition: transform 520ms var(--ease);
+      /* The tick and its measurement land first; the bar then runs out from the
+         distance they name, which is the point the chart is making. */
+      transition-delay: calc(var(--d, 0ms) + 100ms);
+    }
+  }
+
   @media (max-width: 899px) {
     .diagrams {
       grid-template-columns: minmax(0, 1fr);
@@ -385,3 +500,38 @@ const interior = specifications.groups[1];
     }
   }
 </style>
+
+<script>
+  /*
+    Draw the two diagrams in, once, the first time they come into view.
+
+    The motion is additive: the SVG above is complete without this script. A
+    drawing is armed only if it is still below the fold when the page has
+    finished parsing, which means a reader who lands on #specifications — or
+    reloads a page they had already scrolled — sees the finished drawing rather
+    than a blank rectangle waiting for an observer that already fired. If
+    anything here throws, nothing was hidden.
+  */
+  const drawings = document.querySelectorAll<SVGSVGElement>('.diagram__svg');
+  const motionAllowed = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (motionAllowed && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('is-drawn');
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px' },
+    );
+
+    for (const drawing of drawings) {
+      if (drawing.getBoundingClientRect().top > window.innerHeight) {
+        drawing.setAttribute('data-draw-armed', '');
+        observer.observe(drawing);
+      }
+    }
+  }
+</script>

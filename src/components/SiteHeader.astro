@@ -61,10 +61,10 @@ const cta = onAdvertise
     <div class="mobile-menu__inner container">
       <nav aria-label="Mobile">
         <ul role="list" class="mobile-menu__list">
-          {siteConfig.navigation.map((item, index) => (
+          {siteConfig.navigation.map((item) => (
             <li>
               <a href={item.href} data-menu-link>
-                <span class="mobile-menu__index numeric">{String(index + 1).padStart(2, '0')}</span>
+                <span class="mobile-menu__index numeric">{item.plate ?? ''}</span>
                 {item.label}
               </a>
             </li>
@@ -261,6 +261,9 @@ const cta = onAdvertise
   }
 
   .mobile-menu__index {
+    /* Held open for the destinations that are not plates, so the labels stay on
+       one vertical rule whether or not there is a number in front of them. */
+    min-width: 2.5ch;
     font-size: 10px;
     letter-spacing: 0.12em;
     color: var(--text-3);

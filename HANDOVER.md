@@ -67,8 +67,12 @@ Both forms post `multipart/form-data` to `/api/enquiry` with `Accept: applicatio
 
 Shared validation lives in [`src/lib/validation.ts`](src/lib/validation.ts) and runs in the
 browser and on the server. Phone numbers are normalised to South African E.164 (`+27…`).
-Submissions include a honeypot, a render timestamp (sub-two-second submissions are treated as
-bots), a source path and a form-type discriminator.
+Submissions include a honeypot, a render timestamp, a source path and a form-type
+discriminator. A submission under two seconds is a heuristic, not a verdict: it is written to
+the ledger with `suspectedBot: true`, **not** delivered, and answered `400 SUBMISSION_UNVERIFIED`
+so a fast autofill is never shown a confirmation for an enquiry that does not exist. A retry
+arrives well past the threshold and goes through. The honeypot stays a silent `200` and is
+discarded.
 
 Every valid lead is appended to `data/leads.jsonl` **before** delivery. The ledger is
 git-ignored. Use `npm run leads` to inspect it locally.
@@ -89,14 +93,19 @@ LEAD_FROM_EMAIL=website@leddisplays.co.za
 ```
 
 If `NODE_ENV=production` and nothing is configured, the endpoint returns
-`503 DELIVERY_UNAVAILABLE` rather than silently accepting a lead. `REQUIRE_LEAD_DELIVERY=false`
+`503 DELIVERY_UNAVAILABLE` rather than silently accepting a lead. When delivery fails *after* a
+ledger write, the 503 copy distinguishes a durable ledger ("recorded, but delivery failed") from
+an ephemeral one such as Vercel's `/tmp` ("could not be delivered"), so the site never claims a
+record it cannot keep. `REQUIRE_LEAD_DELIVERY=false`
 overrides this only when the backup ledger is durable and monitored. `LEAD_STORE_DIR` relocates
 the ledger. On Vercel it defaults to `/tmp` (ephemeral), which is why a transport is mandatory
 there.
 
 Rate limiting is in-process: 6 submissions per client per 10 minutes, with `Retry-After` on
-429. Origin checks compare the request `Origin` host against the request host and any hosts in
-`ALLOWED_ORIGINS`. Astro's built-in check is disabled because the Node adapter rewrites
+429. The client key comes from `x-real-ip` or `cf-connecting-ip`, falling back to the rightmost
+valid entry of `x-forwarded-for`, because a forged leftmost entry must not buy a fresh bucket.
+The bucket map is capped at 5,000 and evicts by soonest expiry. Origin checks compare the request
+`Origin` host against the request host and any hosts in `ALLOWED_ORIGINS`. Astro's built-in check is disabled because the Node adapter rewrites
 `request.url` to `http://localhost`; do not re-enable it without configuring
 `security.allowedDomains`.
 

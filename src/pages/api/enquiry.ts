@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
 import { validateEnquiry, type FormType } from '../../lib/validation';
-import { persistLead } from '../../lib/lead-storage';
+import { ledgerIsEphemeral, persistLead } from '../../lib/lead-storage';
 import { deliverLead, deliveryConfigured, activeTransport } from '../../lib/notify';
-import { rateLimit } from '../../lib/rate-limit';
+import { clientIp, rateLimit } from '../../lib/rate-limit';
 
 export const prerender = false;
 
@@ -115,22 +115,35 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ success: false, error: 'Expected a form submission.' }, 400);
   }
 
+  const ip = clientIp(request);
+
   // Honeypot: accept silently so automated clients learn nothing.
   const honeypot = String(form.get('company_website_url') ?? '').trim();
   if (honeypot) {
-    console.warn('[leads] honeypot triggered');
+    console.warn('[enquiry] honeypot triggered', {
+      ip,
+      formType: String(form.get('formType') ?? ''),
+    });
     return json({ success: true, delivered: false }, 200);
   }
 
-  // Time trap: a form completed in under two seconds was not filled by a person.
+  /*
+     Time trap. A form filled in under two seconds by something claiming to be a
+     person was very likely a script — but this is a heuristic, and a heuristic
+     must never be able to tell a visitor their enquiry was received when it is
+     not going to reach anyone. The old code dropped the lead and answered 200,
+     so a fast autofill produced the confirmation panel, an empty reference and
+     no enquiry anywhere.
+
+     So the lead is recorded with a flag and not delivered, and the visitor is
+     asked to send it again (a second attempt arrives well past the threshold
+     and goes through normally). Bots that retry are slowed to human pace; bots
+     that do not, leave.
+  */
   const rendered = Number(form.get('formRenderTimestamp'));
-  if (Number.isFinite(rendered) && rendered > 0) {
-    const elapsed = Date.now() - rendered;
-    if (elapsed >= 0 && elapsed < 2000) {
-      console.warn(`[leads] time trap triggered after ${elapsed}ms`);
-      return json({ success: true, delivered: false }, 200);
-    }
-  }
+  const sinceRender = Date.now() - rendered;
+  const suspectedBot =
+    Number.isFinite(rendered) && rendered > 0 && sinceRender >= 0 && sinceRender < 2000;
 
   const formType = String(form.get('formType') ?? 'installation_quote') as FormType;
   if (formType !== 'installation_quote' && formType !== 'advertising_enquiry') {
@@ -163,6 +176,7 @@ export const POST: APIRoute = async ({ request }) => {
       reference: ref,
       submittedAt,
       sourcePath,
+      ...(suspectedBot ? { suspectedBot: true, sinceRenderMs: sinceRender } : {}),
       ...result.values,
     });
   } catch (error) {
@@ -176,15 +190,38 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  if (suspectedBot) {
+    console.warn('[enquiry] time trap: recorded, not delivered', {
+      ip,
+      formType,
+      sinceRenderMs: sinceRender,
+      reference: ref,
+    });
+    return json(
+      {
+        success: false,
+        reference: ref,
+        error: 'SUBMISSION_UNVERIFIED',
+        message:
+          'That submission came through too quickly for us to verify. Please send it again — or call or WhatsApp us and we will take the details directly.',
+      },
+      400,
+    );
+  }
+
   const delivery = await deliverLead(result.values, ref, sourcePath);
 
   if (!delivery.delivered && isProduction && requireDelivery) {
+    // On Vercel the ledger is /tmp, and the next request may land on a different
+    // instance, so "recorded" would be a promise the platform cannot keep.
     return json(
       {
         success: false,
         reference: ref,
         error: 'DELIVERY_UNAVAILABLE',
-        message: 'Your enquiry was recorded, but delivery failed. Please call us to confirm.',
+        message: ledgerIsEphemeral()
+          ? 'Your enquiry could not be delivered. Please call or WhatsApp us and we will take the details directly.'
+          : 'Your enquiry was recorded, but delivery failed. Please call us to confirm.',
       },
       503,
     );

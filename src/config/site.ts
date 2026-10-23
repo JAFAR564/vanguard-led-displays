@@ -39,6 +39,17 @@ export interface PlateCaption {
   note: string;
 }
 
+export interface NavItem {
+  label: string;
+  href: string;
+  /**
+   * The plate number this destination lands on, copied from the section's own
+   * `index`. Omitted for destinations that are separate pages rather than plates
+   * on the home register, so the menu never numbers something the page does not.
+   */
+  plate?: string;
+}
+
 export interface Stat {
   value: string;
   label: string;
@@ -84,13 +95,13 @@ export const siteConfig = {
   },
 
   navigation: [
-    { label: 'Applications', href: '/#applications' },
-    { label: 'Case study', href: '/#case-study' },
-    { label: 'Method', href: '/#method' },
-    { label: 'Specifications', href: '/#specifications' },
+    { label: 'Applications', href: '/#applications', plate: '02' },
+    { label: 'Case study', href: '/#case-study', plate: '03' },
+    { label: 'Method', href: '/#method', plate: '04' },
+    { label: 'Specifications', href: '/#specifications', plate: '05' },
     { label: 'Studio', href: '/about' },
     { label: 'Advertise', href: '/advertise' },
-  ],
+  ] satisfies NavItem[],
 
   coverage: {
     primaryHub: 'George & the Garden Route, Western Cape',
